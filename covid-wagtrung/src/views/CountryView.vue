@@ -5,11 +5,9 @@
     <helloWorld
       :yourCountry="yourCountry"
       :allCountries ="allCountries"
-      :cprop="chaprop"
-      propThang=" truyen ngay luon"
     />
   </div>
-  <h2>hi</h2>
+
 </template>
 
 <script>
@@ -25,7 +23,6 @@ export default {
 
   data() {
     return {
-      chaprop: "cha truyen ne",
       yourCountry: {},
       allCountries: [],
     };
@@ -41,7 +38,7 @@ export default {
           this.yourCountry.continent = data.continentName;
           this.yourCountry.ip = data.request;
           console.log(data.request);
-          console.log(data);
+          console.log(this.yourCountry);
         })
         .catch((error) => console.log("yourCountry issue: ", error));
     },
@@ -81,6 +78,7 @@ export default {
     // get user country based on browser IP, at the beginning state
     this.getYourCountry();
     this.getAllCountries();
+    
   },
 };
 </script>
