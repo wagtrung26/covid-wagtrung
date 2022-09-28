@@ -1,16 +1,35 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <h2>country is: {{ viewCountry.name }}</h2>
-  <h5>Case</h5>
-  <h2>{{ viewCountry.cases }}</h2>
+  <h1>{{ viewCountry.name }}</h1>
 
-  <br />
-  <h5>deaths</h5>
-  <h2> {{viewCountry.deaths}} </h2>
+  <div class="flex stat">
+    <div class="case">
+      <h5>CASES</h5>
+      <h1>
+        <count-up :end-val="this.viewCountry.cases" :duration="2"></count-up>
+      </h1>
+      <p>+ {{ this.numeralFunc(viewCountry.todayCases) }}</p>
+    </div>
 
-  <br />
-  <h5>recovered</h5>
-  <h2> {{viewCountry.recovered}} </h2>
+    <div class="rec">
+      <h5>RECOVERED</h5>
+      <h1>
+        <count-up
+          :end-val="this.viewCountry.recovered"
+          :duration="2"
+        ></count-up>
+      </h1>
+      <p>+ {{ this.numeralFunc(viewCountry.todayRecovered) }}</p>
+    </div>
+
+    <div class="death">
+      <h5>DEATHS</h5>
+      <h1>
+        <count-up :end-val="this.viewCountry.deaths" :duration="2"></count-up>
+      </h1>
+      <p>+ {{ this.numeralFunc(viewCountry.todayDeaths) }}</p>
+    </div>
+  </div>
 
   <div
     class="searchSelectCountry"
@@ -43,6 +62,8 @@
 
 <script>
 // import * as api from "@/api";
+import numeral from "numeral";
+import CountUp from "vue-countup-v3";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -50,6 +71,9 @@ export default {
   props: {
     yourCountry: Object,
     allCountries: Array,
+  },
+  components: {
+    CountUp,
   },
   data() {
     return {
@@ -87,10 +111,10 @@ export default {
       this.type = "deaths";
       console.log(this.type);
     },
-    // numeralf(num) {
-    //   var numeral = require("numeral");
-    //   numeral(num).format("0.0a");
-    // },
+    numeralFunc(num) {
+      // var numeral = require("numeral");
+      return numeral(num).format("0.000 a");
+    },
     // loadYourCountryName() {
     //   api.loadCountryName(this.yourCountry.name);
     // },
@@ -139,19 +163,27 @@ li:hover {
   position: absolute;
   top: 0;
   right: 0;
+  z-index: 2;
 }
 .searchSelectCountry input {
   padding: 10px;
   font-size: 20px;
 }
 .listCountriesSelect {
-  box-shadow: 2px 3px 10px #333;
+  box-shadow: 0px 3px 20px rgb(124, 124, 124);
   max-height: 500px;
   overflow-y: scroll;
+  background: rgb(252, 252, 252);
 }
 .flex {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.stat {
+  width: 500px;
+  margin: 0 auto;
+  box-shadow: 0px 3px 20px rgb(124, 124, 124);
+  padding: 20px 40px;
 }
 </style>

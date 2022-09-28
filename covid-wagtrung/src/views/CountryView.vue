@@ -1,7 +1,7 @@
 <!-- eslint-disable no-unused-vars -->
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
+    <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
     <helloWorld
       :yourCountry="yourCountry"
       :allCountries ="allCountries"
