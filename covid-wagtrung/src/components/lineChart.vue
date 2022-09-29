@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>All times</p>
+    <!-- <p>All times</p> -->
     <highcharts :options="chartOptions" ref="chart"></highcharts>
   </div>
 </template>
@@ -31,11 +31,16 @@ export default {
   methods: {},
   computed: {},
   created() {
-    //set to chartOptions
-   
+  
   },
   mounted() {},
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style  scoped>
+*{
+  margin-top: 30px;
+}
+
+
+</style>

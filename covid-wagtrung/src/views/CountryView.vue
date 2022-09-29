@@ -44,6 +44,8 @@ export default {
       chartOptions: {
         chart: {
           type: "spline",
+          zoomBySingleTouch: true,
+          zoomType: "x",
         },
         series: [
           {
@@ -76,6 +78,8 @@ export default {
           title: {
             text: "people",
           },
+          gridLineWidth: 2,
+          crosshair: true,
         },
         xAxis: {
           categories: [],
@@ -84,13 +88,17 @@ export default {
           },
         },
         legend: {
-          layout: "vertical",
-          align: "right",
+          layout: "horizontal",
+          align: "center",
           verticalAlign: "top",
         },
         tooltip: {
           crosshairs: true,
           shared: true,
+          // backgroundColor: "#FCFFC5",
+          // borderColor: "black",
+          borderRadius: 10,
+          borderWidth: 1,
         },
         plotOptions: {
           series: {
@@ -99,6 +107,20 @@ export default {
             },
             // pointStart: 2010,
           },
+        },
+        responsive: {
+          rules: [
+            {
+              condition: {
+                maxWidth: 500,
+              },
+              chartOptions: {
+                legend: {
+                  enabled: false,
+                },
+              },
+            },
+          ],
         },
       },
     };
@@ -110,6 +132,25 @@ export default {
         if (countryCode) {
           var country = this.allCountries.find((i) => i.code === countryCode);
           this.viewCountry = country;
+          api
+            .getHistoricalCountry(this.viewCountry.code)
+            .then((res) => {
+              let listTimeline = res.data.timeline;
+              console.log(" something ", listTimeline);
+              //yAxis
+              this.caseArrayValues = Object.values(listTimeline.cases);
+              this.deathArrayValues = Object.values(listTimeline.deaths);
+              this.recoverArrayValues = Object.values(listTimeline.recovered);
+
+              //xAsis
+              this.dates = Object.keys(listTimeline.cases);
+
+              this.chartOptions.series[0].data = this.caseArrayValues;
+              this.chartOptions.series[1].data = this.deathArrayValues;
+              this.chartOptions.series[2].data = this.recoverArrayValues;
+              this.chartOptions.xAxis.categories = this.dates;
+            })
+            .catch((e) => console.log(" something ", e));
         }
         this.vModelCountry = "";
       } catch (error) {
@@ -123,11 +164,10 @@ export default {
     //   return this.data
     // }
   },
-  watch:{
-    viewCountry(){
-      return this.viewCountry
-    }
-
+  watch: {
+    viewCountry() {
+      return this.viewCountry;
+    },
   },
 
   async created() {
@@ -172,55 +212,44 @@ export default {
       );
 
       let listTimeline = getHistoricalCountry.data.timeline;
-      let caseArray = listTimeline.cases;
-      let deathArray = listTimeline.deaths;
-      let recoverArray = listTimeline.recovered;
 
       //yAxis
-      this.caseArrayValues = Object.values(caseArray);
-      this.deathArrayValues = Object.values(deathArray);
-      this.recoverArrayValues = Object.values(recoverArray);
+      this.caseArrayValues = Object.values(listTimeline.cases);
+      this.deathArrayValues = Object.values(listTimeline.deaths);
+      this.recoverArrayValues = Object.values(listTimeline.recovered);
 
       //xAsis
-      this.dates = Object.keys(caseArray);
-
-
-
+      this.dates = Object.keys(listTimeline.cases);
 
       this.chartOptions.series[0].data = this.caseArrayValues.slice(-365);
       this.chartOptions.series[1].data = this.deathArrayValues.slice(-365);
       this.chartOptions.series[2].data = this.recoverArrayValues.slice(-365);
       this.chartOptions.xAxis.categories = this.dates.slice(-365);
 
-      console.log(" 4 linechart country ");
+      console.log(" 4 linechart countryView ");
     } catch (error) {
-      console.log(" error linechart country ", error);
+      console.log(" error linechart countryView ", error);
     }
   },
   async updated() {
-    
     // try {
     //   let getHistoricalCountry = await api.getHistoricalCountry(
     //     this.viewCountry.code
     //   );
-
     //   let listTimeline = getHistoricalCountry.data.timeline;
     //   let caseArray = listTimeline.cases;
     //   let deathArray = listTimeline.deaths;
     //   let recoverArray = listTimeline.recovered;
-
     //   //yAxis
     //   this.caseArrayValues = Object.values(caseArray);
     //   this.deathArrayValues = Object.values(deathArray);
     //   this.recoverArrayValues = Object.values(recoverArray);
-
     //   //xAsis
     //   this.dates = Object.keys(caseArray);
     //   this.chartOptions.series[0].data = this.caseArrayValues;
     //   this.chartOptions.series[1].data = this.deathArrayValues;
     //   this.chartOptions.series[2].data = this.recoverArrayValues;
     //   this.chartOptions.xAxis.categories = this.dates;
-
     //   console.log(" 4 linechart country ");
     // } catch (error) {
     //   console.log(" error linechart country ", error);
