@@ -9,7 +9,7 @@
       @countryClickComp="countryClick"
     />
 
-    <lineChart />
+    <lineChart ></lineChart>
   </div>
 </template>
 
