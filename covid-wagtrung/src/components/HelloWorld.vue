@@ -1,6 +1,9 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <h1>{{ viewCountry.name }}</h1>
+  <div class="flexC">
+    <img class="countryFlag" :src="viewCountry.flag" alt="" />
+    <h1>{{ viewCountry.name }}</h1>
+  </div>
 
   <div class="flex stat">
     <div class="case">
@@ -61,7 +64,7 @@
 </template>
 
 <script>
-// import * as api from "@/api";
+import * as api from "@/api";
 import numeral from "numeral";
 import CountUp from "vue-countup-v3";
 
@@ -69,7 +72,6 @@ export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "x",
   props: {
-    yourCountry: Object,
     allCountries: Array,
   },
   components: {
@@ -77,6 +79,7 @@ export default {
   },
   data() {
     return {
+      yourCountryCode: "",
       viewCountry: {},
       vModelCountry: "",
       showList: false,
@@ -112,30 +115,36 @@ export default {
       console.log(this.type);
     },
     numeralFunc(num) {
-      // var numeral = require("numeral");
       return numeral(num).format("0.000 a");
     },
-    // loadYourCountryName() {
-    //   api.loadCountryName(this.yourCountry.name);
-    // },
+
     countryClick(countryCode) {
-      var country = this.allCountries.find((i) => i.code === countryCode);
-      this.viewCountry = country;
-      this.vModelCountry = "";
-      console.log("my country", country);
-      // this.viewCountryName = country.name
-      // this.viewCountry.cases = country.cases;
-      // this.viewCountry.deaths = country.deaths;
-      // this.viewCountry.recovered = country.recovered;
+      try {
+        if (countryCode) {
+          var country = this.allCountries.find((i) => i.code === countryCode);
+          this.viewCountry = country;
+        }
+        this.vModelCountry = "";
+      } catch (error) {
+        console.log("countryClick err", error);
+      }
     },
   },
 
-  created() {
-    this.countryClick(this.yourCountry.code);
-    // this.loadYourCountryName();
-  },
-  updated() {
-    // this.filteredAllCountries()
+  async created() {
+
+    try {
+      let yourCountry = await api.yourCountry();
+      this.yourCountryCode = yourCountry.countryCode;
+      console.log("2 this.yourCountryCode  ", this.yourCountryCode )
+    } catch (error) {
+      console.log(" error yourCountryCode ", error);
+    }
+
+    if (this.yourCountryCode) {
+      this.countryClick(this.yourCountryCode);
+      console.log(" 3 check code to render")
+    }
   },
 };
 </script>
@@ -178,6 +187,11 @@ li:hover {
 .flex {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+.flexC {
+  display: flex;
+  justify-content: center;
   align-items: center;
 }
 .stat {
