@@ -9,6 +9,8 @@
       ref="chart"
     ></highcharts>
 
+    <h2>otherthing</h2>
+
     <!-- END-Template -->
   </div>
 </template>
@@ -42,6 +44,9 @@ export default {
         },
         legend: {
           enabled: true,
+          layout: "horizontal",
+          align: "center",
+          verticalAlign: "top",
         },
         mapNavigation: {
           enabled: true,
@@ -52,7 +57,6 @@ export default {
         colorAxis: {
           min: 0,
           max: 600,
-          
         },
         series: [
           {
@@ -63,7 +67,7 @@ export default {
               },
             },
             dataLabels: {
-              enabled: false,
+              enabled: true,
               format: "{point.name}",
             },
             tooltip: {
