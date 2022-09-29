@@ -9,28 +9,28 @@
     <div class="case">
       <h5>CASES</h5>
       <h1>
-        <count-up :end-val="this.viewCountry.cases" :duration="2"></count-up>
+        <count-up  :end-val="viewCountry.cases" :duration="2"></count-up>
       </h1>
-      <p>+ {{ this.numeralFunc(viewCountry.todayCases) }}</p>
+      <p>+ {{ numeralFunc(viewCountry.todayCases) }}</p>
     </div>
 
     <div class="rec">
       <h5>RECOVERED</h5>
       <h1>
         <count-up
-          :end-val="this.viewCountry.recovered"
+          :end-val="viewCountry.recovered"
           :duration="2"
         ></count-up>
       </h1>
-      <p>+ {{ this.numeralFunc(viewCountry.todayRecovered) }}</p>
+      <p>+ {{ numeralFunc(viewCountry.todayRecovered) }}</p>
     </div>
 
     <div class="death">
       <h5>DEATHS</h5>
       <h1>
-        <count-up :end-val="this.viewCountry.deaths" :duration="2"></count-up>
+        <count-up :end-val="viewCountry.deaths" :duration="2"></count-up>
       </h1>
-      <p>+ {{ this.numeralFunc(viewCountry.todayDeaths) }}</p>
+      <p>+ {{ numeralFunc(viewCountry.todayDeaths) }}</p>
     </div>
   </div>
 
@@ -45,7 +45,7 @@
     <button @click="changed()">type deaths</button>
     <div class="listCountriesSelect" v-if="showList">
       <ul v-for="(country, index) in filteredAllCountries" :key="index">
-        <li @click="countryClick(country.code)">
+        <li @click="countryClickComp(country.code)">
           <div class="flex">
             <div class="left">
               <span>{{ index + 1 }}</span>
@@ -64,23 +64,23 @@
 </template>
 
 <script>
-import * as api from "@/api";
 import numeral from "numeral";
 import CountUp from "vue-countup-v3";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: "x",
+  name: "statCard",
   props: {
     allCountries: Array,
+    yourCountryCode: String,
+    viewCountry: Object,
   },
   components: {
     CountUp,
   },
   data() {
     return {
-      yourCountryCode: "",
-      viewCountry: {},
+      
       vModelCountry: "",
       showList: false,
       type: "cases",
@@ -117,35 +117,14 @@ export default {
     numeralFunc(num) {
       return numeral(num).format("0.000 a");
     },
-
-    countryClick(countryCode) {
-      try {
-        if (countryCode) {
-          var country = this.allCountries.find((i) => i.code === countryCode);
-          this.viewCountry = country;
-        }
-        this.vModelCountry = "";
-      } catch (error) {
-        console.log("countryClick err", error);
-      }
+    countryClickComp(countryCode) {
+      this.vModelCountry =""
+      this.$emit('countryClickComp',countryCode) 
     },
+
+    
   },
 
-  async created() {
-
-    try {
-      let yourCountry = await api.yourCountry();
-      this.yourCountryCode = yourCountry.countryCode;
-      console.log("2 this.yourCountryCode  ", this.yourCountryCode )
-    } catch (error) {
-      console.log(" error yourCountryCode ", error);
-    }
-
-    if (this.yourCountryCode) {
-      this.countryClick(this.yourCountryCode);
-      console.log(" 3 check code to render")
-    }
-  },
 };
 </script>
 

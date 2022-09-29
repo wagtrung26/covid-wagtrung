@@ -2,7 +2,12 @@
 <template>
   <div class="home">
     <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
-    <helloWorld :allCountries="allCountries" />
+    <statCard
+      :allCountries="allCountries"
+      :yourCountryCode="yourCountryCode"
+      :viewCountry="viewCountry"
+      @countryClickComp="countryClick"
+    />
 
     <lineChart />
   </div>
@@ -11,25 +16,36 @@
 <script>
 // @ is an alias to /src
 import * as api from "@/api";
-import helloWorld from "@/components/HelloWorld.vue";
+import statCard from "@/components/statCard.vue";
 import lineChart from "@/components/lineChart.vue";
 
 export default {
   name: "CountryView",
   components: {
-    helloWorld,
+    statCard,
     lineChart,
   },
 
   data() {
     return {
       allCountries: [],
+      yourCountryCode: "",
+      viewCountry: {},
     };
   },
 
   methods: {
-  
-    
+    countryClick(countryCode) {
+      try {
+        if (countryCode) {
+          var country = this.allCountries.find((i) => i.code === countryCode);
+          this.viewCountry = country;
+        }
+        this.vModelCountry = "";
+      } catch (error) {
+        console.log("countryClick err", error);
+      }
+    },
   },
 
   computed: {
@@ -39,24 +55,40 @@ export default {
   },
 
   async created() {
+
+    // get All countries
+    try {
+      let ArrayCountries = await api.getAllCountries();
+      let rawArrayCountries = ArrayCountries.data;
+      let filteredArrayCountries = rawArrayCountries.map((countryItem) => {
+        return {
+          name: countryItem.country,
+          code: countryItem.countryInfo.iso2,
+          flag: countryItem.countryInfo.flag,
+          ...countryItem,
+        };
+      });
+
+      this.allCountries = filteredArrayCountries;
+      console.log(" 1 this.allCountries ");
+    } catch (e) {
+      console.log(" allCountries err ", e);
+    }
+
     // get user country based on browser IP, at the beginning state
     try {
-        let ArrayCountries = await api.getAllCountries();
-        let rawArrayCountries = ArrayCountries.data;
-        let filteredArrayCountries = rawArrayCountries.map((countryItem) => {
-          return {
-            name: countryItem.country,
-            code: countryItem.countryInfo.iso2,
-            flag: countryItem.countryInfo.flag,
-            ...countryItem,
-          };
-        });
+      let yourCountry = await api.yourCountry();
+      this.yourCountryCode = yourCountry.countryCode;
+      console.log("2 this.yourCountryCode  ", this.yourCountryCode);
+    } catch (error) {
+      console.log(" error yourCountryCode ", error);
+    }
 
-        this.allCountries = filteredArrayCountries;
-        console.log(" 1 this.allCountries ",this.allCountries)
-      } catch (e) {
-        console.log(" allCountries err ", e);
-      }
+    // check country to render
+    if (this.yourCountryCode) {
+      this.countryClick(this.yourCountryCode);
+      console.log(" 3 check Countrycode to render");
+    }
   },
 };
 </script>
