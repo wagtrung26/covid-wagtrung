@@ -9,7 +9,7 @@
     <div class="case">
       <h5>CASES</h5>
       <h1>
-        <count-up  :end-val="viewCountry.cases" :duration="2"></count-up>
+        <count-up  :end-val="viewCountry.cases" :duration="1"></count-up>
       </h1>
       <p>+ {{ numeralFunc(viewCountry.todayCases) }}</p>
     </div>
@@ -19,7 +19,7 @@
       <h1>
         <count-up
           :end-val="viewCountry.recovered"
-          :duration="2"
+          :duration="1"
         ></count-up>
       </h1>
       <p>+ {{ numeralFunc(viewCountry.todayRecovered) }}</p>
@@ -28,7 +28,7 @@
     <div class="death">
       <h5>DEATHS</h5>
       <h1>
-        <count-up :end-val="viewCountry.deaths" :duration="2"></count-up>
+        <count-up :end-val="viewCountry.deaths" :duration="1"></count-up>
       </h1>
       <p>+ {{ numeralFunc(viewCountry.todayDeaths) }}</p>
     </div>
