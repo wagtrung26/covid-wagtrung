@@ -1,10 +1,10 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="flexC">
-    <img class="countryFlag" :src="viewCountry.flag" alt="" />
-    <h1>{{ viewCountry.name }}</h1>
+    <img class="countryFlagHead" :src="viewCountry.flag" alt="" />
+    <h1 class="countryHead">{{ viewCountry.name }}</h1>
   </div>
-
+<br>
   <div class="flex stat">
     <div class="case">
       <h5>CASES</h5>
@@ -72,7 +72,6 @@ export default {
   name: "statCard",
   props: {
     allCountries: Array,
-    yourCountryCode: String,
     viewCountry: Object,
   },
   components: {
@@ -147,6 +146,14 @@ li:hover {
   width: 50px;
   height: auto;
 }
+.countryFlagHead{
+  width: 80px;
+  height: auto;
+}
+.countryHead{
+  font-size:4rem;
+  margin: 0 0 0px 20px;
+}
 .searchSelectCountry {
   position: absolute;
   top: 0;
@@ -158,7 +165,8 @@ li:hover {
   font-size: 20px;
 }
 .listCountriesSelect {
-  box-shadow: 0px 3px 20px rgb(124, 124, 124);
+  box-shadow: 0px 3px 20px rgba(124, 124, 124, 0.35);
+  border-radius: 20px;
   max-height: 500px;
   overflow-y: scroll;
   background: rgb(252, 252, 252);
@@ -176,7 +184,8 @@ li:hover {
 .stat {
   width: 500px;
   margin: 0 auto;
-  box-shadow: 0px 3px 20px rgb(124, 124, 124);
+  box-shadow: 0px 3px 20px rgba(124, 124, 124, 0.35);
+  border-radius: 20px;
   padding: 20px 40px;
 }
 </style>

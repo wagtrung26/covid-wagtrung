@@ -41,11 +41,12 @@ export default {
           zoomType: "x",
           // margin: [0,10,0,10],
           spacing: [40, 40, 40, 40],
+          
           // shadow: true,
         },
         series: [
           {
-            name: "CASES",
+            name: "TOTAL CASES",
             // showInLegend: false,
             data: [],
             lineWidth: 3,
@@ -64,7 +65,7 @@ export default {
             // },
           },
           {
-            name: "DEATHS",
+            name: "TOTAL DEATHS",
             data: [],
             lineWidth: 3,
             color: "#d6172d",
@@ -82,7 +83,7 @@ export default {
             // },
           },
           {
-            name: "RECOVERED",
+            name: "TOTAL RECOVERED",
             data: [],
             lineWidth: 3,
             color: "#17d66d",
@@ -106,6 +107,10 @@ export default {
           align: "left",
           margin: 24,
         },
+
+         credits: {
+        enabled: false
+    },
         subtitle: {
           text: null,
         },
@@ -134,6 +139,7 @@ export default {
         tooltip: {
           crosshairs: true,
           shared: true,
+          // split: true,
           // backgroundColor: "#FCFFC5",
           // borderColor: "black",
           borderRadius: 10,

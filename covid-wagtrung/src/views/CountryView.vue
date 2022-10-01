@@ -2,9 +2,13 @@
 <template>
   <div class="home">
     <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
+    <div class="yourCountry">
+    <p>You are live in: {{yourCountry.countryName}} - IP: {{yourCountry.request}}</p>
+    <p>Your Continent: {{yourCountry.continentName}} - Continent Code: {{yourCountry.continentCode}}</p>
+    </div>
+
     <statCard
       :allCountries="allCountries"
-      :yourCountryCode="yourCountryCode"
       :viewCountry="viewCountry"
       @countryClickComp="countryClick"
     />
@@ -18,6 +22,8 @@
 
       <dailyChart
       :dailyCaseArrayValues="dailyCaseArrayValues"
+      :dailyRecoverArrayValues ="dailyRecoverArrayValues"
+      :dailyDeathArrayValues="dailyDeathArrayValues"
       :dates="dates"
     ></dailyChart>
 
@@ -43,12 +49,14 @@ export default {
   data() {
     return {
       allCountries: [],
-      yourCountryCode: "",
+      yourCountry: {},
       viewCountry: {},
       caseArrayValues: [],
       deathArrayValues: [],
       recoverArrayValues: [],
       dailyCaseArrayValues:[],
+      dailyRecoverArrayValues:[],
+      dailyDeathArrayValues:[],
       dates: [],
     };
   },
@@ -76,11 +84,11 @@ export default {
     async getUserCountry() {
       // 2. get user country based on browser IP, at the beginning state
       try {
-        let yourCountry = await api.yourCountry();
-        this.yourCountryCode = yourCountry.countryCode;
-        console.log("2 this.yourCountryCode  ", this.yourCountryCode);
+        
+        this.yourCountry =  await api.yourCountry();
+        console.log("2 this.yourCountry.code  ", this.yourCountry.countryCode);
       } catch (error) {
-        console.log(" error yourCountryCode ", error);
+        console.log(" error yourCountry.code ", error);
       }
     },
     getHistoricalCountry() {
@@ -88,7 +96,6 @@ export default {
         .getHistoricalCountry(this.viewCountry.code)
         .then((res) => {
           let listTimeline = res.data.timeline;
-          console.log(" something ", listTimeline);
           //yAxis
           this.caseArrayValues = Object.values(listTimeline.cases);
           this.deathArrayValues = Object.values(listTimeline.deaths);
@@ -96,7 +103,9 @@ export default {
 
           //xAsis
           this.dates = Object.keys(listTimeline.cases);
-          this.dailyCaseArrayValues=this.dailyArrayValues()
+          this.dailyCaseArrayValues=this.dailyArrayValues(this.caseArrayValues)
+          this.dailyDeathArrayValues=this.dailyArrayValues(this.deathArrayValues)
+          this.dailyRecoverArrayValues=this.dailyArrayValues(this.recoverArrayValues)
         })
         .catch((e) => console.log(" something ", e));
     },
@@ -112,10 +121,10 @@ export default {
         console.log("countryClick err", error);
       }
     },
-    dailyArrayValues() {
+    dailyArrayValues(mockArray) {
       let chartDataY = [];
       let lastData;
-      this.caseArrayValues.map((item) => {
+      mockArray.map((item) => {
 
         if (lastData) {
           let newDataY = item - lastData;
@@ -140,9 +149,22 @@ export default {
     // 2. get user country Code, based on browser IP
     await this.getUserCountry();
     // 3. check country to render at first
-    this.countryClick(this.yourCountryCode);
+    this.countryClick(this.yourCountry.countryCode);
     //4. get Historical of cases, recovered, deaths array of a specific country
     await this.getHistoricalCountry();
   },
 };
 </script>
+
+
+<style scoped>
+
+.yourCountry{
+  position: absolute;
+  top:0;
+  left: 0;
+  padding: 0 20px;
+  border: 1px solid rgb(224, 224, 224);
+  text-align: left;
+}
+</style>
