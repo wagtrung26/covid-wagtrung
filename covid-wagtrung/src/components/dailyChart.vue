@@ -110,6 +110,9 @@ export default {
           align: "left",
           margin: 24,
         },
+        credits: {
+          enabled: false,
+        },
         subtitle: {
           text: null,
         },

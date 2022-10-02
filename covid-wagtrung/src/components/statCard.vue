@@ -4,33 +4,33 @@
     <img class="countryFlagHead" :src="viewCountry.flag" alt="" />
     <h1 class="countryHead">{{ viewCountry.name }}</h1>
   </div>
-<br>
+  <br />
   <div class="flex stat">
-    <div class="case">
+    <div class="case mr">
       <h5>CASES</h5>
-      <h1>
-        <count-up  :end-val="viewCountry.cases" :duration="1"></count-up>
+      <h1 class="stat-lg">
+        <count-up :end-val="viewCountry.cases" :duration="1"></count-up>
       </h1>
       <p>+ {{ numeralFunc(viewCountry.todayCases) }}</p>
+      <sparklineChart :typeC="'cases'" :data="dailyCaseArrayValues" />
     </div>
 
-    <div class="rec">
+    <div class="rec mr">
       <h5>RECOVERED</h5>
-      <h1>
-        <count-up
-          :end-val="viewCountry.recovered"
-          :duration="1"
-        ></count-up>
+      <h1 class="stat-lg">
+        <count-up :end-val="viewCountry.recovered" :duration="1"></count-up>
       </h1>
       <p>+ {{ numeralFunc(viewCountry.todayRecovered) }}</p>
+      <sparklineChart :typeC="'recover'" :data="dailyRecoverArrayValues" />
     </div>
 
     <div class="death">
       <h5>DEATHS</h5>
-      <h1>
+      <h1 class="stat-lg">
         <count-up :end-val="viewCountry.deaths" :duration="1"></count-up>
       </h1>
       <p>+ {{ numeralFunc(viewCountry.todayDeaths) }}</p>
+      <sparklineChart :typeC="'death'" :data="dailyDeathArrayValues" />
     </div>
   </div>
 
@@ -66,6 +66,7 @@
 <script>
 import numeral from "numeral";
 import CountUp from "vue-countup-v3";
+import sparklineChart from "./sparklineChart.vue";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -73,13 +74,16 @@ export default {
   props: {
     allCountries: Array,
     viewCountry: Object,
+    dailyCaseArrayValues: Array,
+    dailyRecoverArrayValues: Array,
+    dailyDeathArrayValues: Array,
   },
   components: {
     CountUp,
+    sparklineChart,
   },
   data() {
     return {
-      
       vModelCountry: "",
       showList: false,
       type: "cases",
@@ -117,13 +121,10 @@ export default {
       return numeral(num).format("0.000 a");
     },
     countryClickComp(countryCode) {
-      this.vModelCountry =""
-      this.$emit('countryClickComp',countryCode) 
+      this.vModelCountry = "";
+      this.$emit("countryClickComp", countryCode);
     },
-
-    
   },
-
 };
 </script>
 
@@ -146,12 +147,12 @@ li:hover {
   width: 50px;
   height: auto;
 }
-.countryFlagHead{
+.countryFlagHead {
   width: 80px;
   height: auto;
 }
-.countryHead{
-  font-size:4rem;
+.countryHead {
+  font-size: 4rem;
   margin: 0 0 0px 20px;
 }
 .searchSelectCountry {
@@ -181,11 +182,36 @@ li:hover {
   justify-content: center;
   align-items: center;
 }
+/* .rec h1{
+  color: rgb(23, 214, 109)
+}
+.death h1{
+  color: rgb(214, 23, 45)
+}
+.case h1{
+  color: rgb(0, 147, 255)
+} */
+.rec,
+.death,
+.case {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 0 auto;
+}
 .stat {
-  width: 500px;
+  width: fit-content;
   margin: 0 auto;
   box-shadow: 0px 3px 20px rgba(124, 124, 124, 0.35);
   border-radius: 20px;
   padding: 20px 40px;
+}
+.stat-lg {
+  font-size: 2.5rem;
+  margin: 0;
+}
+.mr {
+  margin-right: 50px;
 }
 </style>

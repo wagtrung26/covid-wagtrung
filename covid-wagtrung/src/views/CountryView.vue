@@ -10,6 +10,9 @@
     <statCard
       :allCountries="allCountries"
       :viewCountry="viewCountry"
+      :dailyCaseArrayValues="dailyCaseArrayValues"
+      :dailyRecoverArrayValues ="dailyRecoverArrayValues"
+      :dailyDeathArrayValues="dailyDeathArrayValues"
       @countryClickComp="countryClick"
     />
 

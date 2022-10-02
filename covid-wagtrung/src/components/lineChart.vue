@@ -41,7 +41,7 @@ export default {
           zoomType: "x",
           // margin: [0,10,0,10],
           spacing: [40, 40, 40, 40],
-          
+
           // shadow: true,
         },
         series: [
@@ -108,9 +108,9 @@ export default {
           margin: 24,
         },
 
-         credits: {
-        enabled: false
-    },
+        credits: {
+          enabled: false,
+        },
         subtitle: {
           text: null,
         },
@@ -168,7 +168,7 @@ export default {
             },
           },
           area: {
-            fillOpacity: 0.2
+            fillOpacity: 0.2,
           },
           areaspline: {
             fillOpacity: 0.2,
