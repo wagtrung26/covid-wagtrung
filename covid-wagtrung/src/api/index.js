@@ -27,3 +27,8 @@ export const getHistoricalCountry = (countryCode) =>{
    let url = `https://disease.sh/v3/covid-19/historical/${countryCode}?lastdays=all`
    return axios.get(url)
 }
+
+export const getTotalContinent = (continentName) =>{
+   let url = `https://disease.sh/v3/covid-19/continents/${continentName}?strict=true`
+   return axios.get(url)
+}

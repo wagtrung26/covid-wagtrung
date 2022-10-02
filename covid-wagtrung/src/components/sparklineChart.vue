@@ -29,8 +29,9 @@ export default {
           type: "area",
           // renderTo: "container",
           margin: [0, 0, 0, 0],
-          height: 50,
+          height: 54,
           width: 180,
+          
           /* backgroundColor:'transparent' */
         },
         title: {
@@ -51,7 +52,7 @@ export default {
           maxPadding: 0,
           minPadding: 0,
           gridLineWidth: 0,
-          endOnTick: false,
+          endOnTick: true,
           labels: {
             enabled: false,
           },
