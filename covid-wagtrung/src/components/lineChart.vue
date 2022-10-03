@@ -206,7 +206,7 @@ export default {
   },
   computed: {},
   async created() {
-    await this.addDataToLineChart();
+    // await this.addDataToLineChart();
   },
   updated() {
     this.addDataToLineChart();

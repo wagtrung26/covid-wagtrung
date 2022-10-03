@@ -138,7 +138,7 @@ export default {
   },
   computed: {},
   async created() {
-    await this.loadCase();
+    // await this.loadCase();
   },
   updated() {
     this.loadCase() 

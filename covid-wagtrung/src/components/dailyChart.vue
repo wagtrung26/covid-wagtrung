@@ -1,8 +1,7 @@
 <template>
   <div class="chart">
-    <!-- <p>All times</p> -->
+
     <div class="btnGroup">
-      <!-- <button class="btn" @click="loadCase">Last 30days</button> -->
       <button class="btn" @click="allTime" :class="{ active: !allTimeCheck }">
         30 days
       </button>
@@ -250,7 +249,7 @@ export default {
   },
   computed: {},
   async created() {
-    await this.loadCase();
+    // await this.loadCase();
   },
   updated() {
     this.loadCase();

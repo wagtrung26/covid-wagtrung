@@ -36,7 +36,11 @@
       :dates="dates"
     ></dailyChart>
 
-    <countries-in-continent :continentArray="continentArray" :viewCountry="viewCountry" />
+    <countries-in-continent
+      :continentArray="continentArray"
+      :viewCountry="viewCountry"
+  
+    />
   </div>
 </template>
 
@@ -70,7 +74,8 @@ export default {
       dailyDeathArrayValues: [],
       dates: [],
       continentArray: [],
-      continentTotal:[]
+      continentTotal: [],
+      
     };
   },
 
@@ -89,7 +94,7 @@ export default {
         });
 
         this.allCountries = filteredArrayCountries;
-        console.log(" 1 this.allCountries ");
+        // console.log(" 1 this.allCountries ");
       } catch (e) {
         console.log(" allCountries err ", e);
       }
@@ -98,7 +103,7 @@ export default {
       // 2. get user country based on browser IP, at the beginning state
       try {
         this.yourCountry = await api.yourCountry();
-        console.log("2 this.yourCountry.code  ", this.yourCountry.countryCode);
+        // console.log("2 this.yourCountry.code  ", this.yourCountry.countryCode);
       } catch (error) {
         console.log(" error yourCountry.code ", error);
       }
@@ -134,7 +139,7 @@ export default {
           this.viewCountry = country;
           this.getHistoricalCountry();
           this.countriesInContinent(this.viewCountry.continent);
-          this.getTotalContinent(this.viewCountry.continent)
+          this.getTotalContinent(this.viewCountry.continent);
         }
         this.vModelCountry = "";
       } catch (error) {
@@ -149,8 +154,6 @@ export default {
           this.continentArray.push(i);
         }
       });
-
-      console.log(" this.continentArray", this.continentArray);
     },
     dailyArrayValues(mockArray) {
       let chartDataY = [];
@@ -165,15 +168,16 @@ export default {
 
       return chartDataY;
     },
-    getTotalContinent(){
-       api
+    getTotalContinent() {
+      api
         .getTotalContinent(this.viewCountry.continent)
         .then((res) => {
-          this.continentTotal = res.data
-          console.log(" this.continentTotal  ", this.continentTotal )
+          this.continentTotal = res.data;
+          // console.log(" this.continentTotal  ", this.continentTotal )
         })
         .catch((e) => console.log(" getTotalContinent err ", e));
-    }
+    },
+    
   },
 
   computed: {
@@ -185,15 +189,27 @@ export default {
   async created() {
     // 1. get All countries
     await this.getAllCountries();
+    console.log(" 1. allCountries ");
     // 2. get user country Code, based on browser IP
     await this.getUserCountry();
+    console.log(" 2. yourCountry ");
+
     // 3. check country to render at first
     this.countryClick(this.yourCountry.countryCode);
-    await this.countriesInContinent();
-    await this.getTotalContinent()
+    console.log(" 3. ViewCountry ");
 
     //4. get Historical of cases, recovered, deaths array of a specific country
     await this.getHistoricalCountry();
+    console.log(" 4. Historical ViewCountry ");
+
+    //5.continent
+    this.countriesInContinent();
+    console.log(" 5. Continent ");
+
+    await this.getTotalContinent();
+    console.log(" 6. Total Continent ");
+
+    // this.continentChart();
   },
 };
 </script>

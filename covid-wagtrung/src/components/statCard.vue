@@ -2,7 +2,7 @@
 <template>
   <div class="flexC">
     <img class="countryFlagHead" :src="viewCountry.flag" alt="" />
-    <h1 class="countryHead">{{ viewCountry.name }}</h1>
+    <h1 class="textXl mr">{{ viewCountry.name }}</h1>
   </div>
   <br />
   <div class="flex stat">
@@ -151,10 +151,7 @@ li:hover {
   width: 80px;
   height: auto;
 }
-.countryHead {
-  font-size: 4rem;
-  margin: 0 0 0px 20px;
-}
+
 .searchSelectCountry {
   position: absolute;
   top: 0;
