@@ -35,6 +35,9 @@ nav a.router-link-exact-active {
 .textXl {
   font-size: 4rem;
 }
+.textX {
+  font-size: 2rem;
+}
 .mr{
   margin: 0 0 0px 20px;
 }

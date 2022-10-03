@@ -1,7 +1,15 @@
 <template>
- <h1 class="pl textXl mb0 textLeft">{{ viewCountry.continent }} ({{continentArray.length}})</h1> 
-  <h3 class=" pl textLeft">Compare {{ viewCountry.name }} in its continent</h3>
-  <bar-chart :continentArray="continentArray" :viewCountry="viewCountry"/>
+  <h1 class="pl textXl mb0 textLeft">
+    {{ viewCountry.continent }} ({{ continentArray.length }})
+  </h1>
+  <h3 class="pl textLeft">
+    <span class="textX"> {{ viewCountry.name }}</span> is in  <span class="textX">Top {{ countryTopemit }}</span>  in its continent - {{ viewCountry.continent }}
+  </h3>
+  <bar-chart
+    :continentArray="continentArray"
+    :viewCountry="viewCountry"
+    @emitCountryTop="setemitCountryTop"
+  />
   <div v-for="(item, index) in continentArray" :key="index">
     <div class="flex">
       <img class="flag" :src="item.flag" alt="" />
@@ -23,9 +31,15 @@ export default {
   },
 
   data() {
-    return {};
+    return {
+      countryTopemit: 0,
+    };
   },
-  methods: {},
+  methods: {
+    setemitCountryTop(x) {
+      this.countryTopemit = x + 1;
+    },
+  },
   computed: {},
   created() {},
   mounted() {},

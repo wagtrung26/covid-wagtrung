@@ -62,13 +62,14 @@ export default {
   data() {
     return {
       sliceData: "top10",
+      countryTop: "",
       //   continentCase: [],
       //   continentRecover: [],
       //   continentDeath: [],
       chartOptions: {
         chart: {
           type: "column",
-          height: 600,
+          height: 500,
           zoomType: "x",
           spacing: [30, 40, 40, 40],
         },
@@ -167,7 +168,9 @@ export default {
       let pushRecover = [];
 
       let sortedCountries = _.orderBy(this.continentArray, ['cases'], ["desc"]);
-      console.log(" sortedCountries ",sortedCountries)
+      this.countryTop = _.findIndex(sortedCountries, (x) => x.name == this.viewCountry.name,0)
+      this.$emit('emitCountryTop', this.countryTop );
+      
 
 
       sortedCountries.forEach((i) => {
