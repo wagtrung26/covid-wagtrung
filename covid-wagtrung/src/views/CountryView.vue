@@ -21,6 +21,7 @@
       :dailyDeathArrayValues="dailyDeathArrayValues"
       @countryClickComp="countryClick"
     />
+    <countryMap />
 
     <lineChart
       :caseArrayValues="caseArrayValues"
@@ -52,6 +53,7 @@ import statCard from "@/components/statCard.vue";
 import lineChart from "@/components/lineChart.vue";
 import dailyChart from "@/components/dailyChart.vue";
 import countriesInContinent from "@/components/countriesInContinent.vue";
+import countryMap from '@/components/countryMap.vue';
 
 export default {
   name: "CountryView",
@@ -60,6 +62,7 @@ export default {
     lineChart,
     dailyChart,
     countriesInContinent,
+    countryMap,
   },
 
   data() {
