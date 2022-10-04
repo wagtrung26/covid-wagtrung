@@ -5,5 +5,11 @@ import store from './store'
 //chart 
 // import Vue from 'vue'
 import HighchartsVue from 'highcharts-vue'
+import VueApexCharts from "vue3-apexcharts"
 
-createApp(App).use(store).use(router).use(HighchartsVue).mount('#app')
+const app = createApp(App);
+app.use(store)
+.use(router)
+.use(HighchartsVue)
+.use(VueApexCharts)
+.mount('#app')

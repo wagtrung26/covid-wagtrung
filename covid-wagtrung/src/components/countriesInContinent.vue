@@ -5,11 +5,18 @@
   <h3 class="pl textLeft">
     <span class="textX"> {{ viewCountry.name }}</span> is in  <span class="textX">Top {{ countryTopemit }}</span>  in its continent - {{ viewCountry.continent }}
   </h3>
+
+<div class="flex containerF">
+  <donutChart />
+
   <bar-chart
     :continentArray="continentArray"
     :viewCountry="viewCountry"
     @emitCountryTop="setemitCountryTop"
   />
+
+</div>
+
   <div v-for="(item, index) in continentArray" :key="index">
     <div class="flex">
       <img class="flag" :src="item.flag" alt="" />
@@ -21,9 +28,9 @@
 <script>
 // import { errorToaster } from "../../shared/service/ErrorHandler.js"
 import barChart from "@/components/barChart.vue";
-
+import donutChart from '@/components/donutChart.vue';
 export default {
-  components: { barChart },
+  components: { barChart, donutChart },
   name: "countiesInContinent",
   props: {
     continentArray: Array,
@@ -49,8 +56,5 @@ export default {
 <style scoped>
 .flag {
   width: 150px;
-}
-.flex {
-  display: flex;
 }
 </style>

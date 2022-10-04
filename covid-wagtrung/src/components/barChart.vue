@@ -8,37 +8,28 @@
     <!--  @click="allTime" :class="{ active: !allTimeCheck }-->
 
     <!-- <p>this is bar chart</p> -->
-    <div class="chart">
+    <div class="chart " style="margin:0">
       <div class="btnGroup">
-        <button class="btn" @click="clickSliceData('top10')" :class="{ active: this.sliceData === 'top10' }" >Top 10</button>
-        <button class="btn" @click="clickSliceData('all')" :class="{ active: this.sliceData === 'all' }" >
+        <button
+          class="btn"
+          @click="clickSliceData('top10')"
+          :class="{ active: this.sliceData === 'top10' }"
+        >
+          Top 10
+        </button>
+        <button
+          class="btn"
+          @click="clickSliceData('all')"
+          :class="{ active: this.sliceData === 'all' }"
+        >
           All countries in {{ viewCountry.continent }}
         </button>
       </div>
 
-      <!-- <div class="btnGroup2">
-        <button
-          class="btn"
-          @click="newCaseClick"
-          :class="{ active: this.selectedType == 'case' }"
-        >
-          New Cases
-        </button>
-        <button
-          class="btn"
-          @click="newDeathClick"
-          :class="{ active: this.selectedType == 'death' }"
-        >
-          New Deaths
-        </button>
-        <button
-          class="btn"
-          @click="newRecoverClick"
-          :class="{ active: this.selectedType == 'recover' }"
-        >
-          New Recovered
-        </button>
-      </div> -->
+      <div class="btnGroup2">
+        <button class="btn" @click="clickTotalOrNew('total')" :class="{ active: this.totalOrNew === 'total' }">Total cases</button>
+        <button class="btn" @click="clickTotalOrNew('new')" :class="{ active: this.totalOrNew === 'new' }">New cases</button>
+      </div>
       <highcharts :options="chartOptions" ref="chart"></highcharts>
     </div>
 
@@ -62,6 +53,7 @@ export default {
   data() {
     return {
       sliceData: "top10",
+      totalOrNew: "total",
       countryTop: "",
       //   continentCase: [],
       //   continentRecover: [],
@@ -70,8 +62,9 @@ export default {
         chart: {
           type: "column",
           height: 500,
+          width: 800,
           zoomType: "x",
-          spacing: [30, 40, 40, 40],
+          spacing: [30, 0, 0, 0],
         },
         title: {
           text: "Continent Stat",
@@ -159,24 +152,31 @@ export default {
   },
   methods: {
     addDataToBarChart() {
+      const _ = require("lodash");
 
-    const _ = require("lodash");
-
-      
       let pushCase = [];
       let pushDeath = [];
       let pushRecover = [];
 
-      let sortedCountries = _.orderBy(this.continentArray, ['cases'], ["desc"]);
-      this.countryTop = _.findIndex(sortedCountries, (x) => x.name == this.viewCountry.name,0)
-      this.$emit('emitCountryTop', this.countryTop );
-      
-
+      let sortedCountries = _.orderBy(this.continentArray, ["cases"], ["desc"]);
+      this.countryTop = _.findIndex(
+        sortedCountries,
+        (x) => x.name == this.viewCountry.name,
+        0
+      );
+      this.$emit("emitCountryTop", this.countryTop);
 
       sortedCountries.forEach((i) => {
-        pushCase.push(i.cases);
-        pushDeath.push(i.deaths);
-        pushRecover.push(i.recovered);
+        if (this.totalOrNew == "total") {
+          pushCase.push(i.cases);
+          pushDeath.push(i.deaths);
+          pushRecover.push(i.recovered);
+        } else {
+          //new case today case in that continent
+          pushCase.push(i.todayCases);
+          pushDeath.push(i.todayDeaths);
+          pushRecover.push(i.todayRecovered);
+        }
       });
       let xListCountriesName = sortedCountries.map((i) => i.name);
 
@@ -191,14 +191,19 @@ export default {
         //x
         this.chartOptions.xAxis.categories = xListCountriesName;
       } else {
-        this.chartOptions.series[0].data = pushCase.slice(0,10);
-        this.chartOptions.series[1].data = pushRecover.slice(0,10);
-        this.chartOptions.series[2].data = pushDeath.slice(0,10);
-        this.chartOptions.xAxis.categories = xListCountriesName.slice(0,10);
+        //default load top10
+        this.chartOptions.series[0].data = pushCase.slice(0, 10);
+        this.chartOptions.series[1].data = pushRecover.slice(0, 10);
+        this.chartOptions.series[2].data = pushDeath.slice(0, 10);
+        this.chartOptions.xAxis.categories = xListCountriesName.slice(0, 10);
       }
     },
     clickSliceData(x) {
       this.sliceData = x;
+      this.addDataToBarChart();
+    },
+    clickTotalOrNew(x) {
+      this.totalOrNew = x;
       this.addDataToBarChart();
     },
   },

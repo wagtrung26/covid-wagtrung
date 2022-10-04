@@ -90,4 +90,10 @@ nav a.router-link-exact-active {
   color: #fff;
   /* border: 2px solid #333; */
 }
+.flex{
+  display: flex;
+}
+.containerF{
+  width: 100%;
+}
 </style>
