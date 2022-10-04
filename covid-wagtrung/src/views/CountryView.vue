@@ -39,6 +39,7 @@
     <countries-in-continent
       :continentArray="continentArray"
       :viewCountry="viewCountry"
+      :continentTotal="continentTotal"
   
     />
   </div>
@@ -74,7 +75,7 @@ export default {
       dailyDeathArrayValues: [],
       dates: [],
       continentArray: [],
-      continentTotal: [],
+      continentTotal: {},
       
     };
   },

@@ -9,7 +9,7 @@
 
     <!-- <p>this is bar chart</p> -->
     <div class="chart " style="margin:0">
-      <div class="btnGroup">
+      <div class="btnGroup TL">
         <button
           class="btn"
           @click="clickSliceData('top10')"
@@ -26,7 +26,7 @@
         </button>
       </div>
 
-      <div class="btnGroup2">
+      <div class="btnGroup2 TR">
         <button class="btn" @click="clickTotalOrNew('total')" :class="{ active: this.totalOrNew === 'total' }">Total cases</button>
         <button class="btn" @click="clickTotalOrNew('new')" :class="{ active: this.totalOrNew === 'new' }">New cases</button>
       </div>
@@ -61,10 +61,11 @@ export default {
       chartOptions: {
         chart: {
           type: "column",
-          height: 500,
-          width: 800,
+          height: 440,
+          // width: 800,
           zoomType: "x",
-          spacing: [30, 0, 0, 0],
+          spacing: [0, 30, 0, 0],
+ 
         },
         title: {
           text: "Continent Stat",
@@ -100,13 +101,13 @@ export default {
             showFull: true,
           },
           title: {
-            text: "people",
+            text: "",
             // align: "high",
           },
           labels: {
             overflow: "justify",
             style: {
-              fontSize: 16,
+              fontSize: 14,
             },
           },
         },
@@ -216,4 +217,13 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.TL{
+top:-10px;
+left:140px
+}
+.TR{
+top:-10px;
+right:80px
+}
+</style>

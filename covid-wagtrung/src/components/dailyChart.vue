@@ -61,6 +61,7 @@ export default {
       chartOptions: {
         chart: {
           type: "area",
+          height: 500,
           // events: {
           //   load() {
           //     // Check all checkboxes on load

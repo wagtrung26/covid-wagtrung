@@ -18,6 +18,7 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  overflow: hidden;
 }
 
 nav {
@@ -41,8 +42,14 @@ nav a.router-link-exact-active {
 .mr{
   margin: 0 0 0px 20px;
 }
+.MR-30{
+  margin-left: 30px;
+}
 .mb{
   margin: 0 0 20px 0px;
+}
+.mbL{
+  margin-bottom: 40px;
 }
 .m0{
  margin: 0px;
@@ -92,6 +99,13 @@ nav a.router-link-exact-active {
 }
 .flex{
   display: flex;
+}
+.flex0{
+  flex: 1
+
+}
+.flex1{
+  flex: 3
 }
 .containerF{
   width: 100%;

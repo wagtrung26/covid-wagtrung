@@ -27,6 +27,7 @@ export default {
       chartOptions: {
         chart: {
           type: "areaspline",
+          height: 500,
           // events: {
           //   load() {
           //     // Check all checkboxes on load

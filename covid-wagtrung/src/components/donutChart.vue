@@ -6,39 +6,59 @@
     <!-- ie - if, else -->
     <!-- sto - setTimeOut -->
     <!--  cl - console.log -->
+    <div class="pbar">
+      <apexchart
+        width="300"
+        height="500"
+        :options="options"
+        :series="sample()"
+      ></apexchart>
+    </div>
 
-    <apexchart
-      width="380"
-      type="donut"
-      :options="options"
-      :series="series"
-    ></apexchart>
+<!-- <p> {{continentTotal}} </p> -->
+
     <!-- END-Template -->
   </div>
 </template>
 
 <script>
-// import { errorToaster } from "../../shared/service/ErrorHandler.js"
+// radialBar vs donut"
 export default {
   components: {},
   name: "donutChartApex",
-  props: {},
+  props: {continentTotal:Object},
   data() {
     return {
       options: {
         chart: {
           type: "donut",
-          height: 700,
-          width: "auto",
         },
-    //     title: {
-
-    // text: 'undefined',
-    //     },
+        title: {
+          text: "Total in Continent",
+          align: "left",
+          style: {
+            fontSize: "18px",
+            fontWeight: "regular",
+            fontFamily: "Lucida Grande",
+            color: "#263238",
+          },
+        },
+        grid: {
+          padding: {
+            top: 30,
+            right: 0,
+            bottom: 0,
+            left: 0,
+          },
+        },
         legend: {
           show: true,
           position: "bottom",
-          horizontalAlign: "center",
+          horizontalAlign: "left",
+          itemMargin: {
+            horizontal: 20,
+            vertical: 5,
+          },
         },
         // dropShadow: {
         //   enabled: true,
@@ -47,19 +67,38 @@ export default {
         //   blur: 3,
         //   opacity: 0.5,
         // },
-        labels: ["Total Cases", "Total Recovered", "Total Deaths"],
-        colors: ['#0093ff', '#17d66d','#e73146'],
+        labels: ["Total Active", "Total Recovered", "Total Deaths"],
+        colors: ["#0093ff", "#17d66d", "#e73146"],
         plotOptions: {
+          // radialBar: {
+          //   dataLabels: {
+          //     name: {
+          //       fontSize: "22px",
+          //     },
+          //     value: {
+          //       fontSize: "16px",
+          //     },
+          //     total: {
+          //       show: true,
+          //       label: "Total Cases",
+          //       formatter: function (w) {
+          //         return w.globals.seriesTotals.reduce((a, b) => {
+          //           return a + b;
+          //         }, 0);
+          //       },
+          //     },
+          //   },
+          // },
           pie: {
             // size: 1000,
             customScale: 1,
-
             donut: {
-              size: "60%",
+              size: "75%",
               labels: {
                 show: true,
                 total: {
                   show: true,
+                   label: "Total Cases",
                   showAlways: true,
                 },
               },
@@ -68,11 +107,17 @@ export default {
         },
       },
 
-      series: [44, 55, 41],
+      // series: [],
     };
   },
   methods: {
-    sample() {},
+    sample() {
+      let totalCase = this.continentTotal.active
+      let totalRecover = this.continentTotal.recovered
+      let totalDeath = this.continentTotal.deaths
+      let series = [totalCase,totalRecover,totalDeath]
+      return series
+    },
   },
   computed: {},
   created() {},
@@ -80,4 +125,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.pbar {
+  margin: 0 20px 0 30px;
+}
+</style>
