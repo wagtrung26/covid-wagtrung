@@ -21,7 +21,18 @@
       :dailyDeathArrayValues="dailyDeathArrayValues"
       @countryClickComp="countryClick"
     />
-    <countryMap />
+
+    <h1 class="pl textXl mb0 textLeft">{{ viewCountry.name }} Map</h1>
+    <h3 class="pl textLeft mbL">
+      All cases in all Provices or States of {{ viewCountry.name }}
+    </h3>
+
+    <div class="flex">
+      <div class="flex5">
+        <countryMap :viewCountry="viewCountry" />
+      </div>
+      <div class="table flex7">table pprovince</div>
+    </div>
 
     <lineChart
       :caseArrayValues="caseArrayValues"
@@ -41,7 +52,6 @@
       :continentArray="continentArray"
       :viewCountry="viewCountry"
       :continentTotal="continentTotal"
-  
     />
   </div>
 </template>
@@ -53,7 +63,7 @@ import statCard from "@/components/statCard.vue";
 import lineChart from "@/components/lineChart.vue";
 import dailyChart from "@/components/dailyChart.vue";
 import countriesInContinent from "@/components/countriesInContinent.vue";
-import countryMap from '@/components/countryMap.vue';
+import countryMap from "@/components/countryMap.vue";
 
 export default {
   name: "CountryView",
@@ -79,7 +89,6 @@ export default {
       dates: [],
       continentArray: [],
       continentTotal: {},
-      
     };
   },
 
@@ -181,7 +190,6 @@ export default {
         })
         .catch((e) => console.log(" getTotalContinent err ", e));
     },
-    
   },
 
   computed: {

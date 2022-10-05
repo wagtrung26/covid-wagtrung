@@ -107,6 +107,13 @@ nav a.router-link-exact-active {
 .flex1{
   flex: 3
 }
+.flex5{
+  flex: 5
+
+}
+.flex7{
+  flex: 7
+}
 .containerF{
   width: 100%;
 }
