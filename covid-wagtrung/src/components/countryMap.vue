@@ -216,7 +216,7 @@ export default {
         },
 
         title: {
-          text: "Highcharts Maps basic demo",
+          text: "Highcharts loà country",
         },
 
         subtitle: {
