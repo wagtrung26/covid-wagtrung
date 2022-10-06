@@ -12,10 +12,10 @@
 // import { errorToaster } from "../../shared/service/ErrorHandler.js"
 export default {
   components: {},
-  name: "stackChart",
+  name: "vacChart",
   props: {
     dailyCaseArrayValues: Array,
-    dailyRecoverArrayValues: Array,
+    // dailyRecoverArrayValues: Array,
     dailyDeathArrayValues: Array,
     dailyVaccineArrayValues:Array,
     dates: Array,
@@ -24,14 +24,14 @@ export default {
     return {
       chartOptions: {
         chart: {
-          type: "area",
+          type: "areaspline",
           height: 500,
           zoomBySingleTouch: true,
           zoomType: "x",
-          spacing: [0, 30, 0, 10],
+          spacing: [0, 40, 0, 40],
         },
-             title: {
-          text: "Cases Distribution",
+         title: {
+          text: "",
           align: "left",
           // margin: 24,
         },
@@ -56,7 +56,7 @@ export default {
         },
         yAxis: {
           labels: {
-            format: "{value}%",
+            // format: "{value}%",
           },
           title: {
             enabled: false,
@@ -83,8 +83,8 @@ export default {
 
             // pointStart: 1990,
           },
-          area: {
-            stacking: "percent",
+          areaspline: {
+            // stacking: "percent",
 
             fillOpacity: 0.4,
 
@@ -94,14 +94,15 @@ export default {
           },
         },
         series: [
-          {
-            name: "NEW CASES",
-            color: "#0093ff",
-            data: [],
-          },
-          {
-            name: "NEW RECOVERED",
-            color: "#17d66d",
+        
+        //   {
+        //     name: "NEW RECOVERED",
+        //     color: "#17d66d",
+        //     data: [],
+        //   },
+        {
+            name: "NEW VACCINES",
+            color: "#9a0dd5",
             data: [],
           },
           {
@@ -109,23 +110,25 @@ export default {
             color: "#d6172d",
             data: [],
           },
-          // {
-          //   name: "NEW VACCINES",
-          //   color: "#9a0dd5",
-          //   data: [],
-          // },
+            {
+            name: "NEW CASES",
+            color: "#0093ff",
+            data: [],
+          },
+          
         ],
       },
     };
   },
   methods: {
     sample() {
-      this.chartOptions.series[0].data = this.dailyCaseArrayValues.slice(0);
-      this.chartOptions.series[1].data =this.dailyRecoverArrayValues.slice(0);
-      this.chartOptions.series[2].data = this.dailyDeathArrayValues.slice(0);
-      // this.chartOptions.series[3].data = this.dailyVaccineArrayValues.slice(-31);
+    //   this.chartOptions.series[0].data = this.dailyCaseArrayValues.slice(-31, -1);
+    //   this.chartOptions.series[1].data =this.dailyRecoverArrayValues.slice(-31, -1);
+      this.chartOptions.series[2].data = this.dailyCaseArrayValues.slice(0, -1);
+      this.chartOptions.series[1].data = this.dailyDeathArrayValues.slice(0, -1);
+      this.chartOptions.series[0].data = this.dailyVaccineArrayValues.slice(0, -1);
       
-      this.chartOptions.xAxis.categories = this.dates.slice(1);
+      this.chartOptions.xAxis.categories = this.dates.slice(1, -1);
     },
   },
   computed: {},

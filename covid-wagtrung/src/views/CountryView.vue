@@ -22,6 +22,8 @@
       @countryClickComp="countryClick"
     />
 
+    <!-- DAILY -->
+
     <h1 class="pl textXl mb0 textLeft">Daily Stat</h1>
     <h3 class="pl textLeft mbL">
       New Cases, New Deaths, New Recovered Cases in {{ viewCountry.name }}
@@ -41,11 +43,28 @@
           :dailyCaseArrayValues="dailyCaseArrayValues"
           :dailyRecoverArrayValues="dailyRecoverArrayValues"
           :dailyDeathArrayValues="dailyDeathArrayValues"
+          :dailyVaccineArrayValues="dailyVaccineArrayValues"
           :dates="dates"
         ></stackChart>
       </div>
     </div>
 
+
+    <!-- Vaccine -->
+     <h1 class="pl textXl mb0 textLeft">Vaccine</h1>
+    <h3 class="pl textLeft">
+      Daily Vaccines in {{ viewCountry.name }}
+    </h3>
+
+    <vaccine-chart
+      :dailyDeathArrayValues="dailyDeathArrayValues"
+      :dailyCaseArrayValues="dailyCaseArrayValues"
+
+      :dailyVaccineArrayValues="dailyVaccineArrayValues"
+      :dates="dates"
+    />
+
+    <!-- TOTAL -->
     <h1 class="pl textXl mb0 textLeft">Total Stat</h1>
     <h3 class="pl textLeft">
       Total cases from the beginning up to now in {{ viewCountry.name }}
@@ -55,12 +74,13 @@
       <div class="flex5">
         <countryMap :viewCountry="viewCountry" />
       </div>
-      <div class="table flex7">
+      <div class="flex7">
         <lineChart
           :caseArrayValues="caseArrayValues"
           :deathArrayValues="deathArrayValues"
           :recoverArrayValues="recoverArrayValues"
           :dates="dates"
+          :vaccineArrayValues="vaccineArrayValues"
         ></lineChart>
       </div>
     </div>
@@ -82,6 +102,7 @@ import dailyChart from "@/components/dailyChart.vue";
 import countriesInContinent from "@/components/countriesInContinent.vue";
 import countryMap from "@/components/countryMap.vue";
 import stackChart from "@/components/stackChart.vue";
+import VaccineChart from "@/components/VaccineChart.vue";
 
 export default {
   name: "CountryView",
@@ -92,6 +113,7 @@ export default {
     countriesInContinent,
     countryMap,
     stackChart,
+    VaccineChart,
   },
 
   data() {
@@ -102,10 +124,14 @@ export default {
       caseArrayValues: [],
       deathArrayValues: [],
       recoverArrayValues: [],
+      vaccineArrayValues: [],
+
       // activeArrayValues: [],
       dailyCaseArrayValues: [],
       dailyRecoverArrayValues: [],
       dailyDeathArrayValues: [],
+      dailyVaccineArrayValues: [],
+
       dates: [],
       continentArray: [],
       continentTotal: {},
@@ -150,7 +176,7 @@ export default {
 
           //TOTAL HISTORY
           //xAsis
-          this.dates = Object.keys(listTimeline.cases);
+          this.dates = Object.keys(listTimeline.deaths);
           //yAxis
           this.caseArrayValues = Object.values(listTimeline.cases);
           this.recoverArrayValues = Object.values(listTimeline.recovered);
@@ -167,9 +193,28 @@ export default {
             this.recoverArrayValues
           );
         })
-        .catch((e) => console.log(" something ", e));
+        .catch((e) => console.log(" getHistoricalCountry ", e));
+
+      api
+        .getHistoricalCountryVaccine(this.viewCountry.code)
+        .then((res) => {
+          // console.log(" getHistoricalCountryVaccine ", res)
+          let listTimeline = res.data.timeline;
+          let newVaccineArrayValues = Object.values(listTimeline);
+            
+          let n = this.dates.length - newVaccineArrayValues.length;
+          for (let i = 0; i < n + 1; i++) {
+            newVaccineArrayValues.unshift(0);
+          }
+          this.vaccineArrayValues = newVaccineArrayValues;
+          this.dailyVaccineArrayValues = this.dailyArrayValues(
+            newVaccineArrayValues
+          );
+          // console.log("  this.vaccineArrayValues  ", this.vaccineArrayValues )
+        })
+        .catch((e) => console.log(" getHistoricalCountryVaccine ", e));
     },
-    countryClick(countryCode='vn') {
+    countryClick(countryCode = "vn") {
       try {
         if (countryCode) {
           var country = this.allCountries.find((i) => i.code === countryCode);
@@ -196,8 +241,8 @@ export default {
       let chartDataY = [];
       let lastData;
       mockArray.map((item) => {
-        if (lastData) {
-          let newDataY = item - lastData;
+        if (lastData >= 0) {
+          let newDataY = Math.abs(item - lastData);
           chartDataY.push(newDataY);
         }
         lastData = item;

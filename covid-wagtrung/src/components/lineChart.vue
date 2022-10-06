@@ -21,6 +21,7 @@ export default {
     deathArrayValues: Array,
     recoverArrayValues: Array,
     dates: Array,
+    vaccineArrayValues: Array,
   },
   data() {
     return {
@@ -48,25 +49,14 @@ export default {
         series: [
           {
             name: "TOTAL CASES",
-            // showInLegend: false,
+            // type: 'column',
             data: [],
             lineWidth: 3,
             color: "#0093ff",
-            // fillColor: {
-            //   linearGradient: {
-            //     x1: 0,
-            //     y1: 0,
-            //     x2: 0,
-            //     y2: 1,
-            //   },
-            //   stops: [
-            //     [0, '#0093ff'],
-            //     [1, 'rgb(255 255 255 / 52%)'],
-            //   ],
-            // },
           },
           {
             name: "TOTAL DEATHS",
+            // type: 'column',
             data: [],
             lineWidth: 3,
             color: "#d6172d",
@@ -85,21 +75,17 @@ export default {
           },
           {
             name: "TOTAL RECOVERED",
+            // type: 'column',
             data: [],
             lineWidth: 3,
             color: "#17d66d",
-            // fillColor: {
-            //   linearGradient: {
-            //     x1: 0,
-            //     y1: 0,
-            //     x2: 0,
-            //     y2: 1,
-            //   },
-            //   stops: [
-            //     [0, '#17d66d'],
-            //     [1, 'rgb(255 255 255 / 52%)'],
-            //   ],
-            // },
+          },
+          {
+            name: "TOTAL VACCINES",
+            type: "spline",
+            data: [],
+            lineWidth: 3,
+            color: "#9a0dd5",
           },
         ],
 
@@ -148,22 +134,6 @@ export default {
         },
         plotOptions: {
           series: {
-            // showCheckbox: true,
-            // events: {
-            //   checkboxClick() {
-            //     if (this.visible) {
-            //       this.hide();
-            //     } else {
-            //       this.show();
-            //     }
-            //   },
-            //   legendItemClick(e) {
-            //     const chart = e.target.chart,
-            //       index = e.target.index;
-            //     chart.series[index].checkbox.checked = this.selected =
-            //       !this.visible;
-            //   },
-            // },
             label: {
               connectorAllowed: false,
             },
@@ -202,6 +172,12 @@ export default {
       this.chartOptions.series[0].data = this.caseArrayValues;
       this.chartOptions.series[1].data = this.deathArrayValues;
       this.chartOptions.series[2].data = this.recoverArrayValues;
+      // this.chartOptions.series[3].data = this.vaccineArrayValues;
+     
+      
+      // console.log(" newVaccineArrayValues ",newVaccineArrayValues)
+      this.chartOptions.series[3].data = this.vaccineArrayValues;
+
       this.chartOptions.xAxis.categories = this.dates;
     },
   },
