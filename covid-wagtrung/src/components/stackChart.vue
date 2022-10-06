@@ -24,11 +24,19 @@ export default {
       chartOptions: {
         chart: {
           type: "area",
-          height: 500
+          height: 500,
+          zoomBySingleTouch: true,
+          zoomType: "x",
+          spacing: [0, 30, 0, 10],
         },
-        title: {
-          useHTML: true,
-          text: "Stack New Cases",
+             title: {
+          text: "Cases Distribution",
+          align: "left",
+          // margin: 24,
+        },
+
+        credits: {
+          enabled: false,
         },
         subtitle: {
           text: "",
@@ -53,17 +61,32 @@ export default {
             enabled: false,
           },
         },
+         legend: {
+          layout: "horizontal",
+          align: "right",
+          verticalAlign: "top",
+          floating: true,
+          x: -40,
+          y: 0,
+          // borderWidth: 1,
+        },
         tooltip: {
           pointFormat:
             '<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%</b> ({point.y:,.1f} people)<br/>',
-          split: true,
+          // split: true,
+          shared: true,
         },
         plotOptions: {
           series: {
+            lineWidth: 5,
+
             // pointStart: 1990,
           },
           area: {
             stacking: "percent",
+
+            fillOpacity: 0.4,
+
             marker: {
               enabled: false,
             },

@@ -22,49 +22,47 @@
       @countryClickComp="countryClick"
     />
 
-    <lineChart
-      :caseArrayValues="caseArrayValues"
-      :deathArrayValues="deathArrayValues"
-      :recoverArrayValues="recoverArrayValues"
-      :dates="dates"
-    ></lineChart>
-
-
-     <h1 class="pl textXl mb0 textLeft">Daily Stat</h1>
+    <h1 class="pl textXl mb0 textLeft">Daily Stat</h1>
     <h3 class="pl textLeft mbL">
       New Cases, New Deaths, New Recovered Cases in {{ viewCountry.name }}
     </h3>
 
     <div class="flex">
       <div class="flex1">
-      <dailyChart
-        :dailyCaseArrayValues="dailyCaseArrayValues"
-        :dailyRecoverArrayValues="dailyRecoverArrayValues"
-        :dailyDeathArrayValues="dailyDeathArrayValues"
-        :dates="dates"
-      ></dailyChart>
+        <dailyChart
+          :dailyCaseArrayValues="dailyCaseArrayValues"
+          :dailyRecoverArrayValues="dailyRecoverArrayValues"
+          :dailyDeathArrayValues="dailyDeathArrayValues"
+          :dates="dates"
+        ></dailyChart>
       </div>
       <div class="flex1">
-
-      <stackChart
-        :dailyCaseArrayValues="dailyCaseArrayValues"
-        :dailyRecoverArrayValues="dailyRecoverArrayValues"
-        :dailyDeathArrayValues="dailyDeathArrayValues"
-        :dates="dates"
-      ></stackChart>
+        <stackChart
+          :dailyCaseArrayValues="dailyCaseArrayValues"
+          :dailyRecoverArrayValues="dailyRecoverArrayValues"
+          :dailyDeathArrayValues="dailyDeathArrayValues"
+          :dates="dates"
+        ></stackChart>
       </div>
     </div>
 
-    <h1 class="pl textXl mb0 textLeft">{{ viewCountry.name }} Map</h1>
-    <h3 class="pl textLeft mbL">
-      All cases in all Provices or States of {{ viewCountry.name }}
+    <h1 class="pl textXl mb0 textLeft">Total Stat</h1>
+    <h3 class="pl textLeft">
+      Total cases from the beginning up to now in {{ viewCountry.name }}
     </h3>
 
     <div class="flex">
       <div class="flex5">
         <countryMap :viewCountry="viewCountry" />
       </div>
-      <div class="table flex7">table pprovince</div>
+      <div class="table flex7">
+        <lineChart
+          :caseArrayValues="caseArrayValues"
+          :deathArrayValues="deathArrayValues"
+          :recoverArrayValues="recoverArrayValues"
+          :dates="dates"
+        ></lineChart>
+      </div>
     </div>
 
     <countries-in-continent
@@ -171,7 +169,7 @@ export default {
         })
         .catch((e) => console.log(" something ", e));
     },
-    countryClick(countryCode) {
+    countryClick(countryCode='vn') {
       try {
         if (countryCode) {
           var country = this.allCountries.find((i) => i.code === countryCode);

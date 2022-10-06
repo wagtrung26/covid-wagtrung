@@ -65,7 +65,7 @@ nav a.router-link-exact-active {
 }
 .chart {
   /* box-shadow: 0px 3px 20px rgb(124, 124, 124); */
-  margin: 30px 0px 0;
+  /* margin: 30px 0px 0; */
   position: relative;
 }
 .btnGroup {

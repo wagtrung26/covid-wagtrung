@@ -41,7 +41,7 @@ export default {
           zoomBySingleTouch: true,
           zoomType: "x",
           // margin: [0,10,0,10],
-          spacing: [40, 40, 40, 40],
+          spacing: [0, 30, 0, 0],
 
           // shadow: true,
         },
@@ -117,7 +117,7 @@ export default {
         },
         yAxis: {
           title: {
-            text: "people",
+            text: "",
           },
           gridLineWidth: 2,
           crosshair: true,
@@ -217,6 +217,6 @@ export default {
 
 <style scoped>
 * {
-  margin-top: 30px;
+  /* margin-top: 30px; */
 }
 </style>
