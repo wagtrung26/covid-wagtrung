@@ -73,8 +73,9 @@ export default {
         },
         tooltip: {
           pointFormat:
-            '<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%</b> ({point.y} people)<br/>',
+            '<span style="color:{series.color}">{series.name}</span>:  ({point.y} people)<br/>',
           // split: true,
+        //   <b>{point.percentage:.1f}%</b>
           shared: true,
         },
         plotOptions: {

@@ -24,7 +24,7 @@ export default {
     return {
       chartOptions: {
         chart: {
-          type: "area",
+          type: "areaspline",
           height: 500,
           zoomBySingleTouch: true,
           zoomType: "x",
@@ -79,14 +79,14 @@ export default {
         },
         plotOptions: {
           series: {
-            lineWidth: 5,
+            lineWidth: 2,
 
             // pointStart: 1990,
           },
-          area: {
+          areaspline: {
             stacking: "percent",
 
-            fillOpacity: 0.4,
+            // fillOpacity: 0.4,
 
             marker: {
               enabled: false,

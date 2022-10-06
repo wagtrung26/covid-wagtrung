@@ -29,16 +29,15 @@
       New Cases, New Deaths, New Recovered Cases in {{ viewCountry.name }}
     </h3>
 
-    <div class="flex">
-      <div class="flex1">
+    
         <dailyChart
           :dailyCaseArrayValues="dailyCaseArrayValues"
           :dailyRecoverArrayValues="dailyRecoverArrayValues"
           :dailyDeathArrayValues="dailyDeathArrayValues"
           :dates="dates"
         ></dailyChart>
-      </div>
-      <div class="flex1">
+   
+      
         <stackChart
           :dailyCaseArrayValues="dailyCaseArrayValues"
           :dailyRecoverArrayValues="dailyRecoverArrayValues"
@@ -46,8 +45,8 @@
           :dailyVaccineArrayValues="dailyVaccineArrayValues"
           :dates="dates"
         ></stackChart>
-      </div>
-    </div>
+      
+
 
 
     <!-- Vaccine -->
