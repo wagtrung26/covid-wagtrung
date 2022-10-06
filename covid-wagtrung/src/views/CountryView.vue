@@ -22,6 +22,39 @@
       @countryClickComp="countryClick"
     />
 
+    <lineChart
+      :caseArrayValues="caseArrayValues"
+      :deathArrayValues="deathArrayValues"
+      :recoverArrayValues="recoverArrayValues"
+      :dates="dates"
+    ></lineChart>
+
+
+     <h1 class="pl textXl mb0 textLeft">Daily Stat</h1>
+    <h3 class="pl textLeft mbL">
+      New Cases, New Deaths, New Recovered Cases in {{ viewCountry.name }}
+    </h3>
+
+    <div class="flex">
+      <div class="flex1">
+      <dailyChart
+        :dailyCaseArrayValues="dailyCaseArrayValues"
+        :dailyRecoverArrayValues="dailyRecoverArrayValues"
+        :dailyDeathArrayValues="dailyDeathArrayValues"
+        :dates="dates"
+      ></dailyChart>
+      </div>
+      <div class="flex1">
+
+      <stackChart
+        :dailyCaseArrayValues="dailyCaseArrayValues"
+        :dailyRecoverArrayValues="dailyRecoverArrayValues"
+        :dailyDeathArrayValues="dailyDeathArrayValues"
+        :dates="dates"
+      ></stackChart>
+      </div>
+    </div>
+
     <h1 class="pl textXl mb0 textLeft">{{ viewCountry.name }} Map</h1>
     <h3 class="pl textLeft mbL">
       All cases in all Provices or States of {{ viewCountry.name }}
@@ -33,20 +66,6 @@
       </div>
       <div class="table flex7">table pprovince</div>
     </div>
-
-    <lineChart
-      :caseArrayValues="caseArrayValues"
-      :deathArrayValues="deathArrayValues"
-      :recoverArrayValues="recoverArrayValues"
-      :dates="dates"
-    ></lineChart>
-
-    <dailyChart
-      :dailyCaseArrayValues="dailyCaseArrayValues"
-      :dailyRecoverArrayValues="dailyRecoverArrayValues"
-      :dailyDeathArrayValues="dailyDeathArrayValues"
-      :dates="dates"
-    ></dailyChart>
 
     <countries-in-continent
       :continentArray="continentArray"
@@ -64,6 +83,7 @@ import lineChart from "@/components/lineChart.vue";
 import dailyChart from "@/components/dailyChart.vue";
 import countriesInContinent from "@/components/countriesInContinent.vue";
 import countryMap from "@/components/countryMap.vue";
+import stackChart from "@/components/stackChart.vue";
 
 export default {
   name: "CountryView",
@@ -73,6 +93,7 @@ export default {
     dailyChart,
     countriesInContinent,
     countryMap,
+    stackChart,
   },
 
   data() {
@@ -83,6 +104,7 @@ export default {
       caseArrayValues: [],
       deathArrayValues: [],
       recoverArrayValues: [],
+      // activeArrayValues: [],
       dailyCaseArrayValues: [],
       dailyRecoverArrayValues: [],
       dailyDeathArrayValues: [],
@@ -126,13 +148,17 @@ export default {
         .getHistoricalCountry(this.viewCountry.code)
         .then((res) => {
           let listTimeline = res.data.timeline;
-          //yAxis
-          this.caseArrayValues = Object.values(listTimeline.cases);
-          this.deathArrayValues = Object.values(listTimeline.deaths);
-          this.recoverArrayValues = Object.values(listTimeline.recovered);
+          // console.log(" listTimeline ",res.data)
 
+          //TOTAL HISTORY
           //xAsis
           this.dates = Object.keys(listTimeline.cases);
+          //yAxis
+          this.caseArrayValues = Object.values(listTimeline.cases);
+          this.recoverArrayValues = Object.values(listTimeline.recovered);
+          this.deathArrayValues = Object.values(listTimeline.deaths);
+
+          //NEW CASE HISTORY - total[last] - total[last-1]
           this.dailyCaseArrayValues = this.dailyArrayValues(
             this.caseArrayValues
           );
