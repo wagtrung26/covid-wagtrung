@@ -21,6 +21,7 @@
       :dailyDeathArrayValues="dailyDeathArrayValues"
       @countryClickComp="countryClick"
     />
+    <p>vaccincoverage: {{ vacCover }}</p>
 
     <!-- DAILY -->
 
@@ -29,36 +30,31 @@
       New Cases, New Deaths, New Recovered Cases in {{ viewCountry.name }}
     </h3>
 
-    
-        <dailyChart
-          :dailyCaseArrayValues="dailyCaseArrayValues"
-          :dailyRecoverArrayValues="dailyRecoverArrayValues"
-          :dailyDeathArrayValues="dailyDeathArrayValues"
-          :dates="dates"
-        ></dailyChart>
-   
-      
-        <stackChart
-          :dailyCaseArrayValues="dailyCaseArrayValues"
-          :dailyRecoverArrayValues="dailyRecoverArrayValues"
-          :dailyDeathArrayValues="dailyDeathArrayValues"
-          :dailyVaccineArrayValues="dailyVaccineArrayValues"
-          :dates="dates"
-        ></stackChart>
-      
+    <dailyChart
+      :dailyCaseArrayValues="dailyCaseArrayValues"
+      :dailyActiveArrayValues="dailyActiveArrayValues"
+      :dailyRecoverArrayValues="dailyRecoverArrayValues"
+      :dailyDeathArrayValues="dailyDeathArrayValues"
+      :dates="dates"
+    ></dailyChart>
 
+    <stackChart
+      :dailyActiveArrayValues="dailyActiveArrayValues"
+      :dailyRecoverArrayValues="dailyRecoverArrayValues"
+      :dailyDeathArrayValues="dailyDeathArrayValues"
+      :dailyVaccineArrayValues="dailyVaccineArrayValues"
+      :dates="dates"
+    ></stackChart>
 
+    <!-- <p>{{ viewCountry }}</p> -->
 
     <!-- Vaccine -->
-     <h1 class="pl textXl mb0 textLeft">Vaccine</h1>
-    <h3 class="pl textLeft">
-      Daily Vaccines in {{ viewCountry.name }}
-    </h3>
+    <h1 class="pl textXl mb0 textLeft">Vaccine</h1>
+    <h3 class="pl textLeft">Daily Vaccines in {{ viewCountry.name }}</h3>
 
     <vaccine-chart
       :dailyDeathArrayValues="dailyDeathArrayValues"
       :dailyCaseArrayValues="dailyCaseArrayValues"
-
       :dailyVaccineArrayValues="dailyVaccineArrayValues"
       :dates="dates"
     />
@@ -124,12 +120,14 @@ export default {
       deathArrayValues: [],
       recoverArrayValues: [],
       vaccineArrayValues: [],
+      activeArrayValues: [],
 
       // activeArrayValues: [],
       dailyCaseArrayValues: [],
       dailyRecoverArrayValues: [],
       dailyDeathArrayValues: [],
       dailyVaccineArrayValues: [],
+      dailyActiveArrayValues: [],
 
       dates: [],
       continentArray: [],
@@ -180,8 +178,19 @@ export default {
           this.caseArrayValues = Object.values(listTimeline.cases);
           this.recoverArrayValues = Object.values(listTimeline.recovered);
           this.deathArrayValues = Object.values(listTimeline.deaths);
+           //create ACTIVE TOTAL
+           this.activeArrayValues=[]
+          this.caseArrayValues.forEach((i,index)=>{
+            let active = i - this.deathArrayValues[index] - this.deathArrayValues[index]
+            this.activeArrayValues.push(active)
+          })
+          console.log(" this.activeArrayValues ", this.activeArrayValues)
+          this.dailyActiveArrayValues = this.dailyArrayValues(
+            this.activeArrayValues
+          );
+          console.log(" dailyActiveArrayValues ", this.dailyActiveArrayValues)
 
-          //NEW CASE HISTORY - total[last] - total[last-1]
+          //DAILY CASE HISTORY - total[last] - total[last-1]
           this.dailyCaseArrayValues = this.dailyArrayValues(
             this.caseArrayValues
           );
@@ -200,12 +209,14 @@ export default {
           // console.log(" getHistoricalCountryVaccine ", res)
           let listTimeline = res.data.timeline;
           let newVaccineArrayValues = Object.values(listTimeline);
-            
+          // console.log(" newVaccineArrayValues ",newVaccineArrayValues)
+
           let n = this.dates.length - newVaccineArrayValues.length;
           for (let i = 0; i < n + 1; i++) {
             newVaccineArrayValues.unshift(0);
           }
           this.vaccineArrayValues = newVaccineArrayValues;
+          // console.log(" this.vaccineArrayValues ",this.vaccineArrayValues)
           this.dailyVaccineArrayValues = this.dailyArrayValues(
             newVaccineArrayValues
           );
@@ -239,7 +250,7 @@ export default {
     dailyArrayValues(mockArray) {
       let chartDataY = [];
       let lastData;
-      mockArray.map((item) => {
+      mockArray.forEach((item) => {
         if (lastData >= 0) {
           let newDataY = Math.abs(item - lastData);
           chartDataY.push(newDataY);
@@ -261,9 +272,16 @@ export default {
   },
 
   computed: {
-    // name() {
-    //   return this.data
-    // }
+    vacCover() {
+      let len = this.vaccineArrayValues.length;
+      let re = this.vaccineArrayValues[len - 1] / this.viewCountry.population;
+      if (re >= 1) {
+        return 100;
+      } else {
+        return re;
+      }
+      // console.log(" this.vaccineArrayValues[len-1]  ", this.vaccineArrayValues[len-1] )
+    },
   },
 
   async created() {

@@ -1,6 +1,5 @@
 <template>
   <div class="chart">
-
     <div class="btnGroup">
       <button class="btn" @click="allTime" :class="{ active: !allTimeCheck }">
         30 days
@@ -17,6 +16,13 @@
         :class="{ active: this.selectedType == 'case' }"
       >
         New Cases
+      </button>
+      <button
+        class="btn"
+        @click="newActiveClick"
+        :class="{ active: this.selectedType == 'active' }"
+      >
+        Active Cases
       </button>
       <button
         class="btn"
@@ -50,6 +56,7 @@ export default {
   name: "lineChart",
   props: {
     dailyCaseArrayValues: Array,
+    dailyActiveArrayValues: Array,
     dailyRecoverArrayValues: Array,
     dailyDeathArrayValues: Array,
     dates: Array,
@@ -58,20 +65,11 @@ export default {
     return {
       selectedType: "case",
       allTimeCheck: false,
+      aPush:[],
       chartOptions: {
         chart: {
-          type: "area",
+          type: "areaspline",
           height: 500,
-          // events: {
-          //   load() {
-          //     // Check all checkboxes on load
-          //     const chart = this;
-          //     chart.series.forEach((series) => {
-          //       series.checkbox.checked = true;
-          //       series.selected = true;
-          //     });
-          //   },
-          // },
           zoomBySingleTouch: true,
           zoomType: "x",
           // margin: [0,10,0,10],
@@ -85,10 +83,11 @@ export default {
         },
         series: [
           {
-            name: "NEW CASES",
+            name: "DAILY CASES",
+            type: "area",
             // showInLegend: false,
             data: [],
-            lineWidth: 3,
+            lineWidth: 5,
             color: "#0093ff",
             fillColor: {
               linearGradient: {
@@ -102,6 +101,14 @@ export default {
                 [1, "rgb(255 255 255 / 52%)"],
               ],
             },
+          },
+          {
+            name: "AVG 7 days",
+            type: "line",
+            dashStyle: "shortdot",
+            data: [],
+            lineWidth: 2,
+            color: "#404040d9",
           },
         ],
 
@@ -125,9 +132,6 @@ export default {
         },
         xAxis: {
           categories: [],
-          accessibility: {
-            description: "days",
-          },
         },
         legend: {
           enabled: false,
@@ -137,39 +141,24 @@ export default {
           floating: true,
           x: -40,
           y: 0,
-          // borderWidth: 1,
         },
         tooltip: {
           crosshairs: true,
-          split: true,
-          //   shared: true,
+          // split: true,
+          shared: true,
           // backgroundColor: "#FCFFC5",
           // borderColor: "black",
           borderRadius: 10,
           borderWidth: 1,
         },
         plotOptions: {
-          series: {
-            // showCheckbox: true,
-            // events: {
-            //   checkboxClick() {
-            //     if (this.visible) {
-            //       this.hide();
-            //     } else {
-            //       this.show();
-            //     }
-            //   },
-            //   legendItemClick(e) {
-            //     const chart = e.target.chart,
-            //       index = e.target.index;
-            //     chart.series[index].checkbox.checked = this.selected =
-            //       !this.visible;
-            //   },
-            // },
-            label: {
-              connectorAllowed: false,
-            },
-          },
+          // series: {
+          //   connectNulls: true,
+            
+          //   label: {
+          //     connectorAllowed: true,
+          //   },
+          // },
           areaspline: {
             fillOpacity: 0.2,
           },
@@ -195,13 +184,38 @@ export default {
 
   methods: {
     loadCase() {
+      const _ = require("lodash");
+
       if (!this.allTimeCheck) {
         this.chartOptions.xAxis.categories = this.dates.slice(-30);
+
         if (this.selectedType == "case") {
           this.chartOptions.series[0].color = "#0093ff";
           this.chartOptions.series[0].fillColor.stops[0] = [0, "#0093ff"];
           this.chartOptions.series[0].data =
             this.dailyCaseArrayValues.slice(-30);
+
+          this.aPush=[]
+          this.dailyCaseArrayValues.forEach((item, index) => {
+            if (index >= 6) {
+
+              let av = Math.floor(
+                _.mean(this.dailyCaseArrayValues.slice(index - 6, index+1))
+              );
+              this.aPush.push(av);
+            } else {
+              this.aPush.push(0);
+            }
+          });
+          // console.log(" something ", this.aPush);
+          // console.log(" this.dailyCaseArrayValues ", this.dailyCaseArrayValues);
+
+          this.chartOptions.series[1].data = this.aPush.slice(-30);
+        } else if (this.selectedType == "active") {
+          this.chartOptions.series[0].color = "#ffa700";
+          this.chartOptions.series[0].fillColor.stops[0] = [0, "#ffa700"];
+          this.chartOptions.series[0].data =
+            this.dailyActiveArrayValues.slice(-30);
         } else if (this.selectedType == "death") {
           this.chartOptions.series[0].color = "#d6172d";
           this.chartOptions.series[0].fillColor.stops[0] = [0, "#d6172d"];
@@ -219,6 +233,11 @@ export default {
           this.chartOptions.series[0].color = "#0093ff";
           this.chartOptions.series[0].fillColor.stops[0] = [0, "#0093ff"];
           this.chartOptions.series[0].data = this.dailyCaseArrayValues;
+          this.chartOptions.series[1].data = this.aPush
+        } else if (this.selectedType == "active") {
+          this.chartOptions.series[0].color = "#ffa700";
+          this.chartOptions.series[0].fillColor.stops[0] = [0, "#ffa700"];
+          this.chartOptions.series[0].data = this.dailyActiveArrayValues;
         } else if (this.selectedType == "death") {
           this.chartOptions.series[0].color = "#d6172d";
           this.chartOptions.series[0].fillColor.stops[0] = [0, "#d6172d"];
@@ -232,6 +251,10 @@ export default {
     },
     newCaseClick() {
       this.selectedType = "case";
+      this.loadCase();
+    },
+    newActiveClick() {
+      this.selectedType = "active";
       this.loadCase();
     },
     newDeathClick() {
@@ -259,12 +282,12 @@ export default {
 </script>
 
 <style scoped>
-.btnGroup2{
+.btnGroup2 {
   top: -8px;
-    right: 21px;
+  right: 21px;
 }
-.btnGroup{
-      top: -8px;
-    left: 156px;
+.btnGroup {
+  top: -8px;
+  left: 156px;
 }
 </style>

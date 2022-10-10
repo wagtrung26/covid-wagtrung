@@ -68,7 +68,7 @@ export default {
         //   opacity: 0.5,
         // },
         labels: ["Total Active", "Total Recovered", "Total Deaths"],
-        colors: ["#0093ff", "#17d66d", "#e73146"],
+        colors: ["#ffa700", "#17d66d", "#e73146"],
         plotOptions: {
           // radialBar: {
           //   dataLabels: {

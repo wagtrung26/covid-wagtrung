@@ -14,7 +14,7 @@ export default {
   components: {},
   name: "stackChart",
   props: {
-    dailyCaseArrayValues: Array,
+    dailyActiveArrayValues: Array,
     dailyRecoverArrayValues: Array,
     dailyDeathArrayValues: Array,
     dailyVaccineArrayValues:Array,
@@ -28,7 +28,7 @@ export default {
           height: 500,
           zoomBySingleTouch: true,
           zoomType: "x",
-          spacing: [0, 30, 0, 10],
+          spacing: [30, 30, 0, 10],
         },
              title: {
           text: "Cases Distribution",
@@ -95,8 +95,8 @@ export default {
         },
         series: [
           {
-            name: "NEW CASES",
-            color: "#0093ff",
+            name: "NEW ACTIVE CASES",
+            color: "#ffa700",
             data: [],
           },
           {
@@ -120,7 +120,7 @@ export default {
   },
   methods: {
     sample() {
-      this.chartOptions.series[0].data = this.dailyCaseArrayValues.slice(0);
+      this.chartOptions.series[0].data = this.dailyActiveArrayValues.slice(0);
       this.chartOptions.series[1].data =this.dailyRecoverArrayValues.slice(0);
       this.chartOptions.series[2].data = this.dailyDeathArrayValues.slice(0);
       // this.chartOptions.series[3].data = this.dailyVaccineArrayValues.slice(-31);

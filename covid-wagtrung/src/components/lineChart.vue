@@ -86,6 +86,7 @@ export default {
             data: [],
             lineWidth: 3,
             color: "#9a0dd5",
+            dashStyle: "shortdot"
           },
         ],
 
