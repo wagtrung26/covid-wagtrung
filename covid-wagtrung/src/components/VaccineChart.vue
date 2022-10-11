@@ -80,7 +80,7 @@ export default {
         },
         plotOptions: {
           series: {
-            lineWidth: 3,
+            lineWidth: 5,
 
             // pointStart: 1990,
           },

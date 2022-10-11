@@ -17,7 +17,7 @@
 
     <div class="flex">
       <div>
-             <p>First Death Record</p>
+        <p>First Death Record</p>
         <h1>{{ startDeath }}</h1>
         <p>{{ statDeathDate }}</p>
       </div>
@@ -28,17 +28,24 @@
       </div>
     </div>
 
-    
     <div class="flex">
       <div>
-             <p>First Dose Vaccine </p>
+        <p>One case every</p>
+
+        <h2>{{ viewCountry.oneCasePerPeople }} </h2>
+        <p>people</p>
+        <!-- <p>First Dose Vaccine </p>
         <h1>{{ startVac }}</h1>
-        <p>{{ statVacDate }}</p>
+        <p>{{ statVacDate }}</p> -->
       </div>
       <div>
-        <p>Daily Highest Vaccine </p>
+           <p>One death every</p>
+        <h2>{{ viewCountry.oneDeathPerPeople }} </h2>
+        <p>people</p>
+
+        <!-- <p>Daily Highest Vaccine </p>
         <h1>{{ topVac }}</h1>
-        <p>{{ topVacDate }}</p>
+        <p>{{ topVacDate }}</p> -->
       </div>
     </div>
 
@@ -55,7 +62,7 @@ export default {
     dailyCaseArrayValues: Array,
     dailyRecoverArrayValues: Array,
     dailyDeathArrayValues: Array,
-    dailyVaccineArrayValues: Array,
+    viewCountry: Object,
     dates: Array,
   },
   data() {
@@ -68,10 +75,9 @@ export default {
       topCaseDate: "",
       topDeath: "",
       topDeathDate: "",
-      startVac:"",
-      startVacDate:"",
-      topVac:"",
-      topVacDate:""
+      startVac: "",
+      startVacDate: "",
+   
     };
   },
   methods: {
@@ -85,20 +91,24 @@ export default {
       let x = this.dailyDeathArrayValues.indexOf(this.topDeath);
       this.topDeathDate = this.dates.slice(1)[x];
 
-      this.topVac = Math.max(...this.dailyVaccineArrayValues);
-      this.topVacDate = this.dates[this.dailyVaccineArrayValues.indexOf(this.topVac)];
-
       this.startCase = this.dailyCaseArrayValues.find((x) => x > 0);
       this.statCaseDate =
         this.dates.slice(1)[this.dailyCaseArrayValues.indexOf(this.startCase)];
 
       this.startDeath = this.dailyDeathArrayValues.find((x) => x > 0);
       this.statDeathDate =
-        this.dates.slice(1)[this.dailyDeathArrayValues.indexOf(this.startDeath)];
+        this.dates.slice(1)[
+          this.dailyDeathArrayValues.indexOf(this.startDeath)
+        ];
 
-        this.startVac = this.dailyVaccineArrayValues.find((x) => x > 0);
-      this.statVacDate =
-        this.dates.slice(1)[this.dailyVaccineArrayValues.indexOf(this.startVac)];
+      // this.startVac = this.dailyVaccineArrayValues.find((x) => x > 0);
+      // this.statVacDate =
+      //   this.dates.slice(1)[
+      //     this.dailyVaccineArrayValues.indexOf(this.startVac)
+      //   ];
+      // this.topVac = Math.max(...this.dailyVaccineArrayValues);
+      // this.topVacDate =
+      //   this.dates[this.dailyVaccineArrayValues.indexOf(this.topVac)];
     },
   },
   computed: {},

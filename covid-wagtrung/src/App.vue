@@ -107,6 +107,14 @@ nav a.router-link-exact-active {
 .flex1{
   flex: 3
 }
+.flex3{
+  flex: 3
+
+}
+.flex9{
+  flex: 9
+
+}
 .flex5{
   flex: 5
 

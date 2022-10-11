@@ -30,25 +30,28 @@
       New Cases, New Deaths, New Recovered Cases in {{ viewCountry.name }}
     </h3>
 
-    <dailyChart
-      :dailyCaseArrayValues="dailyCaseArrayValues"
-      :dailyActiveArrayValues="dailyActiveArrayValues"
-      :dailyRecoverArrayValues="dailyRecoverArrayValues"
-      :dailyDeathArrayValues="dailyDeathArrayValues"
-      :dates="dates"
-    ></dailyChart>
+   
+        <dailyChart
+          :dailyCaseArrayValues="dailyCaseArrayValues"
+          :dailyActiveArrayValues="dailyActiveArrayValues"
+          :dailyRecoverArrayValues="dailyRecoverArrayValues"
+          :dailyDeathArrayValues="dailyDeathArrayValues"
+          :dates="dates"
+          :viewCountry="viewCountry"
+        ></dailyChart>
+  
 
     <div class="flex">
-      <div class="flex5">
+      <div class="flex3">
         <dailyHighlight
           :dailyCaseArrayValues="dailyCaseArrayValues"
           :dailyRecoverArrayValues="dailyRecoverArrayValues"
           :dailyDeathArrayValues="dailyDeathArrayValues"
-          :dailyVaccineArrayValues="dailyVaccineArrayValues"
+          :viewCountry="viewCountry"
           :dates="dates"
         />
       </div>
-      <div class="flex7">
+      <div class="flex9">
         <stackChart
           :dailyActiveArrayValues="dailyActiveArrayValues"
           :dailyRecoverArrayValues="dailyRecoverArrayValues"
@@ -65,12 +68,22 @@
     <h1 class="pl textXl mb0 textLeft">Vaccine</h1>
     <h3 class="pl textLeft">Daily Vaccines in {{ viewCountry.name }}</h3>
 
-    <vaccine-chart
-      :dailyDeathArrayValues="dailyDeathArrayValues"
-      :dailyCaseArrayValues="dailyCaseArrayValues"
-      :dailyVaccineArrayValues="dailyVaccineArrayValues"
-      :dates="dates"
-    />
+    <div class="flex">
+      <div class="flex3">
+        <vachighlight
+          :dailyVaccineArrayValues="dailyVaccineArrayValues"
+          :dates="dates"
+        />
+      </div>
+      <div class="flex9">
+        <vaccine-chart
+          :dailyCaseArrayValues="dailyCaseArrayValues"
+          :dailyDeathArrayValues="dailyDeathArrayValues"
+          :dailyVaccineArrayValues="dailyVaccineArrayValues"
+          :dates="dates"
+        />
+      </div>
+    </div>
 
     <!-- TOTAL -->
     <h1 class="pl textXl mb0 textLeft">Total Stat</h1>
@@ -111,7 +124,8 @@ import countriesInContinent from "@/components/countriesInContinent.vue";
 import countryMap from "@/components/countryMap.vue";
 import stackChart from "@/components/stackChart.vue";
 import VaccineChart from "@/components/VaccineChart.vue";
-import dailyHighlight from '@/components/dailyHighlight.vue';
+import dailyHighlight from "@/components/dailyHighlight.vue";
+import vachighlight from "@/components/vachighlight.vue";
 
 export default {
   name: "CountryView",
@@ -124,6 +138,7 @@ export default {
     stackChart,
     VaccineChart,
     dailyHighlight,
+    vachighlight,
   },
 
   data() {
@@ -222,22 +237,23 @@ export default {
       api
         .getHistoricalCountryVaccine(this.viewCountry.code)
         .then((res) => {
-      
           let listTimeline = res.data.timeline;
           let newVaccineArrayValues = Object.values(listTimeline);
-     
 
           let n = this.dates.length - newVaccineArrayValues.length;
           for (let i = 0; i < n; i++) {
             newVaccineArrayValues.unshift(0);
           }
-              
+
           this.vaccineArrayValues = newVaccineArrayValues;
 
           this.dailyVaccineArrayValues = this.dailyArrayValues(
             newVaccineArrayValues
           );
-          console.log("  this.dailyVaccineArrayValues  ", this.dailyVaccineArrayValues )
+          console.log(
+            "  this.dailyVaccineArrayValues  ",
+            this.dailyVaccineArrayValues
+          );
         })
         .catch((e) => console.log(" getHistoricalCountryVaccine ", e));
     },

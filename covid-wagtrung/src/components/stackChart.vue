@@ -24,7 +24,7 @@ export default {
     return {
       chartOptions: {
         chart: {
-          type: "column",
+          type: "area",
           height: 500,
           zoomBySingleTouch: true,
           zoomType: "x",
@@ -79,13 +79,13 @@ export default {
         },
         plotOptions: {
           series: {
-            lineWidth: 2,
+            lineWidth: 5,
 
             // pointStart: 1990,
           },
-          column: {
+          area: {
             stacking: "percent",
-            // fillOpacity: 0.4,
+            fillOpacity: 0.7,
             groupPadding: 0,
             pointPadding: 0,
 
@@ -97,7 +97,7 @@ export default {
         series: [
           {
             name: "NEW ACTIVE CASES",
-            color: "#ffa700",
+            color: "rgb(0, 147, 255)",
             data: [],
           },
           {

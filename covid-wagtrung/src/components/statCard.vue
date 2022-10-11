@@ -5,34 +5,37 @@
     <h1 class="textXl mr">{{ viewCountry.name }}</h1>
   </div>
   <br />
-  <div class="flex stat">
-    <div class="case mr">
-      <h5>CASES</h5>
-      <h1 class="stat-lg">
-        <count-up :end-val="viewCountry.cases" :duration="1"></count-up>
-      </h1>
-      <p>+ {{ numeralFunc(viewCountry.todayCases) }}</p>
-      <sparklineChart :typeC="'cases'" :data="dailyCaseArrayValues" />
-    </div>
+ 
 
-    <div class="rec mr">
-      <h5>RECOVERED</h5>
-      <h1 class="stat-lg">
-        <count-up :end-val="viewCountry.recovered" :duration="1"></count-up>
-      </h1>
-      <p>+ {{ numeralFunc(viewCountry.todayRecovered) }}</p>
-      <sparklineChart :typeC="'recover'" :data="dailyRecoverArrayValues" />
-    </div>
+    <div class="flex stat flex7">
+      <div class="case mr">
+        <h5>CASES</h5>
+        <h1 class="stat-lg">
+          <count-up :end-val="viewCountry.cases" :duration="1"></count-up>
+        </h1>
+        <p>+ {{ numeralFunc(viewCountry.todayCases) }}</p>
+        <sparklineChart :typeC="'cases'" :data="dailyCaseArrayValues" />
+      </div>
 
-    <div class="death">
-      <h5>DEATHS</h5>
-      <h1 class="stat-lg">
-        <count-up :end-val="viewCountry.deaths" :duration="1"></count-up>
-      </h1>
-      <p>+ {{ numeralFunc(viewCountry.todayDeaths) }}</p>
-      <sparklineChart :typeC="'death'" :data="dailyDeathArrayValues" />
+      <div class="rec mr">
+        <h5>RECOVERED</h5>
+        <h1 class="stat-lg">
+          <count-up :end-val="viewCountry.recovered" :duration="1"></count-up>
+        </h1>
+        <p>+ {{ numeralFunc(viewCountry.todayRecovered) }}</p>
+        <sparklineChart :typeC="'recover'" :data="dailyRecoverArrayValues" />
+      </div>
+
+      <div class="death">
+        <h5>DEATHS</h5>
+        <h1 class="stat-lg">
+          <count-up :end-val="viewCountry.deaths" :duration="1"></count-up>
+        </h1>
+        <p>+ {{ numeralFunc(viewCountry.todayDeaths) }}</p>
+        <sparklineChart :typeC="'death'" :data="dailyDeathArrayValues" />
+      </div>
     </div>
-  </div>
+ 
 
   <div
     class="searchSelectCountry"
