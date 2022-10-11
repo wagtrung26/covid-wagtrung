@@ -1,10 +1,32 @@
 <template>
   <div class="chart">
     <div class="btnGroup">
-      <button class="btn" @click="allTime" :class="{ active: !allTimeCheck }">
+      <button
+        class="btn"
+        @click="rangeClick(30)"
+        :class="{ active: this.selectedRange == 30 }"
+      >
         30 days
       </button>
-      <button class="btn" @click="allTime" :class="{ active: allTimeCheck }">
+      <button
+        class="btn"
+        @click="rangeClick(7)"
+        :class="{ active: this.selectedRange == 7 }"
+      >
+        7 days
+      </button>
+      <button
+        class="btn"
+        @click="rangeClick(365)"
+        :class="{ active: this.selectedRange == 365 }"
+      >
+        a year
+      </button>
+      <button
+        class="btn"
+        @click="rangeClick(0)"
+        :class="{ active: this.selectedRange == 0 }"
+      >
         All time
       </button>
     </div>
@@ -12,28 +34,28 @@
     <div class="btnGroup2">
       <button
         class="btn"
-        @click="newCaseClick"
+        @click="typeClick('case')"
         :class="{ active: this.selectedType == 'case' }"
       >
         New Cases
       </button>
       <button
         class="btn"
-        @click="newActiveClick"
+        @click="typeClick('active')"
         :class="{ active: this.selectedType == 'active' }"
       >
         Active Cases
       </button>
       <button
         class="btn"
-        @click="newDeathClick"
+        @click="typeClick('death')"
         :class="{ active: this.selectedType == 'death' }"
       >
         New Deaths
       </button>
       <button
         class="btn"
-        @click="newRecoverClick"
+        @click="typeClick('recover')"
         :class="{ active: this.selectedType == 'recover' }"
       >
         New Recovered
@@ -47,7 +69,6 @@
 <script>
 import Highcharts from "highcharts";
 import exportingInit from "highcharts/modules/exporting";
-// import * as api from "@/api";
 
 exportingInit(Highcharts);
 
@@ -64,18 +85,14 @@ export default {
   data() {
     return {
       selectedType: "case",
-      allTimeCheck: false,
-      aPush:[],
+      selectedRange: 30,
+      aPush: [],
       chartOptions: {
         chart: {
-          type: "areaspline",
           height: 500,
           zoomBySingleTouch: true,
           zoomType: "x",
-          // margin: [0,10,0,10],
           spacing: [0, 0, 0, 30],
-          //   margin: [10, 10, 10, 10],
-          //   shadow: true,
           credits: {
             enabled: false,
           },
@@ -84,7 +101,7 @@ export default {
         series: [
           {
             name: "DAILY CASES",
-            type: "area",
+            type: "column",
             // showInLegend: false,
             data: [],
             lineWidth: 5,
@@ -105,9 +122,9 @@ export default {
           {
             name: "AVG 7 days",
             type: "line",
-            dashStyle: "shortdot",
+            // dashStyle: "shortdot",
             data: [],
-            lineWidth: 2,
+            lineWidth: 1,
             color: "#404040d9",
           },
         ],
@@ -146,19 +163,10 @@ export default {
           crosshairs: true,
           // split: true,
           shared: true,
-          // backgroundColor: "#FCFFC5",
-          // borderColor: "black",
           borderRadius: 10,
           borderWidth: 1,
         },
         plotOptions: {
-          // series: {
-          //   connectNulls: true,
-            
-          //   label: {
-          //     connectorAllowed: true,
-          //   },
-          // },
           areaspline: {
             fillOpacity: 0.2,
           },
@@ -183,100 +191,59 @@ export default {
   },
 
   methods: {
-    loadCase() {
-      const _ = require("lodash");
-
-      if (!this.allTimeCheck) {
-        this.chartOptions.xAxis.categories = this.dates.slice(-30);
-
-        if (this.selectedType == "case") {
-          this.chartOptions.series[0].color = "#0093ff";
-          this.chartOptions.series[0].fillColor.stops[0] = [0, "#0093ff"];
-          this.chartOptions.series[0].data =
-            this.dailyCaseArrayValues.slice(-30);
-
-          this.aPush=[]
-          this.dailyCaseArrayValues.forEach((item, index) => {
-            if (index >= 6) {
-
-              let av = Math.floor(
-                _.mean(this.dailyCaseArrayValues.slice(index - 6, index+1))
-              );
-              this.aPush.push(av);
-            } else {
-              this.aPush.push(0);
-            }
-          });
-          // console.log(" something ", this.aPush);
-          // console.log(" this.dailyCaseArrayValues ", this.dailyCaseArrayValues);
-
-          this.chartOptions.series[1].data = this.aPush.slice(-30);
-        } else if (this.selectedType == "active") {
-          this.chartOptions.series[0].color = "#ffa700";
-          this.chartOptions.series[0].fillColor.stops[0] = [0, "#ffa700"];
-          this.chartOptions.series[0].data =
-            this.dailyActiveArrayValues.slice(-30);
-        } else if (this.selectedType == "death") {
-          this.chartOptions.series[0].color = "#d6172d";
-          this.chartOptions.series[0].fillColor.stops[0] = [0, "#d6172d"];
-          this.chartOptions.series[0].data =
-            this.dailyDeathArrayValues.slice(-30);
-        } else {
-          this.chartOptions.series[0].color = "#17d66d";
-          this.chartOptions.series[0].fillColor.stops[0] = [0, "#17d66d"];
-          this.chartOptions.series[0].data =
-            this.dailyRecoverArrayValues.slice(-30);
-        }
+    rangeClick(x) {
+      this.selectedRange = x;
+      let k = [];
+      if (this.selectedType == "active") {
+        k = this.dailyActiveArrayValues;
+        this.chartOptions.series[0].color = "#ffa700";
+        this.chartOptions.series[0].name = "Daily Active Cases";
+      } else if (this.selectedType == "death") {
+        k = this.dailyDeathArrayValues;
+        this.chartOptions.series[0].color = "#d6172d";
+        this.chartOptions.series[0].name = "Daily Death Cases";
+      } else if (this.selectedType == "recover") {
+        k = this.dailyRecoverArrayValues;
+        this.chartOptions.series[0].name = "Daily Recovered Cases";
+        this.chartOptions.series[0].color = "#17d66d";
       } else {
-        this.chartOptions.xAxis.categories = this.dates.slice(1);
-        if (this.selectedType == "case") {
-          this.chartOptions.series[0].color = "#0093ff";
-          this.chartOptions.series[0].fillColor.stops[0] = [0, "#0093ff"];
-          this.chartOptions.series[0].data = this.dailyCaseArrayValues;
-          this.chartOptions.series[1].data = this.aPush
-        } else if (this.selectedType == "active") {
-          this.chartOptions.series[0].color = "#ffa700";
-          this.chartOptions.series[0].fillColor.stops[0] = [0, "#ffa700"];
-          this.chartOptions.series[0].data = this.dailyActiveArrayValues;
-        } else if (this.selectedType == "death") {
-          this.chartOptions.series[0].color = "#d6172d";
-          this.chartOptions.series[0].fillColor.stops[0] = [0, "#d6172d"];
-          this.chartOptions.series[0].data = this.dailyDeathArrayValues;
-        } else {
-          this.chartOptions.series[0].color = "#17d66d";
-          this.chartOptions.series[0].fillColor.stops[0] = [0, "#17d66d"];
-          this.chartOptions.series[0].data = this.dailyRecoverArrayValues;
-        }
+        k = this.dailyCaseArrayValues;
+        this.chartOptions.series[0].name = "Daily Total Cases";
+        this.chartOptions.series[0].color = "#0093ff";
       }
+
+      this.chartOptions.series[0].data = k.slice(-this.selectedRange);
+      this.chartOptions.series[1].data = this.avg(k).slice(-this.selectedRange);
+
+      this.chartOptions.xAxis.categories = this.dates.slice(
+        -this.selectedRange
+      );
     },
-    newCaseClick() {
-      this.selectedType = "case";
-      this.loadCase();
+    avg(arr) {
+      const _ = require("lodash");
+      this.aPush = [];
+      arr.forEach((item, index) => {
+        if (index >= 6) {
+          let av = Math.floor(_.mean(arr.slice(index - 6, index + 1)));
+          this.aPush.push(av);
+        } else {
+          this.aPush.push(item);
+        }
+      });
+      return this.aPush;
     },
-    newActiveClick() {
-      this.selectedType = "active";
-      this.loadCase();
+
+    typeClick(type = "case") {
+      this.selectedType = type;
+      this.rangeClick(this.selectedRange);
+      console.log(" this.selectedType  ", this.selectedType);
     },
-    newDeathClick() {
-      this.selectedType = "death";
-      this.loadCase();
-    },
-    newRecoverClick() {
-      this.selectedType = "recover";
-      this.loadCase();
-    },
-    allTime() {
-      this.allTimeCheck = !this.allTimeCheck;
-      this.loadCase();
-      console.log(" this.allTimeCheck  ", this.allTimeCheck);
-    },
+
   },
   computed: {},
-  async created() {
-    // await this.loadCase();
-  },
+  async created() {},
   updated() {
-    this.loadCase();
+    this.rangeClick(this.selectedRange);
   },
 };
 </script>

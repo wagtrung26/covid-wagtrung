@@ -21,7 +21,7 @@
       :dailyDeathArrayValues="dailyDeathArrayValues"
       @countryClickComp="countryClick"
     />
-    <p>vaccincoverage: {{ vacCover }}</p>
+    <!-- <p>vaccincoverage: {{ vacCover }}</p> -->
 
     <!-- DAILY -->
 
@@ -38,13 +38,26 @@
       :dates="dates"
     ></dailyChart>
 
-    <stackChart
-      :dailyActiveArrayValues="dailyActiveArrayValues"
-      :dailyRecoverArrayValues="dailyRecoverArrayValues"
-      :dailyDeathArrayValues="dailyDeathArrayValues"
-      :dailyVaccineArrayValues="dailyVaccineArrayValues"
-      :dates="dates"
-    ></stackChart>
+    <div class="flex">
+      <div class="flex5">
+        <dailyHighlight
+          :dailyCaseArrayValues="dailyCaseArrayValues"
+          :dailyRecoverArrayValues="dailyRecoverArrayValues"
+          :dailyDeathArrayValues="dailyDeathArrayValues"
+          :dailyVaccineArrayValues="dailyVaccineArrayValues"
+          :dates="dates"
+        />
+      </div>
+      <div class="flex7">
+        <stackChart
+          :dailyActiveArrayValues="dailyActiveArrayValues"
+          :dailyRecoverArrayValues="dailyRecoverArrayValues"
+          :dailyDeathArrayValues="dailyDeathArrayValues"
+          :dailyVaccineArrayValues="dailyVaccineArrayValues"
+          :dates="dates"
+        ></stackChart>
+      </div>
+    </div>
 
     <!-- <p>{{ viewCountry }}</p> -->
 
@@ -98,6 +111,7 @@ import countriesInContinent from "@/components/countriesInContinent.vue";
 import countryMap from "@/components/countryMap.vue";
 import stackChart from "@/components/stackChart.vue";
 import VaccineChart from "@/components/VaccineChart.vue";
+import dailyHighlight from '@/components/dailyHighlight.vue';
 
 export default {
   name: "CountryView",
@@ -109,6 +123,7 @@ export default {
     countryMap,
     stackChart,
     VaccineChart,
+    dailyHighlight,
   },
 
   data() {
@@ -178,17 +193,18 @@ export default {
           this.caseArrayValues = Object.values(listTimeline.cases);
           this.recoverArrayValues = Object.values(listTimeline.recovered);
           this.deathArrayValues = Object.values(listTimeline.deaths);
-           //create ACTIVE TOTAL
-           this.activeArrayValues=[]
-          this.caseArrayValues.forEach((i,index)=>{
-            let active = i - this.deathArrayValues[index] - this.deathArrayValues[index]
-            this.activeArrayValues.push(active)
-          })
-          console.log(" this.activeArrayValues ", this.activeArrayValues)
+          //create ACTIVE TOTAL
+          this.activeArrayValues = [];
+          this.caseArrayValues.forEach((i, index) => {
+            let active =
+              i - this.deathArrayValues[index] - this.deathArrayValues[index];
+            this.activeArrayValues.push(active);
+          });
+          console.log(" this.activeArrayValues ", this.activeArrayValues);
           this.dailyActiveArrayValues = this.dailyArrayValues(
             this.activeArrayValues
           );
-          console.log(" dailyActiveArrayValues ", this.dailyActiveArrayValues)
+          console.log(" dailyActiveArrayValues ", this.dailyActiveArrayValues);
 
           //DAILY CASE HISTORY - total[last] - total[last-1]
           this.dailyCaseArrayValues = this.dailyArrayValues(
@@ -206,21 +222,22 @@ export default {
       api
         .getHistoricalCountryVaccine(this.viewCountry.code)
         .then((res) => {
-          // console.log(" getHistoricalCountryVaccine ", res)
+      
           let listTimeline = res.data.timeline;
           let newVaccineArrayValues = Object.values(listTimeline);
-          // console.log(" newVaccineArrayValues ",newVaccineArrayValues)
+     
 
           let n = this.dates.length - newVaccineArrayValues.length;
-          for (let i = 0; i < n + 1; i++) {
+          for (let i = 0; i < n; i++) {
             newVaccineArrayValues.unshift(0);
           }
+              
           this.vaccineArrayValues = newVaccineArrayValues;
-          // console.log(" this.vaccineArrayValues ",this.vaccineArrayValues)
+
           this.dailyVaccineArrayValues = this.dailyArrayValues(
             newVaccineArrayValues
           );
-          // console.log("  this.vaccineArrayValues  ", this.vaccineArrayValues )
+          console.log("  this.dailyVaccineArrayValues  ", this.dailyVaccineArrayValues )
         })
         .catch((e) => console.log(" getHistoricalCountryVaccine ", e));
     },

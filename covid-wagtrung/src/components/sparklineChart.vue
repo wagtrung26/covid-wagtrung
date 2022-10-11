@@ -112,7 +112,7 @@ export default {
   },
   methods: {
     loadCase() {
-      this.chartOptions.series[0].data = this.data.slice(-5,-1);
+      this.chartOptions.series[0].data = this.data.slice(-7);
       // console.log(this.data)
 
       if (this.typeC == "death") {

@@ -17,20 +17,20 @@ export default {
     dailyActiveArrayValues: Array,
     dailyRecoverArrayValues: Array,
     dailyDeathArrayValues: Array,
-    dailyVaccineArrayValues:Array,
+    dailyVaccineArrayValues: Array,
     dates: Array,
   },
   data() {
     return {
       chartOptions: {
         chart: {
-          type: "areaspline",
+          type: "column",
           height: 500,
           zoomBySingleTouch: true,
           zoomType: "x",
           spacing: [30, 30, 0, 10],
         },
-             title: {
+        title: {
           text: "Cases Distribution",
           align: "left",
           // margin: 24,
@@ -62,7 +62,7 @@ export default {
             enabled: false,
           },
         },
-         legend: {
+        legend: {
           layout: "horizontal",
           align: "right",
           verticalAlign: "top",
@@ -83,10 +83,11 @@ export default {
 
             // pointStart: 1990,
           },
-          areaspline: {
+          column: {
             stacking: "percent",
-
             // fillOpacity: 0.4,
+            groupPadding: 0,
+            pointPadding: 0,
 
             marker: {
               enabled: false,
@@ -121,10 +122,10 @@ export default {
   methods: {
     sample() {
       this.chartOptions.series[0].data = this.dailyActiveArrayValues.slice(0);
-      this.chartOptions.series[1].data =this.dailyRecoverArrayValues.slice(0);
+      this.chartOptions.series[1].data = this.dailyRecoverArrayValues.slice(0);
       this.chartOptions.series[2].data = this.dailyDeathArrayValues.slice(0);
       // this.chartOptions.series[3].data = this.dailyVaccineArrayValues.slice(-31);
-      
+
       this.chartOptions.xAxis.categories = this.dates.slice(1);
     },
   },

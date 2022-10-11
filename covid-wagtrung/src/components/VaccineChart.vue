@@ -80,7 +80,7 @@ export default {
         },
         plotOptions: {
           series: {
-            lineWidth: 5,
+            lineWidth: 3,
 
             // pointStart: 1990,
           },
@@ -123,13 +123,13 @@ export default {
   },
   methods: {
     sample() {
-    //   this.chartOptions.series[0].data = this.dailyCaseArrayValues.slice(-31, -1);
-    //   this.chartOptions.series[1].data =this.dailyRecoverArrayValues.slice(-31, -1);
-      this.chartOptions.series[2].data = this.dailyCaseArrayValues.slice(0, -1);
-      this.chartOptions.series[1].data = this.dailyDeathArrayValues.slice(0, -1);
-      this.chartOptions.series[0].data = this.dailyVaccineArrayValues.slice(0, -1);
+    //   this.chartOptions.series[0].data = this.dailyCaseArrayValues.slice(-31);
+    //   this.chartOptions.series[1].data =this.dailyRecoverArrayValues.slice(-31);
+      this.chartOptions.series[2].data = this.dailyCaseArrayValues.slice(0);
+      this.chartOptions.series[1].data = this.dailyDeathArrayValues.slice(0);
+      this.chartOptions.series[0].data = this.dailyVaccineArrayValues.slice(0);
       
-      this.chartOptions.xAxis.categories = this.dates.slice(1, -1);
+      this.chartOptions.xAxis.categories = this.dates.slice(1);
     },
   },
   computed: {},
