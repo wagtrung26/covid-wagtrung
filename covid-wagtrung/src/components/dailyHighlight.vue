@@ -2,51 +2,63 @@
   <div>
     <!-- START-Template -->
     <div class="flex">
-      <div>
-        <p>First Case Record</p>
-        <h1>{{ startCase }}</h1>
-        <p>{{ statCaseDate }}</p>
-      </div>
-
-      <div>
-        <p>Daily Highest Case Record</p>
-        <h1>{{ topCase }}</h1>
-        <p>{{ topCaseDate }}</p>
-      </div>
+      <a-card>
+        <div>
+          <p>First Case Record</p>
+          <h1>{{ startCase }}</h1>
+          <p>{{ statCaseDate }}</p>
+        </div>
+      </a-card>
+      <a-card>
+        <div>
+          <p>Daily Highest Case Record</p>
+          <h1>{{ topCase }}</h1>
+          <p>{{ topCaseDate }}</p>
+        </div>
+      </a-card>
     </div>
 
     <div class="flex">
-      <div>
-        <p>First Death Record</p>
-        <h1>{{ startDeath }}</h1>
-        <p>{{ statDeathDate }}</p>
-      </div>
-      <div>
-        <p>Daily Highest Death Record</p>
-        <h1>{{ topDeath }}</h1>
-        <p>{{ topDeathDate }}</p>
-      </div>
+      <a-card>
+        <div>
+          <p>First Death Record</p>
+          <h1>{{ startDeath }}</h1>
+          <p>{{ statDeathDate }}</p>
+        </div>
+      </a-card>
+      <a-card>
+        <div>
+          <p>Daily Highest Death Record</p>
+          <h1>{{ topDeath }}</h1>
+          <p>{{ topDeathDate }}</p>
+        </div>
+      </a-card>
     </div>
 
     <div class="flex">
-      <div>
-        <p>One case every</p>
+      <a-card>
+        <div>
+          <p>One case every</p>
 
-        <h2>{{ viewCountry.oneCasePerPeople }} </h2>
-        <p>people</p>
-        <!-- <p>First Dose Vaccine </p>
+          <h2>{{ viewCountry.oneCasePerPeople }}</h2>
+          <p>people</p>
+          <!-- <p>First Dose Vaccine </p>
         <h1>{{ startVac }}</h1>
         <p>{{ statVacDate }}</p> -->
-      </div>
-      <div>
-           <p>One death every</p>
-        <h2>{{ viewCountry.oneDeathPerPeople }} </h2>
-        <p>people</p>
+        </div>
+      </a-card>
 
-        <!-- <p>Daily Highest Vaccine </p>
+      <a-card>
+        <div>
+          <p>One death every</p>
+          <h2>{{ viewCountry.oneDeathPerPeople }}</h2>
+          <p>people</p>
+
+          <!-- <p>Daily Highest Vaccine </p>
         <h1>{{ topVac }}</h1>
         <p>{{ topVacDate }}</p> -->
-      </div>
+        </div>
+      </a-card>
     </div>
 
     <!-- END-Template -->
@@ -77,7 +89,6 @@ export default {
       topDeathDate: "",
       startVac: "",
       startVacDate: "",
-   
     };
   },
   methods: {

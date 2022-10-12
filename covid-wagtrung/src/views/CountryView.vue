@@ -2,18 +2,34 @@
 <template>
   <div class="home">
     <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
-    <!-- <a-button type="primary" size="large">Add</a-button> -->
-    <div class="yourCountry">
-      <p>
-        You are live in: {{ yourCountry.countryName }} - IP:
-        {{ yourCountry.request }}
-      </p>
-      <p>
-        Your Continent: {{ yourCountry.continentName }} - Continent Code:
-        {{ yourCountry.continentCode }}
-      </p>
-    </div>
 
+    <!-- VUEX test -->
+    <p>{{ $store.state.count }}</p>
+    <p>{{ count }}</p>
+    <!-- Mutation call -->
+    <a-button @click="increase(3)" >click</a-button>
+    <!-- Action call -->
+    <a-button @click="handle" >click</a-button>
+
+    <!-- MODAL - DETECT USER COUNTRY -->
+    <a-modal
+      v-model:visible="visible"
+      title="Detect Your Nation"
+      @ok="handleOk"
+    >
+      <div class="">
+        <h2>
+          You are live in: {{ yourCountry.countryName }} - IP:
+          {{ yourCountry.request }}
+        </h2>
+        <h2>
+          Your Continent: {{ yourCountry.continentName }} - Continent Code:
+          {{ yourCountry.continentCode }}
+        </h2>
+      </div>
+    </a-modal>
+
+    <!-- 1 STAT HIGHLIGHT -->
     <statCard
       :allCountries="allCountries"
       :viewCountry="viewCountry"
@@ -22,9 +38,8 @@
       :dailyDeathArrayValues="dailyDeathArrayValues"
       @countryClickComp="countryClick"
     />
-    <!-- <p>vaccincoverage: {{ vacCover }}</p> -->
 
-    <!-- DAILY -->
+    <!--2 DAILY -->
 
     <h1 class="pl textXl mb0 textLeft">Daily Stat</h1>
     <h3 class="pl textLeft mbL">
@@ -61,8 +76,7 @@
       </div>
     </div>
 
-
-    <!-- Vaccine -->
+    <!--3 Vaccine -->
     <h1 class="pl textXl mb0 textLeft">Vaccine</h1>
     <h3 class="pl textLeft">Daily Vaccines in {{ viewCountry.name }}</h3>
 
@@ -83,7 +97,7 @@
       </div>
     </div>
 
-    <!-- TOTAL -->
+    <!--4 TOTAL -->
     <h1 class="pl textXl mb0 textLeft">Total Stat</h1>
     <h3 class="pl textLeft">
       Total cases from the beginning up to now in {{ viewCountry.name }}
@@ -104,12 +118,12 @@
       </div>
     </div>
 
+    <!--5 CONTINENT -->
     <countries-in-continent
       :continentArray="continentArray"
       :viewCountry="viewCountry"
       :continentTotal="continentTotal"
     />
-
   </div>
 </template>
 
@@ -125,6 +139,7 @@ import stackChart from "@/components/stackChart.vue";
 import VaccineChart from "@/components/VaccineChart.vue";
 import dailyHighlight from "@/components/dailyHighlight.vue";
 import vachighlight from "@/components/vachighlight.vue";
+import { mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
   name: "CountryView",
@@ -161,10 +176,19 @@ export default {
       dates: [],
       continentArray: [],
       continentTotal: {},
+      visible: true,
     };
   },
 
   methods: {
+    //  VueX
+    ...mapMutations(["increase"]),
+    ...mapActions(["handle"]),
+    // Normal Method
+    handleOk(e) {
+      console.log(e);
+      this.visible = false;
+    },
     async getAllCountries() {
       try {
         let ArrayCountries = await api.getAllCountries();
@@ -298,16 +322,7 @@ export default {
   },
 
   computed: {
-    vacCover() {
-      let len = this.vaccineArrayValues.length;
-      let re = this.vaccineArrayValues[len - 1] / this.viewCountry.population;
-      if (re >= 1) {
-        return 100;
-      } else {
-        return re;
-      }
-      // console.log(" this.vaccineArrayValues[len-1]  ", this.vaccineArrayValues[len-1] )
-    },
+    ...mapGetters(["count"]),
   },
 
   async created() {
@@ -332,19 +347,8 @@ export default {
 
     await this.getTotalContinent();
     console.log(" 6. Total Continent ");
-
-    // this.continentChart();
   },
 };
 </script>
 
-<style scoped>
-.yourCountry {
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: 0 20px;
-  border: 1px solid rgb(224, 224, 224);
-  text-align: left;
-}
-</style>
+<style scoped></style>
