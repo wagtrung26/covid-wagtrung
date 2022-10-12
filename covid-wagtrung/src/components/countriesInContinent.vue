@@ -1,16 +1,17 @@
 <template>
   <h1 class="pl textXl mb0 textLeft">
-    {{ viewCountry.continent }} <span class="textX">({{ continentArray.length }} Countries)</span>
+    {{ viewCountry.continent }}
+    <span class="textX">({{ continentArray.length }} Countries)</span>
   </h1>
   <h3 class="pl textLeft mbL">
     <span class="textX"> {{ viewCountry.name }}</span> is in
-    <span class="textX">Top {{ countryTopemit }}</span> in 
+    <span class="textX">Top {{ countryTopemit }}</span> in
     {{ viewCountry.continent }}
   </h3>
 
   <div class="flex mb">
     <div class="flex0">
-      <donutChart :continentTotal="continentTotal"/>
+      <donutChart :continentTotal="continentTotal" />
     </div>
     <div class="flex1">
       <bar-chart
@@ -20,6 +21,9 @@
       />
     </div>
   </div>
+
+    <tableC :continentArray="continentArray"/>
+
 
   <!-- <div v-for="(item, index) in continentArray" :key="index">
     <div class="flex">
@@ -33,8 +37,11 @@
 // import { errorToaster } from "../../shared/service/ErrorHandler.js"
 import barChart from "@/components/barChart.vue";
 import donutChart from "@/components/donutChart.vue";
+import tableC from "@/components/comp/table.vue";
+
 export default {
-  components: { barChart, donutChart },
+   
+  components: { barChart, donutChart, tableC,},
   name: "countiesInContinent",
   props: {
     continentArray: Array,

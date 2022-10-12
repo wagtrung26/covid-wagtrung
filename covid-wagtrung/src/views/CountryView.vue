@@ -2,6 +2,7 @@
 <template>
   <div class="home">
     <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
+    <!-- <a-button type="primary" size="large">Add</a-button> -->
     <div class="yourCountry">
       <p>
         You are live in: {{ yourCountry.countryName }} - IP:
@@ -30,16 +31,14 @@
       New Cases, New Deaths, New Recovered Cases in {{ viewCountry.name }}
     </h3>
 
-   
-        <dailyChart
-          :dailyCaseArrayValues="dailyCaseArrayValues"
-          :dailyActiveArrayValues="dailyActiveArrayValues"
-          :dailyRecoverArrayValues="dailyRecoverArrayValues"
-          :dailyDeathArrayValues="dailyDeathArrayValues"
-          :dates="dates"
-          :viewCountry="viewCountry"
-        ></dailyChart>
-  
+    <dailyChart
+      :dailyCaseArrayValues="dailyCaseArrayValues"
+      :dailyActiveArrayValues="dailyActiveArrayValues"
+      :dailyRecoverArrayValues="dailyRecoverArrayValues"
+      :dailyDeathArrayValues="dailyDeathArrayValues"
+      :dates="dates"
+      :viewCountry="viewCountry"
+    ></dailyChart>
 
     <div class="flex">
       <div class="flex3">
@@ -62,7 +61,6 @@
       </div>
     </div>
 
-    <!-- <p>{{ viewCountry }}</p> -->
 
     <!-- Vaccine -->
     <h1 class="pl textXl mb0 textLeft">Vaccine</h1>
@@ -111,6 +109,7 @@
       :viewCountry="viewCountry"
       :continentTotal="continentTotal"
     />
+
   </div>
 </template>
 
@@ -239,20 +238,14 @@ export default {
         .then((res) => {
           let listTimeline = res.data.timeline;
           let newVaccineArrayValues = Object.values(listTimeline);
-
           let n = this.dates.length - newVaccineArrayValues.length;
           for (let i = 0; i < n; i++) {
             newVaccineArrayValues.unshift(0);
           }
 
           this.vaccineArrayValues = newVaccineArrayValues;
-
           this.dailyVaccineArrayValues = this.dailyArrayValues(
             newVaccineArrayValues
-          );
-          console.log(
-            "  this.dailyVaccineArrayValues  ",
-            this.dailyVaccineArrayValues
           );
         })
         .catch((e) => console.log(" getHistoricalCountryVaccine ", e));

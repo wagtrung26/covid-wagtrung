@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@highcharts/map-collection": "^2.0.1",
+    "ant-design-vue": "^3.2.13",
     "apexcharts": "^3.35.5",
     "axios": "^0.27.2",
     "core-js": "^3.8.3",
