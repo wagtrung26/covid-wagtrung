@@ -9,7 +9,7 @@
       ref="chart"
     ></highcharts>
 
-    <h2>otherthing</h2>
+    <h2>otherthing:  </h2>
 
     <!-- END-Template -->
   </div>
@@ -26,9 +26,10 @@ Maps(Highcharts);
 export default {
   components: {},
   name: "worldChart",
-  props: {},
+  props: {allCountries:Array},
   data() {
     return {
+      filterCountries:[],
       chartOptions: {
         chart: {
           map: worldMap,
@@ -36,6 +37,7 @@ export default {
           //    width: 100%,
           height: 800,
         },
+
         title: {
           text: "",
         },
@@ -47,20 +49,24 @@ export default {
           layout: "horizontal",
           align: "center",
           verticalAlign: "top",
+         
         },
         mapNavigation: {
           enabled: true,
           buttonOptions: {
             alignTo: "spacingBox",
           },
+          
         },
         colorAxis: {
-          min: 0,
-          max: 600,
+          min: null,
+          max: null,
+          minColor: '#b992ff',
+          maxColor: '#39009f'
         },
         series: [
           {
-            name: "cases",
+            name: "Total Cases",
             states: {
               hover: {
                 color: "#BADA55",
@@ -295,11 +301,30 @@ export default {
     };
   },
   methods: {
-    sample() {},
+    sample() {
+
+    },
   },
   computed: {},
   created() {},
-  mounted() {},
+  updated() {
+    this.allCountries.forEach((item)=>{
+      let cCode = item.countryInfo.iso2
+      let k;
+      if(cCode){
+         k = cCode.toLowerCase()
+      }
+      let cCases = item.cases
+      let x = [k, cCases]
+      this.filterCountries.push(x)
+
+    })
+    this.chartOptions.series[0].data = this.filterCountries
+
+    console.log(" world ",this.filterCountries)
+
+
+  },
 };
 </script>
 

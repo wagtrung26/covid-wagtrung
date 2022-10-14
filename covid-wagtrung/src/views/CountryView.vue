@@ -3,13 +3,7 @@
   <div class="home">
     <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
 
-    <!-- VUEX test -->
-    <p>{{ $store.state.count }}</p>
-    <p>{{ count }}</p>
-    <!-- Mutation call -->
-    <a-button @click="increase(3)" >click</a-button>
-    <!-- Action call -->
-    <a-button @click="handle" >click</a-button>
+   
 
     <!-- MODAL - DETECT USER COUNTRY -->
     <a-modal
@@ -139,7 +133,6 @@ import stackChart from "@/components/stackChart.vue";
 import VaccineChart from "@/components/VaccineChart.vue";
 import dailyHighlight from "@/components/dailyHighlight.vue";
 import vachighlight from "@/components/vachighlight.vue";
-import { mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
   name: "CountryView",
@@ -181,13 +174,24 @@ export default {
   },
 
   methods: {
-    //  VueX
-    ...mapMutations(["increase"]),
-    ...mapActions(["handle"]),
+   
     // Normal Method
     handleOk(e) {
       console.log(e);
       this.visible = false;
+    },
+    dailyArrayValues(mockArray) {
+      let chartDataY = [];
+      let lastData;
+      mockArray.forEach((item) => {
+        if (lastData >= 0) {
+          let newDataY = Math.abs(item - lastData);
+          chartDataY.push(newDataY);
+        }
+        lastData = item;
+      });
+
+      return chartDataY;
     },
     async getAllCountries() {
       try {
@@ -203,7 +207,7 @@ export default {
         });
 
         this.allCountries = filteredArrayCountries;
-        // console.log(" 1 this.allCountries ");
+        console.log(" 1 this.allCountries ");
       } catch (e) {
         console.log(" allCountries err ", e);
       }
@@ -212,10 +216,24 @@ export default {
       // 2. get user country based on browser IP, at the beginning state
       try {
         this.yourCountry = await api.yourCountry();
-        // console.log("2 this.yourCountry.code  ", this.yourCountry.countryCode);
+        console.log("2 this.yourCountry  ", this.yourCountry);
       } catch (error) {
         console.log(" error yourCountry.code ", error);
       }
+    },
+    countryClick(countryCode = "vn") {
+      var country = this.allCountries.find((i) => i.code === countryCode);
+      this.viewCountry = country;
+      console.log(" 3 this.viewCountry ", this.viewCountry);
+
+      this.getHistoricalCountry();
+      console.log(" 4 getHistoricalCountry ");
+
+      this.countriesInContinent(this.viewCountry.continent);
+      console.log(" 5.1 countries Continent ");
+
+      this.getTotalContinent(this.viewCountry.continent);
+      console.log(" 5.2 total Continent ");
     },
     getHistoricalCountry() {
       api
@@ -238,11 +256,11 @@ export default {
               i - this.deathArrayValues[index] - this.deathArrayValues[index];
             this.activeArrayValues.push(active);
           });
-          console.log(" this.activeArrayValues ", this.activeArrayValues);
+          // console.log(" this.activeArrayValues ", this.activeArrayValues);
           this.dailyActiveArrayValues = this.dailyArrayValues(
             this.activeArrayValues
           );
-          console.log(" dailyActiveArrayValues ", this.dailyActiveArrayValues);
+          // console.log(" dailyActiveArrayValues ", this.dailyActiveArrayValues);
 
           //DAILY CASE HISTORY - total[last] - total[last-1]
           this.dailyCaseArrayValues = this.dailyArrayValues(
@@ -274,20 +292,7 @@ export default {
         })
         .catch((e) => console.log(" getHistoricalCountryVaccine ", e));
     },
-    countryClick(countryCode = "vn") {
-      try {
-        if (countryCode) {
-          var country = this.allCountries.find((i) => i.code === countryCode);
-          this.viewCountry = country;
-          this.getHistoricalCountry();
-          this.countriesInContinent(this.viewCountry.continent);
-          this.getTotalContinent(this.viewCountry.continent);
-        }
-        this.vModelCountry = "";
-      } catch (error) {
-        console.log("countryClick err", error);
-      }
-    },
+
     countriesInContinent() {
       this.continentArray = [];
 
@@ -296,19 +301,6 @@ export default {
           this.continentArray.push(i);
         }
       });
-    },
-    dailyArrayValues(mockArray) {
-      let chartDataY = [];
-      let lastData;
-      mockArray.forEach((item) => {
-        if (lastData >= 0) {
-          let newDataY = Math.abs(item - lastData);
-          chartDataY.push(newDataY);
-        }
-        lastData = item;
-      });
-
-      return chartDataY;
     },
     getTotalContinent() {
       api
@@ -322,31 +314,23 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["count"]),
+   
   },
 
-  async created() {
-    // 1. get All countries
-    await this.getAllCountries();
-    console.log(" 1. allCountries ");
-    // 2. get user country Code, based on browser IP
-    await this.getUserCountry();
-    console.log(" 2. yourCountry ");
+  created() {
+    // this.getHistoricalCountry();
+    // this.countriesInContinent();
+    // this.getTotalContinent();
+  },
+  mounted() {
+    // Asyncronous 1.then 2.async-await
+    this.getAllCountries().then(() => {
+      this.getUserCountry().then(() => {
+        this.countryClick(this.yourCountry.countryCode);
+      });
+    });
 
-    // 3. check country to render at first
-    this.countryClick(this.yourCountry.countryCode);
-    console.log(" 3. ViewCountry ");
-
-    //4. get Historical of cases, recovered, deaths array of a specific country
-    await this.getHistoricalCountry();
-    console.log(" 4. Historical ViewCountry ");
-
-    //5.continent
-    this.countriesInContinent();
-    console.log(" 5. Continent ");
-
-    await this.getTotalContinent();
-    console.log(" 6. Total Continent ");
+    
   },
 };
 </script>

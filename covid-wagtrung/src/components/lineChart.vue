@@ -13,6 +13,7 @@ import exportingInit from "highcharts/modules/exporting";
 exportingInit(Highcharts);
 
 export default {
+
   components: {},
   name: "splineArea",
   props: {
@@ -29,22 +30,10 @@ export default {
         chart: {
           type: "areaspline",
           height: 500,
-          // events: {
-          //   load() {
-          //     // Check all checkboxes on load
-          //     const chart = this;
-          //     chart.series.forEach((series) => {
-          //       series.checkbox.checked = true;
-          //       series.selected = true;
-          //     });
-          //   },
-          // },
           zoomBySingleTouch: true,
           zoomType: "x",
           // margin: [0,10,0,10],
           spacing: [0, 30, 0, 0],
-
-          // shadow: true,
         },
         series: [
           {
@@ -183,11 +172,13 @@ export default {
     },
   },
   computed: {},
-  async created() {
+  created() {
     // await this.addDataToLineChart();
+
   },
   updated() {
     this.addDataToLineChart();
+
   },
 };
 </script>
