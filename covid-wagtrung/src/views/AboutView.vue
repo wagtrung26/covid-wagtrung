@@ -1,22 +1,21 @@
 <template>
   <div>
     <!-- START-Template -->
+    <stat :world="world" :cases="cases" :deaths="deaths" :recovered="recovered" />
+
     <div>
-      <p>{{ vVal }}</p>
-      <a-radio-group
-        v-model:value="vVal"
-        button-style="solid"
-        @click="changeMap"
-      >
+      <a-radio-group v-model:value="vVal" button-style="solid">
         <a-radio-button value="cases">Total cases</a-radio-button>
         <a-radio-button value="deaths">Total deaths</a-radio-button>
         <a-radio-button value="recovered">Total Recovered</a-radio-button>
       </a-radio-group>
     </div>
-    <world-chart :allCountries="filterCountries" :vVal="vVal"/>
+    <world-chart :allCountries="filteredCountries" :vVal="vVal" />
+
+
     <!-- VUEX test -->
-    <p>{{ $store.state.userCountry }}</p>
-    <p>{{ $store.state.allCountries }}</p>
+    <!-- <p>{{ $store.state.userCountry }}</p> -->
+    <!-- <p>{{ $store.state.allCountries }}</p> -->
     <!-- <p>{{ count }}</p> -->
     <!-- Mutation call -->
     <!-- <a-button @click="increase(3)">click</a-button> -->
@@ -29,51 +28,66 @@
 
 <script>
 import WorldChart from "@/components/worldChart.vue";
-// import { mapGetters, mapMutations, mapActions } from "vuex";
+import stat from '@/components/world/stat.vue';
+import * as api from "@/api";
+
+// import {  mapMutations } from "vuex";
 
 // import { errorToaster } from "../../shared/service/ErrorHandler.js"
 export default {
-  components: { WorldChart },
+  components: { WorldChart,stat },
   name: "aboutView",
   props: {},
   data() {
-    return { filterCountries:[], vVal: "deaths" };
+    return {
+      vVal: "cases",
+      world:{},
+      worldHistory:{},
+      cases:[],
+        deaths:[],
+        recovered:[]
+    };
   },
   methods: {
     //  VueX
-    // ...mapMutations(["increase"]),
+    // ...mapMutations(["FILLTERED_COUNTRIES"]),
     // ...mapActions(["handle"]),
     changeMap() {
-      this.filterCountries = [];
-      this.allCountriesVuex.forEach((item) => {
-        let cCode = item.countryInfo.iso2;
-        let k;
-        if (cCode) {
-          k = cCode.toLowerCase();
-        }
-        let cCases = item[this.vVal];
-        let x = [k, cCases];
-        this.filterCountries.push(x);
-      });
-      console.log(" this.filterCountries ", this.filterCountries);
-      console.log(" vVal ", this.vVal);
+      this.$store.dispatch("getAllCountries", this.vVal);
     },
+    async getTotalWorld(){
+      let res = await api.getTotalWorld()
+      let his = await api.getHistoricalWorld()
+      this.world = res.data
+      this.worldHistory = his.data
+      this.cases = Object.values(this.worldHistory.cases)
+    this.deaths = Object.values(this.worldHistory.deaths)
+    this.recovered = Object.values(this.worldHistory.recovered)
+
+      console.log(" this.worldHistory ",this.worldHistory)
+    }
   },
   computed: {
     //  ...mapGetters(["count"]),
     allCountriesVuex() {
       return this.$store.state.allCountries;
     },
+    filteredCountries() {
+      return this.$store.state.filterCountries;
+    },
   },
-  updated() {
-    if (!this.filterCountries.length) {
+  watch: {
+    vVal() {
       this.changeMap();
-    }
+    },
   },
+
   created() {
-    this.$store.dispatch("getAllCountries");
-    this.$store.dispatch("getUserCountry");
+    this.$store.dispatch("getAllCountries", this.vVal);
+    this.getTotalWorld()
+    // this.$store.dispatch("getUserCountry");
   },
+  updated() {},
 };
 </script>
 

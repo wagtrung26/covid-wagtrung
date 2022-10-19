@@ -9,7 +9,7 @@
       ref="chart"
     ></highcharts>
 
-    <h2>{{ allCountries }}:</h2>
+    <!-- <h2>{{ allCountries }}:</h2> -->
 
     <!-- END-Template -->
   </div>
@@ -36,7 +36,6 @@ export default {
           //    width: 100%,
           height: 800,
         },
-
         title: {
           text: "",
         },
@@ -90,6 +89,7 @@ export default {
   },
   computed: {},
   updated() {
+
     this.chartOptions.series[0].data = this.allCountries;
     if (this.vVal == "deaths") {
       this.chartOptions.colorAxis.minColor = "#fc7979";

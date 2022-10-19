@@ -125,4 +125,46 @@ nav a.router-link-exact-active {
 .containerF{
   width: 100%;
 }
+.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.flexC {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* .rec h1{
+  color: rgb(23, 214, 109)
+}
+.death h1{
+  color: rgb(214, 23, 45)
+}
+.case h1{
+  color: rgb(0, 147, 255)
+} */
+.rec,
+.death,
+.case {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 0 auto;
+}
+.stat {
+  width: fit-content;
+  margin: 0 auto;
+  box-shadow: 0px 3px 20px rgba(124, 124, 124, 0.35);
+  border-radius: 20px;
+  padding: 20px 40px;
+}
+.stat-lg {
+  font-size: 2.5rem;
+  margin: 0;
+}
+.mr {
+  margin-right: 50px;
+}
 </style>
