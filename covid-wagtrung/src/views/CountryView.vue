@@ -3,8 +3,6 @@
   <div class="home">
     <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
 
-   
-
     <!-- MODAL - DETECT USER COUNTRY -->
     <a-modal
       v-model:visible="visible"
@@ -40,14 +38,32 @@
       New Cases, New Deaths, New Recovered Cases in {{ viewCountry.name }}
     </h3>
 
-    <dailyChart
-      :dailyCaseArrayValues="dailyCaseArrayValues"
-      :dailyActiveArrayValues="dailyActiveArrayValues"
-      :dailyRecoverArrayValues="dailyRecoverArrayValues"
-      :dailyDeathArrayValues="dailyDeathArrayValues"
-      :dates="dates"
-      :viewCountry="viewCountry"
-    ></dailyChart>
+    <div class="flex mx-30">
+      <div class="flex3">
+        <div class="c" v-show="selectedType != 'death'">
+          <h2>Cases every 1 Million</h2>
+          <solidgaugeChart :val="viewCountry.casesPerOneMillion" />
+        </div>
+
+        <div class="c" v-show="selectedType == 'death'">
+          <h2>Deaths every 1 Million</h2>
+          <solidgaugeChart :val="viewCountry.deathsPerOneMillion" />
+        </div>
+        <p>{{ viewCountry.name }} Population</p>
+        <h2>{{ viewCountry.population }}</h2>
+      </div>
+
+      <div class="flex9">
+        <dailyChart
+          :dailyCaseArrayValues="dailyCaseArrayValues"
+          :dailyActiveArrayValues="dailyActiveArrayValues"
+          :dailyRecoverArrayValues="dailyRecoverArrayValues"
+          :dailyDeathArrayValues="dailyDeathArrayValues"
+          :dates="dates"
+          @type="type"
+        ></dailyChart>
+      </div>
+    </div>
 
     <div class="flex">
       <div class="flex3">
@@ -125,14 +141,15 @@
 // @ is an alias to /src
 import * as api from "@/api";
 import statCard from "@/components/statCard.vue";
-import lineChart from "@/components/lineChart.vue";
-import dailyChart from "@/components/dailyChart.vue";
+import lineChart from "@/components/chart/lineChart.vue";
+import dailyChart from "@/components/chart/dailyChart.vue";
 import countriesInContinent from "@/components/countriesInContinent.vue";
 import countryMap from "@/components/countryMap.vue";
-import stackChart from "@/components/stackChart.vue";
+import stackChart from "@/components/chart/stackChart.vue";
 import VaccineChart from "@/components/VaccineChart.vue";
 import dailyHighlight from "@/components/dailyHighlight.vue";
 import vachighlight from "@/components/vachighlight.vue";
+import solidgaugeChart from "@/components/chart/solidgaugeChart.vue";
 
 export default {
   name: "CountryView",
@@ -146,6 +163,7 @@ export default {
     VaccineChart,
     dailyHighlight,
     vachighlight,
+    solidgaugeChart,
   },
 
   data() {
@@ -170,12 +188,15 @@ export default {
       continentArray: [],
       continentTotal: {},
       visible: true,
+      selectedType: "cases",
     };
   },
 
   methods: {
-   
     // Normal Method
+    type(x) {
+      this.selectedType = x;
+    },
     handleOk(e) {
       console.log(e);
       this.visible = false;
@@ -313,9 +334,7 @@ export default {
     },
   },
 
-  computed: {
-   
-  },
+  computed: {},
 
   created() {
     // this.getHistoricalCountry();
@@ -329,8 +348,6 @@ export default {
         this.countryClick(this.yourCountry.countryCode);
       });
     });
-
-    
   },
 };
 </script>

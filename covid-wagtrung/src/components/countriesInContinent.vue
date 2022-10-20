@@ -10,10 +10,10 @@
   </h3>
 
   <div class="flex mb">
-    <div class="flex0">
+    <div class="flex3">
       <donutChart :continentTotal="continentTotal" />
     </div>
-    <div class="flex1">
+    <div class="flex9">
       <bar-chart
         :continentArray="continentArray"
         :viewCountry="viewCountry"

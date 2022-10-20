@@ -1,99 +1,79 @@
 <template>
-  <div class="flex">
-    <div class="flex3">
-      <div class="c" v-show="selectedType != 'death'">
-        <h2>Cases every 1 Million</h2>
-        <solidgaugeChart :val="viewCountry.casesPerOneMillion" />
-      </div>
-
-      <div class="c" v-show="selectedType == 'death'">
-        <h2>Deaths every 1 Million</h2>
-        <solidgaugeChart :val="viewCountry.deathsPerOneMillion" />
-      </div>
-      <p>{{ viewCountry.name }} Population</p>
-      <h2>{{ viewCountry.population }}</h2>
+  <div class="chart">
+    <div class="btnGroup">
+      <button
+        class="btn"
+        @click="rangeClick(30)"
+        :class="{ active: this.selectedRange == 30 }"
+      >
+        30 days
+      </button>
+      <button
+        class="btn"
+        @click="rangeClick(7)"
+        :class="{ active: this.selectedRange == 7 }"
+      >
+        7 days
+      </button>
+      <button
+        class="btn"
+        @click="rangeClick(365)"
+        :class="{ active: this.selectedRange == 365 }"
+      >
+        a year
+      </button>
+      <button
+        class="btn"
+        @click="rangeClick(0)"
+        :class="{ active: this.selectedRange == 0 }"
+      >
+        All time
+      </button>
     </div>
 
-    <div class="flex9">
-      <div class="chart">
-        <div class="btnGroup">
-          <button
-            class="btn"
-            @click="rangeClick(30)"
-            :class="{ active: this.selectedRange == 30 }"
-          >
-            30 days
-          </button>
-          <button
-            class="btn"
-            @click="rangeClick(7)"
-            :class="{ active: this.selectedRange == 7 }"
-          >
-            7 days
-          </button>
-          <button
-            class="btn"
-            @click="rangeClick(365)"
-            :class="{ active: this.selectedRange == 365 }"
-          >
-            a year
-          </button>
-          <button
-            class="btn"
-            @click="rangeClick(0)"
-            :class="{ active: this.selectedRange == 0 }"
-          >
-            All time
-          </button>
-        </div>
-
-        <div class="btnGroup2">
-          <button
-            class="btn"
-            @click="typeClick('case')"
-            :class="{ active: this.selectedType == 'case' }"
-          >
-            New Cases
-          </button>
-          <button
-            class="btn"
-            @click="typeClick('active')"
-            :class="{ active: this.selectedType == 'active' }"
-          >
-            Active Cases
-          </button>
-          <button
-            class="btn"
-            @click="typeClick('death')"
-            :class="{ active: this.selectedType == 'death' }"
-          >
-            New Deaths
-          </button>
-          <button
-            class="btn"
-            @click="typeClick('recover')"
-            :class="{ active: this.selectedType == 'recover' }"
-          >
-            New Recovered
-          </button>
-        </div>
-
-        <highcharts class="hc" :options="chartOptions" ref="chart"></highcharts>
-      </div>
+    <div class="btnGroup2">
+      <button
+        class="btn"
+        @click="typeClick('case')"
+        :class="{ active: this.selectedType == 'case' }"
+      >
+        New Cases
+      </button>
+      <button
+        class="btn"
+        @click="typeClick('active')"
+        :class="{ active: this.selectedType == 'active' }"
+      >
+        Active Cases
+      </button>
+      <button
+        class="btn"
+        @click="typeClick('death')"
+        :class="{ active: this.selectedType == 'death' }"
+      >
+        New Deaths
+      </button>
+      <button
+        class="btn"
+        @click="typeClick('recover')"
+        :class="{ active: this.selectedType == 'recover' }"
+      >
+        New Recovered
+      </button>
     </div>
+
+    <highcharts class="hc" :options="chartOptions" ref="chart"></highcharts>
   </div>
 </template>
 
 <script>
 import Highcharts from "highcharts";
 import exportingInit from "highcharts/modules/exporting";
-import solidgaugeChart from "@/components/comp/solidgaugeChart.vue";
 
 exportingInit(Highcharts);
 
 export default {
   components: {
-    solidgaugeChart,
   },
   name: "lineChart",
   props: {
@@ -102,7 +82,6 @@ export default {
     dailyRecoverArrayValues: Array,
     dailyDeathArrayValues: Array,
     dates: Array,
-    viewCountry: Object,
   },
   data() {
     return {
@@ -114,7 +93,7 @@ export default {
           height: 500,
           zoomBySingleTouch: true,
           zoomType: "x",
-          spacing: [0, 0, 0, 30],
+          spacing: [0, 0, 0, 0],
           credits: {
             enabled: false,
           },
@@ -257,8 +236,8 @@ export default {
 
     typeClick(type = "case") {
       this.selectedType = type;
+      this.$emit("type", this.selectedType );
       this.rangeClick(this.selectedRange);
-      console.log(" this.selectedType  ", this.selectedType);
     },
   },
   computed: {},

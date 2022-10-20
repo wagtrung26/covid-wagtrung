@@ -28,7 +28,7 @@ export default {
           height: 500,
           zoomBySingleTouch: true,
           zoomType: "x",
-          spacing: [30, 30, 0, 10],
+          spacing: [0, 0, 0, 0],
         },
         title: {
           text: "Cases Distribution",

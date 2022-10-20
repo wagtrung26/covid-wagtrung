@@ -39,6 +39,14 @@ nav a.router-link-exact-active {
 .textX {
   font-size: 2rem;
 }
+.mx-30{
+  margin-left: 30px;
+  margin-right: 30px;
+}
+.my-30{
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
 .mr{
   margin: 0 0 0px 20px;
 }
@@ -105,7 +113,7 @@ nav a.router-link-exact-active {
 
 }
 .flex1{
-  flex: 3
+  flex: 1
 }
 .flex3{
   flex: 3
@@ -125,11 +133,7 @@ nav a.router-link-exact-active {
 .containerF{
   width: 100%;
 }
-.flex {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+
 .flexC {
   display: flex;
   justify-content: center;

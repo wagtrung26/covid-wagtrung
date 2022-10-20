@@ -125,9 +125,9 @@ export default {
       columns: [
         {
           title: "Country",
-          dataIndex: "name",
+          dataIndex: "country",
           
-          sorter: (a, b) => a.name.length - b.name.length,
+          sorter: (a, b) => a.country.length - b.country.length,
           sortDirections: ["descend"],
 
         },

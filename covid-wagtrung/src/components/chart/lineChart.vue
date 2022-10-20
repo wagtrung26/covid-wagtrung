@@ -33,7 +33,7 @@ export default {
           zoomBySingleTouch: true,
           zoomType: "x",
           // margin: [0,10,0,10],
-          spacing: [0, 30, 0, 0],
+          spacing: [0, 0, 0, 0],
         },
         series: [
           {

@@ -39,7 +39,10 @@ export default createStore({
         let x = [k, cCases];
         state.filterCountries.push(x);
       });
-    }
+    },
+   
+
+
   },
   actions: {
     handle({commit}){
