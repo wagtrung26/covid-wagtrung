@@ -28,25 +28,25 @@ export default {
       chartOptions: {
         chart: {
           type: "packedbubble",
-          height: "100%",
+          height: "800",
         },
         title: {
           text: "",
         },
         tooltip: {
           useHTML: true,
-          pointFormat: "<b>{point.name}:</b> {point.value}m CO<sub>2</sub>",
+          pointFormat: "<br><h4><b>Total cases in {point.name}:</b></h3> <h1>{point.value}</h1>",
         },
         plotOptions: {
           packedbubble: {
-            minSize: "40%",
-            maxSize: "160%",
+            minSize: "70%",
+            maxSize: "500%",
             zMin: 0,
             zMax: null,
             layoutAlgorithm: {
-              gravitationalConstant: 0.05,
-              splitSeries: true,
-              seriesInteraction: false,
+              gravitationalConstant: 0.002,
+              splitSeries: false,
+              seriesInteraction: true,
               dragBetweenSeries: true,
               parentNodeLimit: true,
             },

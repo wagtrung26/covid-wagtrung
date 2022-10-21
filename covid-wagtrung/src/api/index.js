@@ -44,3 +44,11 @@ export const getHistoricalWorld = () => {
 
 }
 
+export const getTotalContinents = () => {
+
+   let url = 'https://disease.sh/v3/covid-19/continents'
+   return axios.get(url)
+
+}
+
+

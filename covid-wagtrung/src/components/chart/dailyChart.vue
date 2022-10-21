@@ -171,6 +171,12 @@ export default {
           areaspline: {
             fillOpacity: 0.2,
           },
+          column: {
+            borderRadius: 2,
+            groupPadding: 0,
+            // pointPadding: 0,
+            
+        }
           // pointStart: 2010,
         },
       },

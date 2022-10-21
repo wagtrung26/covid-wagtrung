@@ -17,7 +17,7 @@ export default {
     dailyCaseArrayValues: Array,
     // dailyRecoverArrayValues: Array,
     dailyDeathArrayValues: Array,
-    dailyVaccineArrayValues:Array,
+    dailyVaccineArrayValues: Array,
     dates: Array,
   },
   data() {
@@ -30,7 +30,7 @@ export default {
           zoomType: "x",
           spacing: [0, 40, 0, 40],
         },
-         title: {
+        title: {
           text: "",
           align: "left",
           // margin: 24,
@@ -54,15 +54,25 @@ export default {
             description: "days",
           },
         },
-        yAxis: {
-          labels: {
-            // format: "{value}%",
+        yAxis: [
+          {
+            
+            labels: {
+              // format: "{value}%",
+            },
+            title: {
+              enabled: true,
+              text: "Vaccince / Cases"
+            },
           },
-          title: {
-            enabled: false,
+          {
+            opposite: true,
+            title: {
+              text: "Deaths",
+            },
           },
-        },
-         legend: {
+        ],
+        legend: {
           layout: "horizontal",
           align: "right",
           verticalAlign: "top",
@@ -75,12 +85,12 @@ export default {
           pointFormat:
             '<span style="color:{series.color}">{series.name}</span>:  ({point.y} people)<br/>',
           // split: true,
-        //   <b>{point.percentage:.1f}%</b>
+          //   <b>{point.percentage:.1f}%</b>
           shared: true,
         },
         plotOptions: {
           series: {
-            lineWidth: 5,
+            lineWidth: 2,
 
             // pointStart: 1990,
           },
@@ -95,13 +105,12 @@ export default {
           },
         },
         series: [
-        
-        //   {
-        //     name: "NEW RECOVERED",
-        //     color: "#17d66d",
-        //     data: [],
-        //   },
-        {
+          //   {
+          //     name: "NEW RECOVERED",
+          //     color: "#17d66d",
+          //     data: [],
+          //   },
+          {
             name: "NEW VACCINES",
             color: "#9a0dd5",
             data: [],
@@ -110,25 +119,26 @@ export default {
             name: "NEW DEATHS",
             color: "#d6172d",
             data: [],
+            yAxis: 1
           },
-            {
+          {
             name: "NEW CASES",
             color: "#0093ff",
             data: [],
+            
           },
-          
         ],
       },
     };
   },
   methods: {
     sample() {
-    //   this.chartOptions.series[0].data = this.dailyCaseArrayValues.slice(-31);
-    //   this.chartOptions.series[1].data =this.dailyRecoverArrayValues.slice(-31);
+      //   this.chartOptions.series[0].data = this.dailyCaseArrayValues.slice(-31);
+      //   this.chartOptions.series[1].data =this.dailyRecoverArrayValues.slice(-31);
       this.chartOptions.series[2].data = this.dailyCaseArrayValues.slice(0);
       this.chartOptions.series[1].data = this.dailyDeathArrayValues.slice(0);
       this.chartOptions.series[0].data = this.dailyVaccineArrayValues.slice(0);
-      
+
       this.chartOptions.xAxis.categories = this.dates.slice(1);
     },
   },

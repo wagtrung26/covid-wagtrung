@@ -40,6 +40,16 @@
       :dates="dates"
     ></lineChart>
 
+    <columnDrill
+      :continentDrill="continentDrill"
+      :Asia="Asia1"
+      :Europe="Europe1"
+      :Africa="Africa1"
+      :NorthAmerica="NorthAmerica1"
+      :SouthAmerica="SouthAmerica1"
+      :Oceania="Oceania1"
+    />
+
     <packedBubble
       :Asia="Asia"
       :Europe="Europe"
@@ -68,6 +78,7 @@
 import WorldChart from "@/components/world/worldChart.vue";
 import dailyChart from "@/components/chart/dailyChart.vue";
 import lineChart from "@/components/chart/lineChart.vue";
+import columnDrill from "@/components/chart/columnDrill.vue";
 import stackChart from "@/components/chart/stackChart.vue";
 import packedBubble from "@/components/world/packedbubble.vue";
 import tableC from "@/components/comp/table.vue";
@@ -86,6 +97,7 @@ export default {
     stackChart,
     tableC,
     packedBubble,
+    columnDrill,
   },
   name: "aboutView",
   props: {},
@@ -107,6 +119,14 @@ export default {
       NorthAmerica: [],
       SouthAmerica: [],
       Oceania: [],
+      Asia1: [],
+      Europe1: [],
+      Africa1: [],
+      NorthAmerica1: [],
+      SouthAmerica1: [],
+      Oceania1: [],
+      Continents: [],
+      continentDrill: [],
     };
   },
   methods: {
@@ -127,24 +147,35 @@ export default {
       return chartDataY;
     },
     CONTINENT_CALCULATE() {
-      this.allCountriesVuex.forEach((item) => {
+       const _ = require("lodash");
+      let k = _.orderBy(this.allCountriesVuex, ["cases"], ["desc"])
+      console.log(" this.allCountriesVuex ",k)
+      k.forEach((item) => {
         let name = item.country;
         if (item.continent == "Asia") {
           this.Asia.push({ name: name, value: item.cases });
+          this.Asia1.push([name, item.cases]);
         } else if (item.continent == "Europe") {
+          this.Europe1.push([name, item.cases]);
           this.Europe.push({ name: name, value: item.cases });
         } else if (item.continent == "Africa") {
+          this.Africa1.push([name, item.cases]);
           this.Africa.push({ name: name, value: item.cases });
         } else if (item.continent == "North America") {
           this.NorthAmerica.push({ name: name, value: item.cases });
+          this.NorthAmerica1.push([name, item.cases]);
         } else if (item.continent == "South America") {
           this.SouthAmerica.push({ name: name, value: item.cases });
+          this.SouthAmerica1.push([name, item.cases]);
         } else {
           this.Oceania.push({ name: name, value: item.cases });
+          this.Oceania1.push([name, item.cases]);
         }
+
       });
       console.log(" as ", this.Asia);
     },
+
     changeMap() {
       this.$store.dispatch("getAllCountries", this.vVal);
     },
@@ -152,8 +183,10 @@ export default {
       const _ = require("lodash");
       let res = await api.getTotalWorld();
       let his = await api.getHistoricalWorld();
+      let con = await api.getTotalContinents();
       this.world = res.data;
       this.worldHistory = his.data;
+      this.Continents = con.data;
       // total
       this.cases = _.values(this.worldHistory.cases);
       this.deaths = Object.values(this.worldHistory.deaths);
@@ -165,8 +198,17 @@ export default {
       this.dRecovered = this.DAILY_CALCULATE(this.recovered);
       // continent
       this.CONTINENT_CALCULATE();
+      this.Continents.forEach((item) => {
+        this.continentDrill.push({
+          name: item.continent,
+          y: item.cases,
+          drilldown: item.continent,
+        });
+      });
+      this.continentDrill = _.orderBy(this.continentDrill, ["y"], ["desc"]);
 
-      console.log("  this.this.cases ", this.dCases);
+
+      console.log("  this.continentDrill ", this.continentDrill);
     },
   },
   computed: {

@@ -47,6 +47,10 @@ nav a.router-link-exact-active {
   margin-top: 30px;
   margin-bottom: 30px;
 }
+.my-0{
+   margin-top: 0px;
+  margin-bottom: 0px;
+}
 .mr{
   margin: 0 0 0px 20px;
 }
@@ -61,6 +65,9 @@ nav a.router-link-exact-active {
 }
 .m0{
  margin: 0px;
+}
+.p0{
+  padding:0px;
 }
 .mb0{
   margin-bottom: 0!important;

@@ -1,24 +1,36 @@
 <!-- eslint-disable no-unused-vars -->
 <template>
+  <p> {{this.viewCountry}} </p>
   <div class="home">
     <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
 
     <!-- MODAL - DETECT USER COUNTRY -->
-    <a-modal
-      v-model:visible="visible"
-      title="Detect Your Nation"
-      @ok="handleOk"
-    >
-      <div class="">
-        <h2>
-          You are live in: {{ yourCountry.countryName }} - IP:
-          {{ yourCountry.request }}
-        </h2>
-        <h2>
-          Your Continent: {{ yourCountry.continentName }} - Continent Code:
-          {{ yourCountry.continentCode }}
-        </h2>
-      </div>
+    <a-modal v-model:visible="visible" @ok="handleOk">
+      <a-result status="success" title="">
+        <template #extra>
+          <div>
+            <p>DETECT NATION BASED ON USER'S IP ADDRESS</p>
+            <h1 class="textXl my-0">
+              <img
+                style="margin-right: 16px"
+                :src="this.viewCountry.flag"
+                alt=""
+                width="70"
+              />
+              <strong>{{ yourCountry.countryName }} </strong>
+            </h1>
+
+            <h1 class="mb0">
+              IP: {{ yourCountry.request }} - {{ yourCountry.continentName }}
+            </h1>
+
+            <!-- <h2>
+              {{ yourCountry.continentName }} - Code:
+              {{ yourCountry.continentCode }}
+            </h2>  -->
+          </div>
+        </template>
+      </a-result>
     </a-modal>
 
     <!-- 1 STAT HIGHLIGHT -->
@@ -32,7 +44,6 @@
     />
 
     <!--2 DAILY -->
-
     <h1 class="pl textXl mb0 textLeft">Daily Stat</h1>
     <h3 class="pl textLeft mbL">
       New Cases, New Deaths, New Recovered Cases in {{ viewCountry.name }}
@@ -106,6 +117,9 @@
         />
       </div>
     </div>
+
+    <h3>Vaccine Efficiency</h3>
+    <p>full 1 dose vaccine</p>
 
     <!--4 TOTAL -->
     <h1 class="pl textXl mb0 textLeft">Total Stat</h1>
@@ -200,6 +214,15 @@ export default {
     handleOk(e) {
       console.log(e);
       this.visible = false;
+    },
+    vacTrend() {
+      const x = this.vaccineArrayValues.find(x => x >= this.viewCountry.population);
+      let p = this.vaccineArrayValues.indexOf(x)
+
+
+      console.log(" vacTrend date", this.dates[p])
+      console.log(" vacTrend popu", this.viewCountry.population)
+      console.log(" vacTrend x ", x)
     },
     dailyArrayValues(mockArray) {
       let chartDataY = [];
@@ -310,6 +333,8 @@ export default {
           this.dailyVaccineArrayValues = this.dailyArrayValues(
             newVaccineArrayValues
           );
+      this.vacTrend()
+
         })
         .catch((e) => console.log(" getHistoricalCountryVaccine ", e));
     },
