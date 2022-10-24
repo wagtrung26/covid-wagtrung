@@ -1,6 +1,6 @@
 <!-- eslint-disable no-unused-vars -->
 <template>
-  <p>{{ this.viewCountry }}</p>
+  <!-- <p>{{ this.viewCountry }}</p> -->
   <div class="home">
     <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
 
@@ -119,47 +119,87 @@
     </div>
 
     <h1 class="pl textXl mb0 textLeft">Vaccine Efficiency</h1>
-    <h2 class="pl textLeft">Population full dose of Vaccinate - Population: {{this.viewCountry.population}}</h2>
+    <h2 class="pl textLeft">
+      Population full dose of Vaccinate - Population:
+      {{ this.viewCountry.population }}
+    </h2>
+
+
     <div v-for="(item, index) in v" :key="index">
       <div class="flex">
-        <div class="flex1 mr" v-if="index < this.v.length-1">
-          <h1 class="textLeft">full at {{ this.dates[this.vaccineArrayValues.indexOf(this.v[index+1])] }}</h1>
-          <mixLineChart 
-            :y="this.dailyDeathArrayValues.slice(this.vaccineArrayValues.indexOf(this.v[index]), this.vaccineArrayValues.indexOf(this.v[index+1]))"
-            :x="this.dates.slice(this.vaccineArrayValues.indexOf(this.v[index])+1, this.vaccineArrayValues.indexOf(this.v[index+1]) + 1)"
-          />
-          <!-- <mixLineChart
-            :y="this.dailyCaseArrayValues.slice(0, this.vaccineArrayValues.indexOf(item))"
-            :x="this.dates.slice(1, this.vaccineArrayValues.indexOf(item) + 1)"
-            type="case"
-          /> -->
-        </div>
-        <div class="flex1 mr" v-else>
-          <h1 class="textLeft">Up to Now</h1>
-          <mixLineChart 
-            :y="this.dailyDeathArrayValues.slice(this.vaccineArrayValues.indexOf(this.v[index]))"
-            :x="this.dates.slice(this.vaccineArrayValues.indexOf(this.v[index])+1)"
-          />
-          <!-- <mixLineChart
-            :y="this.dailyCaseArrayValues.slice(0, this.vaccineArrayValues.indexOf(item))"
-            :x="this.dates.slice(1, this.vaccineArrayValues.indexOf(item) + 1)"
-            type="case"
-          /> -->
-        </div>
 
-        <!-- <div class="flex1">
-          <h2 class="textLeft">After</h2>
+
+        <div class="flex1 mr" v-if="index < this.v.length - 1">
+          <h1 class="textLeft">
+            full at
+            {{ this.dates[this.vaccineArrayValues.indexOf(this.v[index + 1])] }}
+          </h1>
           <mixLineChart
-            :y="this.dailyDeathArrayValues.slice(this.vaccineArrayValues.indexOf(item))"
-            :x="this.dates.slice(this.vaccineArrayValues.indexOf(item) + 1)"
-          /> -->
+            :y="
+              this.dailyDeathArrayValues.slice(
+                this.vaccineArrayValues.indexOf(this.v[index]),
+                this.vaccineArrayValues.indexOf(this.v[index + 1])
+              )
+            "
+            :x="
+              this.dates.slice(
+                this.vaccineArrayValues.indexOf(this.v[index]) + 1,
+                this.vaccineArrayValues.indexOf(this.v[index + 1]) + 1
+              )
+            "
+          />
+          
+        </div>
 
-          <!-- <mixLineChart
-            :y="this.dailyCaseArrayValues.slice(this.vaccineArrayValues.indexOf(item))"
-            :x="this.dates.slice(this.vaccineArrayValues.indexOf(item) + 1)"
-            type="case"
-          /> -->
-        <!-- </div> -->
+
+        <div class="flex1 mr" v-else>
+            <h1 class="textLeft">Up to Now</h1>
+            <mixLineChart
+              :y="
+                this.dailyDeathArrayValues.slice(
+                  this.vaccineArrayValues.indexOf(this.v[index])
+                )
+              "
+              :x="
+                this.dates.slice(
+                  this.vaccineArrayValues.indexOf(this.v[index]) + 1
+                )
+              "
+            />
+          </div>
+          <!-- CASES VACCINES Eficiency -->
+        <div class="flex1 mr" v-if="index < this.v.length - 1">
+          <mixLineChart
+            :y="
+              this.dailyCaseArrayValues.slice(
+                this.vaccineArrayValues.indexOf(this.v[index]),
+                this.vaccineArrayValues.indexOf(this.v[index + 1])
+              )
+            "
+            :x="
+              this.dates.slice(
+                this.vaccineArrayValues.indexOf(this.v[index]) + 1,
+                this.vaccineArrayValues.indexOf(this.v[index + 1]) + 1
+              )
+            "
+            type="cases"
+          />
+        </div>
+            <div class="flex1 mr" v-else>
+              <mixLineChart
+              :y="
+                this.dailyCaseArrayValues.slice(
+                  this.vaccineArrayValues.indexOf(this.v[index])
+                )
+              "
+              :x="
+                this.dates.slice(
+                  this.vaccineArrayValues.indexOf(this.v[index]) + 1
+                )
+              "
+              type="cases"
+            />
+          </div>
       </div>
     </div>
 
@@ -267,7 +307,7 @@ export default {
         this.vaccineArrayValues[this.vaccineArrayValues.length - 1];
       let popu = this.viewCountry.population;
       let timesFullVac = Math.floor(totalVac / popu);
-      this.v =[]
+      this.v = [];
       for (let i = 0; i <= timesFullVac; i++) {
         const x = this.vaccineArrayValues.find((k) => k >= popu * i);
         this.v.push(x);
