@@ -119,7 +119,7 @@
     </div>
 
     <h1 class="pl textXl mb0 textLeft">Vaccine Efficiency</h1>
-    <h2 class="pl textLeft">Population full dose of Vaccinate</h2>
+    <h2 class="pl textLeft">Population full dose of Vaccinate - Population: {{this.viewCountry.population}}</h2>
     <div v-for="(item, index) in v" :key="index">
       <div class="flex">
         <div class="flex1 mr" v-if="index < this.v.length-1">
@@ -135,7 +135,7 @@
           /> -->
         </div>
         <div class="flex1 mr" v-else>
-          <h1 class="textLeft">Now</h1>
+          <h1 class="textLeft">Up to Now</h1>
           <mixLineChart 
             :y="this.dailyDeathArrayValues.slice(this.vaccineArrayValues.indexOf(this.v[index]))"
             :x="this.dates.slice(this.vaccineArrayValues.indexOf(this.v[index])+1)"
