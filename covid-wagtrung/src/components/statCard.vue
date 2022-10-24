@@ -49,7 +49,7 @@
     <div class="listCountriesSelect" v-if="showList">
       <ul v-for="(country, index) in filteredAllCountries" :key="index">
         <li @click="countryClickComp(country.code)">
-          <div class="flex">
+          <div class="flex spacebtw">
             <div class="left">
               <span>{{ index + 1 }}</span>
               <img class="countryFlag" :src="country.flag" alt="" />
@@ -140,7 +140,7 @@ ul {
 li {
   cursor: pointer;
   list-style: none;
-  padding: 10px;
+  padding: 20px 10px;
   text-align: left;
 }
 li:hover {
@@ -171,6 +171,9 @@ li:hover {
   max-height: 500px;
   overflow-y: scroll;
   background: rgb(252, 252, 252);
+}
+.spacebtw{
+  justify-content: space-between;
 }
 
 </style>

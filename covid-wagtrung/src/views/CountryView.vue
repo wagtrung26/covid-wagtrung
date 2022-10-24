@@ -1,6 +1,6 @@
 <!-- eslint-disable no-unused-vars -->
 <template>
-  <p> {{this.viewCountry}} </p>
+  <p>{{ this.viewCountry }}</p>
   <div class="home">
     <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
 
@@ -118,8 +118,50 @@
       </div>
     </div>
 
-    <h3>Vaccine Efficiency</h3>
-    <p>full 1 dose vaccine</p>
+    <h1 class="pl textXl mb0 textLeft">Vaccine Efficiency</h1>
+    <h2 class="pl textLeft">Population full dose of Vaccinate</h2>
+    <div v-for="(item, index) in v" :key="index">
+      <div class="flex">
+        <div class="flex1 mr" v-if="index < this.v.length-1">
+          <h1 class="textLeft">full at {{ this.dates[this.vaccineArrayValues.indexOf(this.v[index+1])] }}</h1>
+          <mixLineChart 
+            :y="this.dailyDeathArrayValues.slice(this.vaccineArrayValues.indexOf(this.v[index]), this.vaccineArrayValues.indexOf(this.v[index+1]))"
+            :x="this.dates.slice(this.vaccineArrayValues.indexOf(this.v[index])+1, this.vaccineArrayValues.indexOf(this.v[index+1]) + 1)"
+          />
+          <!-- <mixLineChart
+            :y="this.dailyCaseArrayValues.slice(0, this.vaccineArrayValues.indexOf(item))"
+            :x="this.dates.slice(1, this.vaccineArrayValues.indexOf(item) + 1)"
+            type="case"
+          /> -->
+        </div>
+        <div class="flex1 mr" v-else>
+          <h1 class="textLeft">Now</h1>
+          <mixLineChart 
+            :y="this.dailyDeathArrayValues.slice(this.vaccineArrayValues.indexOf(this.v[index]))"
+            :x="this.dates.slice(this.vaccineArrayValues.indexOf(this.v[index])+1)"
+          />
+          <!-- <mixLineChart
+            :y="this.dailyCaseArrayValues.slice(0, this.vaccineArrayValues.indexOf(item))"
+            :x="this.dates.slice(1, this.vaccineArrayValues.indexOf(item) + 1)"
+            type="case"
+          /> -->
+        </div>
+
+        <!-- <div class="flex1">
+          <h2 class="textLeft">After</h2>
+          <mixLineChart
+            :y="this.dailyDeathArrayValues.slice(this.vaccineArrayValues.indexOf(item))"
+            :x="this.dates.slice(this.vaccineArrayValues.indexOf(item) + 1)"
+          /> -->
+
+          <!-- <mixLineChart
+            :y="this.dailyCaseArrayValues.slice(this.vaccineArrayValues.indexOf(item))"
+            :x="this.dates.slice(this.vaccineArrayValues.indexOf(item) + 1)"
+            type="case"
+          /> -->
+        <!-- </div> -->
+      </div>
+    </div>
 
     <!--4 TOTAL -->
     <h1 class="pl textXl mb0 textLeft">Total Stat</h1>
@@ -164,6 +206,7 @@ import VaccineChart from "@/components/VaccineChart.vue";
 import dailyHighlight from "@/components/dailyHighlight.vue";
 import vachighlight from "@/components/vachighlight.vue";
 import solidgaugeChart from "@/components/chart/solidgaugeChart.vue";
+import mixLineChart from "@/components/chart/mixLineChart.vue";
 
 export default {
   name: "CountryView",
@@ -178,6 +221,7 @@ export default {
     dailyHighlight,
     vachighlight,
     solidgaugeChart,
+    mixLineChart,
   },
 
   data() {
@@ -203,6 +247,9 @@ export default {
       continentTotal: {},
       visible: true,
       selectedType: "cases",
+
+      // v1: "",
+      v: [],
     };
   },
 
@@ -216,13 +263,22 @@ export default {
       this.visible = false;
     },
     vacTrend() {
-      const x = this.vaccineArrayValues.find(x => x >= this.viewCountry.population);
-      let p = this.vaccineArrayValues.indexOf(x)
+      let totalVac =
+        this.vaccineArrayValues[this.vaccineArrayValues.length - 1];
+      let popu = this.viewCountry.population;
+      let timesFullVac = Math.floor(totalVac / popu);
+      this.v =[]
+      for (let i = 0; i <= timesFullVac; i++) {
+        const x = this.vaccineArrayValues.find((k) => k >= popu * i);
+        this.v.push(x);
+      }
 
+      // this.v1 = this.vaccineArrayValues.indexOf(v[0]);
 
-      console.log(" vacTrend date", this.dates[p])
-      console.log(" vacTrend popu", this.viewCountry.population)
-      console.log(" vacTrend x ", x)
+      console.log(" timesFullVac", timesFullVac);
+      console.log(" v", this.v);
+      console.log(" vacTrend popu", this.viewCountry.population);
+      // console.log(" vacTrend x ", x);
     },
     dailyArrayValues(mockArray) {
       let chartDataY = [];
@@ -333,8 +389,7 @@ export default {
           this.dailyVaccineArrayValues = this.dailyArrayValues(
             newVaccineArrayValues
           );
-      this.vacTrend()
-
+          this.vacTrend();
         })
         .catch((e) => console.log(" getHistoricalCountryVaccine ", e));
     },
