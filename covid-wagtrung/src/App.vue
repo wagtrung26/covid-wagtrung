@@ -20,7 +20,6 @@
   color: #2c3e50;
   overflow: hidden;
 }
-
 nav {
   padding: 30px;
 }

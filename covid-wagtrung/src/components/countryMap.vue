@@ -172,7 +172,7 @@ export default {
           fakedata.push(newArray)
         });
         this.chartOptions.series[0].data = fakedata
-        console.log(" fakedata ", fakedata)
+        // console.log(" fakedata ", fakedata)
         // this.$refs.chartRef.chart.mapData = res
         // console.log(" this.chartOptions.chart.map ",this.chartOptions.chart.map)
         // this.$refs.chartRef.options.series[0].update()
@@ -186,7 +186,7 @@ export default {
   computed: {},
   mounted() {
     //  this.sample();
-    console.log(" Map a Country ");
+    // console.log(" Map a Country ");
   },
   updated() {
     this.napus(this.viewCountry.code.toLowerCase());

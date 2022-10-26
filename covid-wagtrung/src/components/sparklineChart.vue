@@ -29,7 +29,7 @@ export default {
           type: "area",
           // renderTo: "container",
           margin: [0, 0, 0, 0],
-          height: 54,
+          height: 70,
           width: 180,
           
           /* backgroundColor:'transparent' */
@@ -45,7 +45,8 @@ export default {
         },
         xAxis: {
           labels: {
-            enabled: false,
+            enabled: true,
+            categories: ["Day 1","Day 2","Day 3","Day 4","Day 5","Yesterday"],
           },
         },
         yAxis: {
@@ -61,7 +62,7 @@ export default {
           enabled: false,
         },
         tooltip: {
-          enabled: false,
+          enabled: true,
         },
         plotOptions: {
           series: {},
@@ -82,7 +83,7 @@ export default {
               //   lineWidth: 1,
               // },
             },
-            lineWidth: 3,
+            lineWidth: 4,
             color: "#0093ff",
             fillColor: {
               linearGradient: {
