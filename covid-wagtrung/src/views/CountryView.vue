@@ -1,25 +1,23 @@
 <!-- eslint-disable no-unused-vars -->
 <template>
   <!-- <p>{{ this.viewCountry }}</p> -->
-  <div class="home containerF">
-    <!-- MODAL - DETECT USER COUNTRY -->
 
-    <div class="mx-30 containerF" v-show="loading">
-      <div>
-        <div class="flexC">
-          <a-skeleton-image
-            size="large"
-            style="margin-right: 30px"
-          />
+  <div class="container mx-auto">
+
+    <!-- Skelaton -->
+    <div class="mx-8 my-4" v-show="loading">
+      <div class="">
+        <div class="flex justify-center space-x-8">
+          <a-skeleton-image size="large" />
           <a-skeleton
             active
             size="large"
             :paragraph="{ rows: 2 }"
             shape="round"
-            style="width: 500px"
+            class="w-64"
           />
         </div>
-        <div class="flexC containerF " style="margin-bottom: 20px">
+        <div class="flex justify-center" style="margin-bottom: 20px">
           <a-skeleton
             active
             shape="round"
@@ -44,31 +42,33 @@
       <a-spin
         :tip="'WagTrung-Covid Loading ' + this.viewCountry.name"
         size="default"
-     
       >
-       </a-spin>
-        <a-skeleton avatar active :paragraph="{ rows: 4}" />
+      </a-spin>
+      <a-skeleton avatar active :paragraph="{ rows: 4 }" />
     </div>
 
+    <!-- MODAL - DETECT USER COUNTRY -->
     <div>
       <a-modal v-model:visible="visible" @ok="handleOk">
         <a-result status="success" title="" style="padding: 20px 0px">
           <template #extra>
             <div>
               <p>DETECT NATION BASED ON USER'S IP ADDRESS</p>
-              <h1 class="textXl my-0">
+              <div class="flex items-center justify-center">
                 <img
                   style="margin-right: 16px"
                   :src="this.viewCountry.flag"
                   alt=""
                   width="70"
                 />
-                <strong>{{ yourCountry.countryName }} </strong>
-              </h1>
+                <h1 class="text-6xl font-bold leading-relaxed">
+                  {{ yourCountry.countryName }}
+                </h1>
+              </div>
 
-              <h1 class="mb0">
+              <p class="text-xl uppercase">
                 IP: {{ yourCountry.request }} - {{ yourCountry.continentName }}
-              </h1>
+              </p>
 
               <!-- <h2>
               {{ yourCountry.continentName }} - Code:
@@ -80,25 +80,23 @@
       </a-modal>
     </div>
 
-    <!-- 1 STAT HIGHLIGHT -->
-    <div class="countryVIew" v-show="!loading">
-      <statCard
-        :allCountries="allCountries"
-        :viewCountry="viewCountry"
-        :dailyCaseArrayValues="dailyCaseArrayValues"
-        :dailyRecoverArrayValues="dailyRecoverArrayValues"
-        :dailyDeathArrayValues="dailyDeathArrayValues"
-        @countryClickComp="countryClick"
-      />
+    <div class="space-y-10 mx-8" v-show="!loading">
+      <!-- 1 STAT HIGHLIGHT -->
+      <div class="mt-0">
+        <statCard
+          :allCountries="allCountries"
+          :viewCountry="viewCountry"
+          :dailyCaseArrayValues="dailyCaseArrayValues"
+          :dailyRecoverArrayValues="dailyRecoverArrayValues"
+          :dailyDeathArrayValues="dailyDeathArrayValues"
+          @countryClickComp="countryClick"
+        />
+      </div>
 
       <!--2 DAILY -->
-      <h1 class="pl textXl mb0 textLeft">Daily Stat</h1>
-      <h3 class="pl textLeft mbL">
-        New Cases, New Deaths, New Recovered Cases in {{ viewCountry.name }}
-      </h3>
-
-      <div class="flex mx-30">
-        <div class="flex3">
+      <wrap title="Daily Statistic" :subBot="`Everyday Cases in ${ this.viewCountry.name }`" subTop="soligauge, Column-line, Stack">
+      <div class="flex space-x-2 flex-wrap">
+        <div class="w-3/12">
           <div class="c" v-show="selectedType != 'death'">
             <h2>Cases every 1 Million</h2>
             <solidgaugeChart :val="viewCountry.casesPerOneMillion" />
@@ -112,7 +110,7 @@
           <h2>{{ viewCountry.population }}</h2>
         </div>
 
-        <div class="flex9">
+        <div class="w-9/12 flex-1">
           <dailyChart
             :dailyCaseArrayValues="dailyCaseArrayValues"
             :dailyActiveArrayValues="dailyActiveArrayValues"
@@ -125,7 +123,7 @@
       </div>
 
       <div class="flex">
-        <div class="flex3">
+        <div class="w-3/12">
           <dailyHighlight
             :dailyCaseArrayValues="dailyCaseArrayValues"
             :dailyRecoverArrayValues="dailyRecoverArrayValues"
@@ -134,7 +132,7 @@
             :dates="dates"
           />
         </div>
-        <div class="flex9">
+        <div class="w-9/12 flex-1">
           <stackChart
             :dailyActiveArrayValues="dailyActiveArrayValues"
             :dailyRecoverArrayValues="dailyRecoverArrayValues"
@@ -144,19 +142,19 @@
           ></stackChart>
         </div>
       </div>
+      </wrap>
 
       <!--3 Vaccine -->
-      <h1 class="pl textXl mb0 textLeft">Vaccine</h1>
-      <h3 class="pl textLeft">Daily Vaccines in {{ viewCountry.name }}</h3>
+      <wrap title="Vaccine" :subBot="`Daily Vaccines in ${ this.viewCountry.name }`" subTop="Area, Spline">
 
-      <div class="flex">
-        <div class="flex3">
+      <div class="flex flex-wrap space-x-4">
+        <div class="w-4/12">
           <vachighlight
             :dailyVaccineArrayValues="dailyVaccineArrayValues"
             :dates="dates"
           />
         </div>
-        <div class="flex9">
+        <div class="w-8/12 flex-1">
           <vaccine-chart
             :dailyCaseArrayValues="dailyCaseArrayValues"
             :dailyDeathArrayValues="dailyDeathArrayValues"
@@ -247,34 +245,60 @@
           </div>
         </div>
       </div>
+      </wrap>
 
       <!--4 TOTAL -->
-      <h1 class="pl textXl mb0 textLeft">Total Stat</h1>
-      <h3 class="pl textLeft">
-        Total cases from the beginning up to now in {{ viewCountry.name }}
-      </h3>
+      <div class="bg-white shadow-2xl shadow-slate-300/50 p-8 rounded-3xl">
 
-      <div class="flex">
-        <div class="flex5">
-          <countryMap :viewCountry="viewCountry" />
-        </div>
-        <div class="flex7">
-          <lineChart
-            :caseArrayValues="caseArrayValues"
-            :deathArrayValues="deathArrayValues"
-            :recoverArrayValues="recoverArrayValues"
-            :dates="dates"
-            :vaccineArrayValues="vaccineArrayValues"
-          ></lineChart>
+        <span class="w-full inline-flex items-baseline">
+          <span class="relative flex h-4 w-4 mr-2">
+            <span
+              class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"
+            ></span>
+            <span
+              class="relative inline-flex rounded-full h-2 w-2 mt-1 ml-1 bg-sky-500"
+            ></span>
+          </span>
+          <p
+            class="text-left text-base tracking-wider text-blue-500 uppercase mb-4"
+          >
+            Tracking Timeline, Map
+          </p>
+        </span>
+
+        <h1
+          class="text-left text-3xl font-semibold tracking-tight text-slate-900 sm:text-6xl"
+        >
+          Total Statistic
+        </h1>
+        <p class="text-left text-xl text-gray-500 mb-9 mt-3">
+          {{ viewCountry.name }}'s cases from the beginning up to now
+        </p>
+
+        <div class="flex flex-wrap items-center space-x-2">
+          <div class="w-5/12">
+            <countryMap :viewCountry="viewCountry" />
+          </div>
+          <div class="w-7/12 flex-1">
+            <lineChart
+              :caseArrayValues="caseArrayValues"
+              :deathArrayValues="deathArrayValues"
+              :recoverArrayValues="recoverArrayValues"
+              :dates="dates"
+              :vaccineArrayValues="vaccineArrayValues"
+            ></lineChart>
+          </div>
         </div>
       </div>
 
       <!--5 CONTINENT -->
+      <wrap title="Continent" subBot="Visualization in this Nation's Continent" subTop="Donut, Column, Table">
       <countries-in-continent
         :continentArray="continentArray"
         :viewCountry="viewCountry"
         :continentTotal="continentTotal"
       />
+      </wrap>
     </div>
   </div>
 </template>
@@ -293,10 +317,12 @@ import dailyHighlight from "@/components/dailyHighlight.vue";
 import vachighlight from "@/components/vachighlight.vue";
 import solidgaugeChart from "@/components/chart/solidgaugeChart.vue";
 import mixLineChart from "@/components/chart/mixLineChart.vue";
+import wrap from '@/components/comp/wrap.vue';
 
 export default {
   name: "CountryView",
   components: {
+    wrap,
     statCard,
     lineChart,
     dailyChart,

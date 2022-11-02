@@ -1,0 +1,27 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+@layer base{
+    /* h1{ @apply text-4xl} */
+    button{ @apply 
+        py-2 px-2 m-1 
+        /* text-blue-300  */
+        border border-slate-500 
+        bg-white
+        rounded-md
+    }
+    button:hover{ @apply text-white bg-blue-500}
+}
+@layer components{
+    .blackBtn{ 
+        @apply bg-slate-900
+        text-white
+    }
+    /* h1{ @apply text-4xl} */
+}
+@layer utilities{
+    /* h1{ @apply text-4xl} */
+}

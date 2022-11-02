@@ -32,9 +32,17 @@ export default {
       chartOptions: {
         chart: {
           map: worldMap,
-          margin: [0, 0, 0, 0],
+          // margin: [0, 0, 0, 0],
           //    width: 100%,
           height: 800,
+          backgroundColor: "rgba(0,0,0,0)"
+        },
+         credits: {
+          enabled: false,
+        },
+        exporting: {
+          enabled: false,
+
         },
         title: {
           text: "",

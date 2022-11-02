@@ -1,13 +1,13 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div class="flexC">
+  <div class=" flexC">
     <img class="countryFlagHead" :src="viewCountry.flag" alt="" />
-    <h1 class="textXl mr">{{ viewCountry.name }}</h1>
+    <h1 class="textXl font-semibold	mr">{{ viewCountry.name }}</h1>
   </div>
   <br />
  
 
-    <div class="flex stat flex7">
+    <div class="flex stat bg-white flex7">
       <div class="case mr">
         <h5>CASES</h5>
         <h1 class="stat-lg">
@@ -157,7 +157,7 @@ li:hover {
 
 .searchSelectCountry {
   position: absolute;
-  top: 0;
+  top: 200px;
   right: 0;
   z-index: 2;
 }

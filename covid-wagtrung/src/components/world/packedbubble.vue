@@ -29,6 +29,7 @@ export default {
         chart: {
           type: "packedbubble",
           height: "800",
+          backgroundColor: "rgba(0,0,0,0)"
         },
         title: {
           text: "",

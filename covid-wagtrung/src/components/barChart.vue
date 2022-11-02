@@ -65,6 +65,7 @@ export default {
           // width: 800,
           zoomType: "x",
           spacing: [0, 30, 0, 0],
+          backgroundColor: "rgba(0,0,0,0)"
  
         },
         title: {

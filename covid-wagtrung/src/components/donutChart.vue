@@ -32,6 +32,7 @@ export default {
       options: {
         chart: {
           type: "donut",
+          backgroundColor: "rgba(0,0,0,0)"
         },
         title: {
           text: "Total in Continent",

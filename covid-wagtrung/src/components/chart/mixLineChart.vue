@@ -22,6 +22,7 @@ export default {
           height: 200,
           zoomBySingleTouch: true,
           zoomType: "x",
+          backgroundColor: "rgba(0,0,0,0)",
           // margin: [0,10,0,10],
         //   spacing: [0, 0, 0, 0],
         },

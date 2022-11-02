@@ -31,6 +31,7 @@ export default {
           margin: [0, 0, 0, 0],
           height: 70,
           width: 180,
+          backgroundColor: "rgba(0,0,0,0)"
           
           /* backgroundColor:'transparent' */
         },

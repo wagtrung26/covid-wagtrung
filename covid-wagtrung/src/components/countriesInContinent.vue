@@ -1,19 +1,19 @@
 <template>
-  <h1 class="pl textXl mb0 textLeft">
+  <h1 class=" textXl mb0 textLeft">
     {{ viewCountry.continent }}
     <span class="textX">({{ continentArray.length }} Countries)</span>
   </h1>
-  <h3 class="pl textLeft mbL">
+  <h3 class=" textLeft mbL">
     <span class="textX"> {{ viewCountry.name }}</span> is in
     <span class="textX">Top {{ countryTopemit }}</span> in
     {{ viewCountry.continent }}
   </h3>
 
-  <div class="flex mb">
-    <div class="flex3">
+  <div class="flex flex-wrap space-x-2">
+    <div class="w-3/12">
       <donutChart :continentTotal="continentTotal" />
     </div>
-    <div class="flex9">
+    <div class="w-9/12 flex-1">
       <bar-chart
         :continentArray="continentArray"
         :viewCountry="viewCountry"

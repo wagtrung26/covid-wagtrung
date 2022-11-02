@@ -29,6 +29,7 @@ export default {
         chart: {
           type: "solidgauge",
           height: 300,
+          backgroundColor: "rgba(0,0,0,0)",
         //   width:400
           
         },

@@ -32,6 +32,7 @@ export default {
         chart: {
           type: "bar",
           height: 500,
+          backgroundColor: "rgba(0,0,0,0)"
         },
         credits: {
           enabled: false,

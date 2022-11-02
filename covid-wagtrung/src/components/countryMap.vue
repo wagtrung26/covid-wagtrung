@@ -102,7 +102,8 @@ export default {
           height: 500,
           zoomBySingleTouch: true,
           zoomType: "xy",
-          spacing: [0, 30, 0, 30],
+          // spacing: [0, 30, 0, 30],
+          backgroundColor: "rgba(0,0,0,0)"
           
         },
         exporting:{
