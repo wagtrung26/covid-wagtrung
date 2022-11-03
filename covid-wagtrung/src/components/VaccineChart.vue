@@ -63,15 +63,16 @@ export default {
             },
             title: {
               enabled: true,
-              text: "Vaccince / Cases"
+              text: ""
             },
+            type: 'logarithmic', 
           },
-          {
-            opposite: true,
-            title: {
-              text: "Deaths",
-            },
-          },
+          // {
+          //   opposite: true,
+          //   title: {
+          //     text: "Deaths",
+          //   },
+          // },
         ],
         legend: {
           layout: "horizontal",
@@ -120,7 +121,7 @@ export default {
             name: "NEW DEATHS",
             color: "#d6172d",
             data: [],
-            yAxis: 1
+            // yAxis: 1
           },
           {
             name: "NEW CASES",

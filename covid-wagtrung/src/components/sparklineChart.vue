@@ -30,7 +30,7 @@ export default {
           // renderTo: "container",
           margin: [0, 0, 0, 0],
           height: 70,
-          width: 180,
+          width: 200,
           backgroundColor: "rgba(0,0,0,0)"
           
           /* backgroundColor:'transparent' */
@@ -55,6 +55,7 @@ export default {
           minPadding: 0,
           gridLineWidth: 0,
           endOnTick: true,
+  
           labels: {
             enabled: false,
           },

@@ -1,64 +1,60 @@
 <template>
   <div>
     <!-- START-Template -->
-    <div class="flex">
-      <a-card>
-        <div>
-          <p>First Case Record</p>
-          <h1>{{ startCase }}</h1>
-          <p>{{ statCaseDate }}</p>
-        </div>
-      </a-card>
-      <a-card>
-        <div>
-          <p>Daily Highest Case Record</p>
-          <h1>{{ topCase }}</h1>
-          <p>{{ topCaseDate }}</p>
-        </div>
-      </a-card>
-    </div>
+    <p
+      class="text-left text-sm tracking-wider font-semibold text-slate-500 uppercase mb-3"
+    >
+      HIghlight
+    </p>
 
-    <div class="flex">
-      <a-card>
-        <div>
-          <p>First Death Record</p>
-          <h1>{{ startDeath }}</h1>
-          <p>{{ statDeathDate }}</p>
+    <div class="">
+      <div class="">
+        <h3
+          class="text-left text-3xl font-semibold tracking-tight text-slate-900"
+        >
+          Daily Cases
+        </h3>
+        <div class="flex space-x-4 pt-4 pb-8">
+          <card
+            subTop="First cases "
+            :title="startCase"
+            :subBot="statCaseDate"
+          />
+          <card
+            subTop="Daily Highest Case "
+            :title="topCase"
+            :subBot="topCaseDate"
+          />
+          <card
+            subTop="One case per people "
+            :title="viewCountry.oneCasePerPeople"
+          />
         </div>
-      </a-card>
-      <a-card>
-        <div>
-          <p>Daily Highest Death Record</p>
-          <h1>{{ topDeath }}</h1>
-          <p>{{ topDeathDate }}</p>
+      </div>
+
+      <div class="">
+        <h3
+          class="text-left text-3xl font-semibold tracking-tight text-slate-900"
+        >
+          Daily Deaths
+        </h3>
+        <div class="flex space-x-4 pt-4">
+          <card
+            subTop="First Death "
+            :title="startDeath"
+            :subBot="statDeathDate"
+          />
+          <card
+            subTop="Daily Highest Death "
+            :title="topDeath"
+            :subBot="topDeathDate"
+          />
+          <card
+            subTop="One death per people "
+            :title="viewCountry.oneDeathPerPeople"
+          />
         </div>
-      </a-card>
-    </div>
-
-    <div class="flex">
-      <a-card>
-        <div>
-          <p>One case every</p>
-
-          <h2>{{ viewCountry.oneCasePerPeople }}</h2>
-          <p>people</p>
-          <!-- <p>First Dose Vaccine </p>
-        <h1>{{ startVac }}</h1>
-        <p>{{ statVacDate }}</p> -->
-        </div>
-      </a-card>
-
-      <a-card>
-        <div>
-          <p>One death every</p>
-          <h2>{{ viewCountry.oneDeathPerPeople }}</h2>
-          <p>people</p>
-
-          <!-- <p>Daily Highest Vaccine </p>
-        <h1>{{ topVac }}</h1>
-        <p>{{ topVacDate }}</p> -->
-        </div>
-      </a-card>
+      </div>
     </div>
 
     <!-- END-Template -->
@@ -67,8 +63,10 @@
 
 <script>
 // import { errorToaster } from "../../shared/service/ErrorHandler.js"
+import card from "@/components/comp/card.vue";
+
 export default {
-  components: {},
+  components: { card },
   name: "dailyHighlight",
   props: {
     dailyCaseArrayValues: Array,

@@ -1,15 +1,15 @@
 <template>
   <div :class="{ dark: dark }">
     <div
-      class="w-full bg-slate-50 dark:bg-slate-900 dark:text-white dark:text-"
+      class="w-full bg-slate-100 dark:bg-slate-900 dark:text-white dark:text-"
     >
-      <nav class="fixed inset-x-0 top-0 h-16 flex items-center justify-center  backdrop-blur-lg bg-slate-50/50  z-10">
-      <div class="flex-1">
+      <nav class="fixed top-0 w-full h-16 flex items-center justify-center backdrop-blur-lg z-20 ">
+      <div class="flex-1 text-xl text-medium space-x-4">
         <router-link to="/">Country</router-link> 
         <router-link to="/worldwide">worldwide</router-link>
         </div>
         <div
-          class="absolute left-8 top-4 bg-zinc-300/50 p-2 rounded-full p-2 hover:bg-blue-500"
+          class="absolute left-8 top-4 bg-slate-300/50  rounded-full p-2 hover:bg-blue-500"
         >
           <a-switch class="" v-model:checked="this.dark">
             <template #checkedChildren
@@ -41,7 +41,7 @@
           </a-switch>
         </div>
       </nav>
-      <router-view class="pt-20  "/>
+      <router-view class=""/>
     </div>
   </div>
 </template>

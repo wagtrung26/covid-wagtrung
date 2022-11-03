@@ -2,10 +2,13 @@
 <template>
   <!-- <p>{{ this.viewCountry }}</p> -->
 
-  <div class="container mx-auto">
-
-    <!-- Skelaton -->
-    <div class="mx-8 my-4" v-show="loading">
+  <div class="w-full">
+    <div
+      class="relative w-full h-96 bg-gradient-to-tr from-indigo-900 via-slate-800 to-blue-600 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-700 z-0"
+      v-show="!loading"
+    ></div>
+    <!-- ON LOAD Skelaton -->
+    <div class="mx-auto px-20 pt-20" v-show="loading">
       <div class="">
         <div class="flex justify-center space-x-8">
           <a-skeleton-image size="large" />
@@ -47,7 +50,7 @@
       <a-skeleton avatar active :paragraph="{ rows: 4 }" />
     </div>
 
-    <!-- MODAL - DETECT USER COUNTRY -->
+    <!-- ON LOAD MODAL - DETECT USER COUNTRY -->
     <div>
       <a-modal v-model:visible="visible" @ok="handleOk">
         <a-result status="success" title="" style="padding: 20px 0px">
@@ -80,9 +83,9 @@
       </a-modal>
     </div>
 
-    <div class="space-y-10 mx-8" v-show="!loading">
+    <div class="container space-y-14 mx-auto" v-show="!loading">
       <!-- 1 STAT HIGHLIGHT -->
-      <div class="mt-0">
+      <div class="relative -mt-64 z-10 mb-12">
         <statCard
           :allCountries="allCountries"
           :viewCountry="viewCountry"
@@ -92,194 +95,265 @@
           @countryClickComp="countryClick"
         />
       </div>
-
       <!--2 DAILY -->
-      <wrap title="Daily Statistic" :subBot="`Everyday Cases in ${ this.viewCountry.name }`" subTop="soligauge, Column-line, Stack">
-      <div class="flex space-x-2 flex-wrap">
-        <div class="w-3/12">
-          <div class="c" v-show="selectedType != 'death'">
-            <h2>Cases every 1 Million</h2>
-            <solidgaugeChart :val="viewCountry.casesPerOneMillion" />
-          </div>
+      <wrap
+        title="Daily Statistic"
+        :subBot="`Everyday Cases in ${this.viewCountry.name}`"
+        subTop="soligauge, Column-line, Stack"
+      >
+        <!-- DAILY card yesterday-->
+        <div class="flex mb-8 -mt-8 bg-slate-50 space-x-8 p-12 rounded-2xl">
+          <!-- card -->
+          <card
+            :percent="
+              subBot(
+                dailyCaseArrayValues[dailyCaseArrayValues.length - 1],
+                dailyCaseArrayValues[dailyCaseArrayValues.length - 2]
+              ).per
+            "
+            subTop="Cases yesterday"
+            :subBot="
+              subBot(
+                dailyCaseArrayValues[dailyCaseArrayValues.length - 1],
+                dailyCaseArrayValues[dailyCaseArrayValues.length - 2]
+              ).val
+            "
+            :title="dailyCaseArrayValues[dailyCaseArrayValues.length - 1]"
+          />
 
-          <div class="c" v-show="selectedType == 'death'">
-            <h2>Deaths every 1 Million</h2>
-            <solidgaugeChart :val="viewCountry.deathsPerOneMillion" />
-          </div>
-          <p>{{ viewCountry.name }} Population</p>
-          <h2>{{ viewCountry.population }}</h2>
-        </div>
+          <card
+            :percent="
+              subBot(
+                dailyDeathArrayValues[dailyDeathArrayValues.length - 1],
+                dailyDeathArrayValues[dailyDeathArrayValues.length - 2]
+              ).per
+            "
+            subTop="Deaths yesterday"
+            :subBot="
+              subBot(
+                dailyDeathArrayValues[dailyDeathArrayValues.length - 1],
+                dailyDeathArrayValues[dailyDeathArrayValues.length - 2]
+              ).val
+            "
+            :title="dailyDeathArrayValues[dailyDeathArrayValues.length - 1]"
+          />
 
-        <div class="w-9/12 flex-1">
-          <dailyChart
-            :dailyCaseArrayValues="dailyCaseArrayValues"
-            :dailyActiveArrayValues="dailyActiveArrayValues"
-            :dailyRecoverArrayValues="dailyRecoverArrayValues"
-            :dailyDeathArrayValues="dailyDeathArrayValues"
-            :dates="dates"
-            @type="type"
-          ></dailyChart>
-        </div>
-      </div>
-
-      <div class="flex">
-        <div class="w-3/12">
-          <dailyHighlight
-            :dailyCaseArrayValues="dailyCaseArrayValues"
-            :dailyRecoverArrayValues="dailyRecoverArrayValues"
-            :dailyDeathArrayValues="dailyDeathArrayValues"
-            :viewCountry="viewCountry"
-            :dates="dates"
+          <card
+            :percent="
+              subBot(
+                dailyRecoverArrayValues[dailyRecoverArrayValues.length - 1],
+                dailyRecoverArrayValues[dailyRecoverArrayValues.length - 2]
+              ).per
+            "
+            subTop="Recovers yesterday"
+            :subBot="
+              subBot(
+                dailyRecoverArrayValues[dailyRecoverArrayValues.length - 1],
+                dailyRecoverArrayValues[dailyRecoverArrayValues.length - 2]
+              ).val
+            "
+            :title="dailyRecoverArrayValues[dailyRecoverArrayValues.length - 1]"
           />
         </div>
-        <div class="w-9/12 flex-1">
-          <stackChart
-            :dailyActiveArrayValues="dailyActiveArrayValues"
-            :dailyRecoverArrayValues="dailyRecoverArrayValues"
-            :dailyDeathArrayValues="dailyDeathArrayValues"
-            :dailyVaccineArrayValues="dailyVaccineArrayValues"
-            :dates="dates"
-          ></stackChart>
+
+        <!-- daily colums + stack -->
+        <div
+          class="w-full shadow-2xl shadow-slate-200/70 px-8 py-2 rounded-2xl mb-12"
+        >
+          <a-tabs v-model:activeKey="activeKey" size="large">
+            <a-tab-pane key="1" tab="Column Chart">
+              <dailyChart
+                class="mt-4"
+                :dailyCaseArrayValues="dailyCaseArrayValues"
+                :dailyActiveArrayValues="dailyActiveArrayValues"
+                :dailyRecoverArrayValues="dailyRecoverArrayValues"
+                :dailyDeathArrayValues="dailyDeathArrayValues"
+                :dates="dates"
+                @type="type"
+              />
+            </a-tab-pane>
+            <a-tab-pane key="2" tab="Distribution Chart">
+              <stackChart
+                class="mt-4"
+                :dailyActiveArrayValues="dailyActiveArrayValues"
+                :dailyRecoverArrayValues="dailyRecoverArrayValues"
+                :dailyDeathArrayValues="dailyDeathArrayValues"
+                :dailyVaccineArrayValues="dailyVaccineArrayValues"
+                :dates="dates"
+              />
+            </a-tab-pane>
+          </a-tabs>
         </div>
-      </div>
+
+        <!-- Daily Map + Highlight -->
+        <div class="">
+          <div class="flex space-x-8">
+            <div class="w-5/12 h-full bg-slate-50 px-8 py-2 rounded-2xl">
+              <countryMap :viewCountry="viewCountry" />
+            </div>
+            <div class="w-7/12 flex-1">
+              <dailyHighlight
+                :dailyCaseArrayValues="dailyCaseArrayValues"
+                :dailyRecoverArrayValues="dailyRecoverArrayValues"
+                :dailyDeathArrayValues="dailyDeathArrayValues"
+                :viewCountry="viewCountry"
+                :dates="dates"
+              />
+            </div>
+          </div>
+        </div>
       </wrap>
 
       <!--3 Vaccine -->
-      <wrap title="Vaccine" :subBot="`Daily Vaccines in ${ this.viewCountry.name }`" subTop="Area, Spline">
-
-      <div class="flex flex-wrap space-x-4">
-        <div class="w-4/12">
-          <vachighlight
-            :dailyVaccineArrayValues="dailyVaccineArrayValues"
-            :dates="dates"
-          />
-        </div>
-        <div class="w-8/12 flex-1">
-          <vaccine-chart
-            :dailyCaseArrayValues="dailyCaseArrayValues"
-            :dailyDeathArrayValues="dailyDeathArrayValues"
-            :dailyVaccineArrayValues="dailyVaccineArrayValues"
-            :dates="dates"
-          />
-        </div>
-      </div>
-
-      <h1 class="pl textXl mb0 textLeft">Vaccine Efficiency</h1>
-      <h2 class="pl textLeft">
-        Population full dose of Vaccinate - Population:
-        {{ this.viewCountry.population }}
-      </h2>
-
-      <div v-for="(item, index) in v" :key="index">
-        <div class="flex">
-          <div class="flex1 mr" v-if="index < this.v.length - 1">
-            <h1 class="textLeft">
-              full at
-              {{
-                this.dates[this.vaccineArrayValues.indexOf(this.v[index + 1])]
-              }}
-            </h1>
-            <mixLineChart
-              :y="
-                this.dailyDeathArrayValues.slice(
-                  this.vaccineArrayValues.indexOf(this.v[index]),
-                  this.vaccineArrayValues.indexOf(this.v[index + 1])
-                )
-              "
-              :x="
-                this.dates.slice(
-                  this.vaccineArrayValues.indexOf(this.v[index]) + 1,
-                  this.vaccineArrayValues.indexOf(this.v[index + 1]) + 1
-                )
-              "
+      <wrap
+        title="Vaccine"
+        :subBot="`Daily Vaccines in ${this.viewCountry.name}`"
+        subTop="Area, Spline"
+      >
+        <div class="flex flex-wrap space-x-8">
+          <div class="w-3/12">
+            <vachighlight
+              :dailyVaccineArrayValues="dailyVaccineArrayValues"
+              :dates="dates"
             />
           </div>
-
-          <div class="flex1 mr" v-else>
-            <h1 class="textLeft">Up to Now</h1>
-            <mixLineChart
-              :y="
-                this.dailyDeathArrayValues.slice(
-                  this.vaccineArrayValues.indexOf(this.v[index])
-                )
-              "
-              :x="
-                this.dates.slice(
-                  this.vaccineArrayValues.indexOf(this.v[index]) + 1
-                )
-              "
-            />
-          </div>
-          <!-- CASES VACCINES Eficiency -->
-          <div class="flex1 mr" v-if="index < this.v.length - 1">
-            <mixLineChart
-              :y="
-                this.dailyCaseArrayValues.slice(
-                  this.vaccineArrayValues.indexOf(this.v[index]),
-                  this.vaccineArrayValues.indexOf(this.v[index + 1])
-                )
-              "
-              :x="
-                this.dates.slice(
-                  this.vaccineArrayValues.indexOf(this.v[index]) + 1,
-                  this.vaccineArrayValues.indexOf(this.v[index + 1]) + 1
-                )
-              "
-              type="cases"
-            />
-          </div>
-          <div class="flex1 mr" v-else>
-            <mixLineChart
-              :y="
-                this.dailyCaseArrayValues.slice(
-                  this.vaccineArrayValues.indexOf(this.v[index])
-                )
-              "
-              :x="
-                this.dates.slice(
-                  this.vaccineArrayValues.indexOf(this.v[index]) + 1
-                )
-              "
-              type="cases"
+          <div class="w-9/12 flex-1">
+            <vaccine-chart
+              :dailyCaseArrayValues="dailyCaseArrayValues"
+              :dailyDeathArrayValues="dailyDeathArrayValues"
+              :dailyVaccineArrayValues="dailyVaccineArrayValues"
+              :dates="dates"
             />
           </div>
         </div>
-      </div>
+
+        <!-- Vac efficiency -->
+        <div class="border-t-2 border-slate-100 my-8"></div>
+        <p
+          class="text-left text-sm tracking-wider font-semibold text-slate-500 uppercase mb-3"
+        >
+          Timline
+        </p>
+        <h1
+          class="text-left text-5xl font-semibold tracking-tight text-slate-900"
+        >
+          Vaccine Efficiency
+        </h1>
+        <h2 class="text-left text-base text-slate-500 mt-2 mb-8">
+          Population full dose of Vaccination
+        </h2>
+
+        <div class="w-full p-8 bg-slate-50 space-y-8 rounded-2xl">
+          <div v-for="(item, index) in v" :key="index">
+            <div class="w-full" v-if="index < this.v.length - 1">
+              <div class="flex items-center flex-start mb-5">
+                <p
+                  class="text-2xl leading-none font-semibold text-white bg-violet-600 py-2 px-4 rounded-lg mr-4"
+                >
+                  {{ index + 1 }}
+                </p>
+                <span
+                  class="text-2xl leading-none font-semibold text-slate-900"
+                >
+                  Full Vaccination at:
+                  {{
+                    this.dates[
+                      this.vaccineArrayValues.indexOf(this.v[index + 1])
+                    ]
+                  }}</span
+                >
+              </div>
+              <div class="flex space-x-8">
+                <mixLineChart
+                  class="w-1/2"
+                  :y="
+                    this.dailyDeathArrayValues.slice(
+                      this.vaccineArrayValues.indexOf(this.v[index]),
+                      this.vaccineArrayValues.indexOf(this.v[index + 1])
+                    )
+                  "
+                  :x="
+                    this.dates.slice(
+                      this.vaccineArrayValues.indexOf(this.v[index]) + 1,
+                      this.vaccineArrayValues.indexOf(this.v[index + 1]) + 1
+                    )
+                  "
+                />
+                <mixLineChart
+                  class="w-1/2"
+                  :y="
+                    this.dailyCaseArrayValues.slice(
+                      this.vaccineArrayValues.indexOf(this.v[index]),
+                      this.vaccineArrayValues.indexOf(this.v[index + 1])
+                    )
+                  "
+                  :x="
+                    this.dates.slice(
+                      this.vaccineArrayValues.indexOf(this.v[index]) + 1,
+                      this.vaccineArrayValues.indexOf(this.v[index + 1]) + 1
+                    )
+                  "
+                  type="cases"
+                />
+              </div>
+            </div>
+
+            <div class="w-full" v-else>
+              <div class="flex items-center flex-start mb-5">
+                <span class="text-2xl leading-none font-semibold text-slate-900"
+                  >Up to Now
+                </span>
+              </div>
+              <div class="flex space-x-8">
+                <mixLineChart
+                  class="w-1/2"
+                  :y="
+                    this.dailyDeathArrayValues.slice(
+                      this.vaccineArrayValues.indexOf(this.v[index])
+                    )
+                  "
+                  :x="
+                    this.dates.slice(
+                      this.vaccineArrayValues.indexOf(this.v[index]) + 1
+                    )
+                  "
+                />
+                <mixLineChart
+                  class="w-1/2"
+                  :y="
+                    this.dailyCaseArrayValues.slice(
+                      this.vaccineArrayValues.indexOf(this.v[index])
+                    )
+                  "
+                  :x="
+                    this.dates.slice(
+                      this.vaccineArrayValues.indexOf(this.v[index]) + 1
+                    )
+                  "
+                  type="cases"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </wrap>
 
       <!--4 TOTAL -->
-      <div class="bg-white shadow-2xl shadow-slate-300/50 p-8 rounded-3xl">
-
-        <span class="w-full inline-flex items-baseline">
-          <span class="relative flex h-4 w-4 mr-2">
-            <span
-              class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"
-            ></span>
-            <span
-              class="relative inline-flex rounded-full h-2 w-2 mt-1 ml-1 bg-sky-500"
-            ></span>
-          </span>
-          <p
-            class="text-left text-base tracking-wider text-blue-500 uppercase mb-4"
-          >
-            Tracking Timeline, Map
-          </p>
-        </span>
-
-        <h1
-          class="text-left text-3xl font-semibold tracking-tight text-slate-900 sm:text-6xl"
-        >
-          Total Statistic
-        </h1>
-        <p class="text-left text-xl text-gray-500 mb-9 mt-3">
-          {{ viewCountry.name }}'s cases from the beginning up to now
-        </p>
-
-        <div class="flex flex-wrap items-center space-x-2">
-          <div class="w-5/12">
-            <countryMap :viewCountry="viewCountry" />
+      <wrap
+        title="Total Statistic"
+        :subBot="` ${this.viewCountry.name}'s cases from the beginning up to now`"
+        subTop="Tracking Timeline, Map"
+      >
+        <div class="flex flex-wrap items-center space-x-4">
+          <div class="w-3/12">
+            <div class="c" v-show="selectedType != 'death'">
+              <h2>Cases every 1 Million</h2>
+              <solidgaugeChart :val="viewCountry.casesPerOneMillion" />
+              <p>{{ viewCountry.name }} Population</p>
+              <h2>{{ viewCountry.population }}</h2>
+            </div>
           </div>
-          <div class="w-7/12 flex-1">
+          <div class="w-9/12 flex-1">
             <lineChart
               :caseArrayValues="caseArrayValues"
               :deathArrayValues="deathArrayValues"
@@ -289,15 +363,19 @@
             ></lineChart>
           </div>
         </div>
-      </div>
+      </wrap>
 
       <!--5 CONTINENT -->
-      <wrap title="Continent" subBot="Visualization in this Nation's Continent" subTop="Donut, Column, Table">
-      <countries-in-continent
-        :continentArray="continentArray"
-        :viewCountry="viewCountry"
-        :continentTotal="continentTotal"
-      />
+      <wrap
+        title="Continent"
+        subBot="Visualization in this Nation's Continent"
+        subTop="Donut, Column, Table"
+      >
+        <countries-in-continent
+          :continentArray="continentArray"
+          :viewCountry="viewCountry"
+          :continentTotal="continentTotal"
+        />
       </wrap>
     </div>
   </div>
@@ -317,12 +395,14 @@ import dailyHighlight from "@/components/dailyHighlight.vue";
 import vachighlight from "@/components/vachighlight.vue";
 import solidgaugeChart from "@/components/chart/solidgaugeChart.vue";
 import mixLineChart from "@/components/chart/mixLineChart.vue";
-import wrap from '@/components/comp/wrap.vue';
+import wrap from "@/components/comp/wrap.vue";
+import card from "@/components/comp/card.vue";
 
 export default {
   name: "CountryView",
   components: {
     wrap,
+    card,
     statCard,
     lineChart,
     dailyChart,
@@ -338,6 +418,7 @@ export default {
 
   data() {
     return {
+      activeKey: "1",
       loading: false,
       allCountries: [],
       yourCountry: {},
@@ -368,6 +449,22 @@ export default {
 
   methods: {
     // Normal Method
+    subBot(num1, num2) {
+      var rs = num1 - num2;
+      let absrs = Math.abs(rs);
+      let per = Math.floor((absrs * 100) / Math.max(num1, num2));
+      if (per) {
+        return {
+          val: rs,
+          per: per,
+        };
+      } else {
+        return {
+          val: rs,
+          per: 0,
+        };
+      }
+    },
     type(x) {
       this.selectedType = x;
     },

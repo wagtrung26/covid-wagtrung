@@ -1,21 +1,25 @@
 <template>
   <div>
     <!-- START-Template -->
+    <p class="text-left text-sm tracking-wider font-semibold text-slate-500 uppercase mb-3">
+      HIghlight
+    </p>
+    <h3 class="text-left text-3xl font-semibold tracking-tight text-slate-900">
+      Daily Vaccine
+    </h3>
+    <div class="space-y-4">
+      <card
+        subTop="First Dose Vaccine "
+        :title="startVac"
+        :subBot="statVacDate"
+      />
 
-    <a-card hoverable >
-      <div>
-        <p>First Dose Vaccine</p>
-        <h1>{{ startVac }}</h1>
-        <p>{{ statVacDate }}</p>
-      </div>
-    </a-card>
-    <a-card>
-      <div>
-        <p>Daily Highest Vaccine</p>
-        <h1>{{ topVac }}</h1>
-        <p>{{ topVacDate }}</p>
-      </div>
-    </a-card>
+      <card
+        subTop="Daily Highest Vaccine "
+        :title="topVac"
+        :subBot="topVacDate"
+      />
+    </div>
 
     <!-- END-Template -->
   </div>
@@ -23,8 +27,9 @@
 
 <script>
 // import { errorToaster } from "../../shared/service/ErrorHandler.js"
+import card from "@/components/comp/card.vue";
 export default {
-  components: {},
+  components: { card },
   name: "dailyHighlight",
   props: {
     dailyVaccineArrayValues: Array,

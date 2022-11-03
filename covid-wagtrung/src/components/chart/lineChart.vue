@@ -98,7 +98,8 @@ export default {
           },
           gridLineWidth: 2,
           crosshair: true,
-        },
+         type: 'logarithmic',  
+         minorTickInterval: "auto",      },
         xAxis: {
           categories: [],
           accessibility: {

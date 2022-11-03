@@ -1,5 +1,18 @@
 <template>
-  <highcharts :options="chartOptions" ref="chart"></highcharts>
+  <div
+    class="flexCen shadow-xl shadow-slate-200/70 bg-white p-8 rounded-2xl"
+  >
+    <div class="flex flex-col items-center mr-8">
+      <p
+        class="text-left text-xs tracking-wider font-semibold text-slate-500 uppercase mb-3"
+      >
+        Average
+      </p>
+      <h2 class="text-left text-2xl font-semibold text-slate-900"> {{avgVal}} </h2>
+    </div>
+
+    <highcharts class="flex-1" :options="chartOptions" ref="chart"></highcharts>
+  </div>
 </template>
 
 <script>
@@ -16,6 +29,7 @@ export default {
   data() {
     return {
       avg: [],
+      avgVal:0,
       chartOptions: {
         chart: {
           type: "areaspline",
@@ -24,9 +38,9 @@ export default {
           zoomType: "x",
           backgroundColor: "rgba(0,0,0,0)",
           // margin: [0,10,0,10],
-        //   spacing: [0, 0, 0, 0],
+          //   spacing: [0, 0, 0, 0],
         },
-         credits: {
+        credits: {
           enabled: false,
         },
         exporting: {
@@ -65,9 +79,9 @@ export default {
         title: {
           text: "",
           align: "left",
-        //   margin: 24,
+          //   margin: 24,
         },
-    
+
         subtitle: {
           text: null,
         },
@@ -75,17 +89,22 @@ export default {
           title: {
             text: "",
           },
-          gridLineWidth: 2,
+          gridLineWidth: 0,
           crosshair: true,
+            type: 'logarithmic', 
+           opposite: true,
+
         },
         xAxis: {
           categories: [],
           accessibility: {
             description: "days",
           },
+          visible:false,
+          gridLineWidth: 0
         },
         legend: {
-            enabled: false,
+          enabled: false,
           layout: "horizontal",
           align: "right",
           verticalAlign: "top",
@@ -129,10 +148,14 @@ export default {
     avgFunc() {
       const _ = require("lodash");
       this.avg = [];
+      let takeBig = this.y.filter((i) => i > 0);
+      // console.log(" y ",this.y)
+      // console.log(" takebig ",takeBig)
       this.x.forEach(() => {
-        let av = Math.floor(_.mean(this.y));
+        let av = Math.floor(_.mean(takeBig));
         this.avg.push(av);
       });
+      this.avgVal = this.avg[0]
     },
   },
   computed: {

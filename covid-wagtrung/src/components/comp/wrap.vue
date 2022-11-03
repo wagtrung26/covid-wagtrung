@@ -1,5 +1,5 @@
 <template>
-  <div class="container bg-white shadow-2xl shadow-slate-300/50 p-8 rounded-3xl">
+  <div class="container bg-white shadow-2xl shadow-slate-300/50 p-12 rounded-3xl">
       
         <span class="w-full inline-flex items-baseline" v-if="subTop">
           <span class="relative flex h-4 w-4 mr-2">
@@ -11,18 +11,18 @@
             ></span>
           </span>
           <p
-            class="text-left text-base tracking-wider text-blue-500 uppercase mb-4"
+            class="text-left text-sm tracking-wider font-semibold text-blue-500 uppercase mb-4"
           >
             {{subTop}}
           </p>
         </span>
 
         <h1
-          class="text-left text-3xl font-semibold tracking-tight text-slate-900 sm:text-6xl"
+          class="leading-relaxed text-left text-3xl font-semibold tracking-tight text-slate-900 mb-4 sm:text-6xl"
         >
           {{title}}
         </h1>
-        <p class="text-left text-xl text-gray-500 mb-9 mt-3">
+        <p class="text-left text-xl text-slate-600 mb-16 ">
           {{subBot}}
         </p>
 
