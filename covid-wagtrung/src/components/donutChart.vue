@@ -35,7 +35,8 @@ export default {
           backgroundColor: "rgba(0,0,0,0)"
         },
         title: {
-          text: "Total in Continent",
+          // enabled: false,
+          text: "",
           align: "left",
           style: {
             fontSize: "18px",
@@ -45,12 +46,12 @@ export default {
           },
         },
         grid: {
-          padding: {
-            top: 30,
-            right: 0,
-            bottom: 0,
-            left: 0,
-          },
+          // padding: {
+          //   top: 30,
+          //   right: 0,
+          //   bottom: 0,
+          //   left: 0,
+          // },
         },
         legend: {
           show: true,
@@ -99,7 +100,7 @@ export default {
                 show: true,
                 total: {
                   show: true,
-                   label: "Total Cases",
+                   label: "Continent's Total Cases",
                   showAlways: true,
                 },
               },
@@ -127,7 +128,7 @@ export default {
 </script>
 
 <style scoped>
-.pbar {
+/* .pbar {
   margin: 0 20px 0 30px;
-}
+} */
 </style>

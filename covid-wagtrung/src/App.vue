@@ -1,7 +1,7 @@
 <template>
   <div :class="{ dark: dark }">
     <div
-      class="w-full bg-slate-100 dark:bg-slate-900 dark:text-white dark:text-"
+      class="w-full bg-slate-200 dark:bg-slate-900 dark:text-white dark:text-"
     >
       <nav class="fixed top-0 w-full h-16 flex items-center justify-center backdrop-blur-lg z-20 ">
       <div class="flex-1 text-xl text-medium space-x-4">

@@ -51,7 +51,7 @@
     </div>
 
     <!-- ON LOAD MODAL - DETECT USER COUNTRY -->
-    <div>
+    <!-- <div>
       <a-modal v-model:visible="visible" @ok="handleOk">
         <a-result status="success" title="" style="padding: 20px 0px">
           <template #extra>
@@ -73,15 +73,12 @@
                 IP: {{ yourCountry.request }} - {{ yourCountry.continentName }}
               </p>
 
-              <!-- <h2>
-              {{ yourCountry.continentName }} - Code:
-              {{ yourCountry.continentCode }}
-            </h2>  -->
+
             </div>
           </template>
         </a-result>
       </a-modal>
-    </div>
+    </div> -->
 
     <div class="container space-y-14 mx-auto" v-show="!loading">
       <!-- 1 STAT HIGHLIGHT -->
@@ -102,87 +99,91 @@
         subTop="soligauge, Column-line, Stack"
       >
         <!-- DAILY card yesterday-->
-        <div class="flex mb-8 -mt-8 bg-slate-50 space-x-8 p-12 rounded-2xl">
-          <!-- card -->
-          <card
-            :percent="
-              subBot(
-                dailyCaseArrayValues[dailyCaseArrayValues.length - 1],
-                dailyCaseArrayValues[dailyCaseArrayValues.length - 2]
-              ).per
-            "
-            subTop="Cases yesterday"
-            :subBot="
-              subBot(
-                dailyCaseArrayValues[dailyCaseArrayValues.length - 1],
-                dailyCaseArrayValues[dailyCaseArrayValues.length - 2]
-              ).val
-            "
-            :title="dailyCaseArrayValues[dailyCaseArrayValues.length - 1]"
-          />
+        <div class="-mt-8 bg-slate-50 p-10 rounded-2xl mb-8">
+          <div class="flex space-x-8 mb-8">
+            <!-- card -->
+            <card
+              :percent="
+                subBot(
+                  dailyCaseArrayValues[dailyCaseArrayValues.length - 1],
+                  dailyCaseArrayValues[dailyCaseArrayValues.length - 2]
+                ).per
+              "
+              subTop="Cases yesterday"
+              :subBot="
+                subBot(
+                  dailyCaseArrayValues[dailyCaseArrayValues.length - 1],
+                  dailyCaseArrayValues[dailyCaseArrayValues.length - 2]
+                ).val
+              "
+              :title="dailyCaseArrayValues[dailyCaseArrayValues.length - 1]"
+            />
 
-          <card
-            :percent="
-              subBot(
-                dailyDeathArrayValues[dailyDeathArrayValues.length - 1],
-                dailyDeathArrayValues[dailyDeathArrayValues.length - 2]
-              ).per
-            "
-            subTop="Deaths yesterday"
-            :subBot="
-              subBot(
-                dailyDeathArrayValues[dailyDeathArrayValues.length - 1],
-                dailyDeathArrayValues[dailyDeathArrayValues.length - 2]
-              ).val
-            "
-            :title="dailyDeathArrayValues[dailyDeathArrayValues.length - 1]"
-          />
+            <card
+              :percent="
+                subBot(
+                  dailyDeathArrayValues[dailyDeathArrayValues.length - 1],
+                  dailyDeathArrayValues[dailyDeathArrayValues.length - 2]
+                ).per
+              "
+              subTop="Deaths yesterday"
+              :subBot="
+                subBot(
+                  dailyDeathArrayValues[dailyDeathArrayValues.length - 1],
+                  dailyDeathArrayValues[dailyDeathArrayValues.length - 2]
+                ).val
+              "
+              :title="dailyDeathArrayValues[dailyDeathArrayValues.length - 1]"
+            />
 
-          <card
-            :percent="
-              subBot(
-                dailyRecoverArrayValues[dailyRecoverArrayValues.length - 1],
-                dailyRecoverArrayValues[dailyRecoverArrayValues.length - 2]
-              ).per
-            "
-            subTop="Recovers yesterday"
-            :subBot="
-              subBot(
-                dailyRecoverArrayValues[dailyRecoverArrayValues.length - 1],
-                dailyRecoverArrayValues[dailyRecoverArrayValues.length - 2]
-              ).val
-            "
-            :title="dailyRecoverArrayValues[dailyRecoverArrayValues.length - 1]"
-          />
-        </div>
+            <card
+              :percent="
+                subBot(
+                  dailyRecoverArrayValues[dailyRecoverArrayValues.length - 1],
+                  dailyRecoverArrayValues[dailyRecoverArrayValues.length - 2]
+                ).per
+              "
+              subTop="Recovers yesterday"
+              :subBot="
+                subBot(
+                  dailyRecoverArrayValues[dailyRecoverArrayValues.length - 1],
+                  dailyRecoverArrayValues[dailyRecoverArrayValues.length - 2]
+                ).val
+              "
+              :title="
+                dailyRecoverArrayValues[dailyRecoverArrayValues.length - 1]
+              "
+            />
+          </div>
 
-        <!-- daily colums + stack -->
-        <div
-          class="w-full shadow-2xl shadow-slate-200/70 px-8 py-2 rounded-2xl mb-12"
-        >
-          <a-tabs v-model:activeKey="activeKey" size="large">
-            <a-tab-pane key="1" tab="Column Chart">
-              <dailyChart
-                class="mt-4"
-                :dailyCaseArrayValues="dailyCaseArrayValues"
-                :dailyActiveArrayValues="dailyActiveArrayValues"
-                :dailyRecoverArrayValues="dailyRecoverArrayValues"
-                :dailyDeathArrayValues="dailyDeathArrayValues"
-                :dates="dates"
-                @type="type"
-              />
-            </a-tab-pane>
-            <a-tab-pane key="2" tab="Distribution Chart">
-              <stackChart
-                class="mt-4"
-                :dailyActiveArrayValues="dailyActiveArrayValues"
-                :dailyRecoverArrayValues="dailyRecoverArrayValues"
-                :dailyDeathArrayValues="dailyDeathArrayValues"
-                :dailyVaccineArrayValues="dailyVaccineArrayValues"
-                :dates="dates"
-              />
-            </a-tab-pane>
-          </a-tabs>
+          <!-- daily colums + stack -->
+          <div
+            class="w-full bg-white shadow-2xl shadow-slate-200/70 px-8 py-2 rounded-2xl"
+          >
+            <a-tabs v-model:activeKey="key" size="large" @click="this.tab()">
+              <a-tab-pane key="1" tab="Column Chart">
+                <dailyChart
+                  class="mt-4"
+                  :dailyCaseArrayValues="dailyCaseArrayValues"
+                  :dailyActiveArrayValues="dailyActiveArrayValues"
+                  :dailyRecoverArrayValues="dailyRecoverArrayValues"
+                  :dailyDeathArrayValues="dailyDeathArrayValues"
+                  :dates="dates"
+                />
+              </a-tab-pane>
+              <a-tab-pane key="2" tab="Distribution Chart">
+                <stackChart
+                  ref="stack"
+                  class="mt-4"
+                  :dailyActiveArrayValues="dailyActiveArrayValues"
+                  :dailyRecoverArrayValues="dailyRecoverArrayValues"
+                  :dailyDeathArrayValues="dailyDeathArrayValues"
+                  :dailyVaccineArrayValues="dailyVaccineArrayValues"
+                  :dates="dates"
+                />
+              </a-tab-pane>
+            </a-tabs>
+          </div>
         </div>
 
         <!-- Daily Map + Highlight -->
@@ -344,15 +345,46 @@
         :subBot="` ${this.viewCountry.name}'s cases from the beginning up to now`"
         subTop="Tracking Timeline, Map"
       >
-        <div class="flex flex-wrap items-center space-x-4">
-          <div class="w-3/12">
-            <div class="c" v-show="selectedType != 'death'">
-              <h2>Cases every 1 Million</h2>
+        <div class="flex flex-wrap space-x-8">
+          <div
+            class="w-3/12 h-full bg-white p-4 border-2 border-slate-50 rounded-2xl shadow-2xl shadow-slate-400/20"
+          >
+            <a-radio-group v-model:value="selectedType" size="large" class="bg-slate-50 rounded-2xl p-4 my-4">
+              <a-radio-button value="cases">Cases</a-radio-button>
+              <a-radio-button value="death">Deaths</a-radio-button>
+            </a-radio-group>
+            <div v-show="selectedType != 'death'">
+              <h3
+                class="text-center mb-0 text-xl font-semibold tracking-tight text-slate-900"
+              >
+                Cases every 1 Million
+              </h3>
+
               <solidgaugeChart :val="viewCountry.casesPerOneMillion" />
-              <p>{{ viewCountry.name }} Population</p>
-              <h2>{{ viewCountry.population }}</h2>
+            </div>
+
+            <div v-show="selectedType == 'death'">
+              <h3
+                class="text-left mb-3 text-xl font-semibold tracking-tight text-slate-900"
+              >
+                Deaths every 1 Million
+              </h3>
+
+              <solidgaugeChart :val="viewCountry.deathsPerOneMillion" />
+            </div>
+
+            <!-- Population -->
+
+            <div class="w-full p-4 border-t-2 border-slate-50 rounded-2xl">
+              <p class="text-sm leading-relaxed font-medium text-slate-500">
+                {{ viewCountry.name }} Population
+              </p>
+              <h2 class="text-3xl font-semibold tracking-tight text-slate-900">
+                {{ viewCountry.population }}
+              </h2>
             </div>
           </div>
+
           <div class="w-9/12 flex-1">
             <lineChart
               :caseArrayValues="caseArrayValues"
@@ -366,16 +398,60 @@
       </wrap>
 
       <!--5 CONTINENT -->
+      <!-- `${this.viewCountry.continent} (${this.continentArray.length})` -->
       <wrap
         title="Continent"
         subBot="Visualization in this Nation's Continent"
         subTop="Donut, Column, Table"
       >
-        <countries-in-continent
-          :continentArray="continentArray"
-          :viewCountry="viewCountry"
-          :continentTotal="continentTotal"
-        />
+        <template #right>
+          <div class="w-full flex space-x-8 flex-wrap">
+            <div
+              class="flex-1  text-center bg-white p-4 border-2 border-slate-50 rounded-2xl shadow-2xl shadow-slate-400/20"
+            >
+              <div
+                class="leading-normal text-lg text-slate-500 font-medium uppercase tracking-wider"
+              >
+                {{ viewCountry.name }}
+              </div>
+              <div
+                class="leading-tight tracking-tight text-5xl font-semibold uppercase bg-clip-text text-transparent bg-gradient-to-tr from-blue-900 to-blue-600"
+              >
+                Top {{ countryTopemit }}
+              </div>
+              <div class="leading-snug text-xl text-slate-900 font-medium">
+                Cases in {{ this.viewCountry.continent }}
+              </div>
+              <!-- <a-progress class="w-full" :percent="50" status="active" /> -->
+            </div>
+
+            <div
+              class="flex-1 text-center bg-white p-8 border-2 border-slate-50 rounded-2xl shadow-2xl shadow-slate-400/20"
+            >
+              <div
+                class="leading-normal text-lg text-slate-500 font-medium uppercase tracking-wider"
+              >
+                continent
+              </div>
+              <div
+                class="leading-tight text-5xl font-semibold text-slate-900 uppercase"
+              >
+                {{ this.viewCountry.continent }}
+              </div>
+              <div class="leading-snug text-xl text-slate-900 font-medium">
+                {{ continentArray.length }} Countries
+              </div>
+            </div>
+          </div>
+        </template>
+        <div class="">
+          <countries-in-continent
+            :continentArray="continentArray"
+            :viewCountry="viewCountry"
+            :continentTotal="continentTotal"
+            @countryTopB="countryTopC"
+          />
+        </div>
       </wrap>
     </div>
   </div>
@@ -418,7 +494,8 @@ export default {
 
   data() {
     return {
-      activeKey: "1",
+      countryTopemit: "",
+      key: "1",
       loading: false,
       allCountries: [],
       yourCountry: {},
@@ -449,6 +526,13 @@ export default {
 
   methods: {
     // Normal Method
+    countryTopC(x) {
+      this.countryTopemit = x;
+    },
+    tab() {
+      // console.log(" tab ", )
+      this.$refs.stack.sample();
+    },
     subBot(num1, num2) {
       var rs = num1 - num2;
       let absrs = Math.abs(rs);
@@ -528,10 +612,10 @@ export default {
         this.yourCountry = await api.yourCountry();
         // console.log("2 this.yourCountry  ", this.yourCountry);
       } catch (error) {
-        console.log(" error yourCountry.code ", error);
+        console.log(" error yourCountry", error);
       }
     },
-    countryClick(countryCode = "vn") {
+    countryClick(countryCode = "VN") {
       this.loading = true;
       var country = this.allCountries.find((i) => i.code === countryCode);
       this.viewCountry = country;
@@ -624,10 +708,15 @@ export default {
         .catch((e) => console.log(" getTotalContinent err ", e));
     },
   },
+  // watch:{
+  //   key(){
+  //     this.tab()
+  //   }
+  // },
 
   computed: {},
 
-  created() {
+  updated() {
     // this.getHistoricalCountry();
     // this.countriesInContinent();
     // this.getTotalContinent();
@@ -636,7 +725,8 @@ export default {
     // Asyncronous 1.then 2.async-await
     this.getAllCountries().then(() => {
       this.getUserCountry().then(() => {
-        this.countryClick(this.yourCountry.countryCode);
+        let code = this.yourCountry.countryCode;
+        this.countryClick(code);
       });
     });
   },

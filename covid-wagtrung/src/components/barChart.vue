@@ -166,7 +166,7 @@ export default {
         (x) => x.name == this.viewCountry.name,
         0
       );
-      this.$emit("emitCountryTop", this.countryTop);
+      this.$emit("countryTopA", this.countryTop);
 
       sortedCountries.forEach((i) => {
         if (this.totalOrNew == "total") {

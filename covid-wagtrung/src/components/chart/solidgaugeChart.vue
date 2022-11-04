@@ -45,8 +45,8 @@ export default {
           startAngle: -145,
           endAngle: 145,
           background: {
-            backgroundColor: "#EEE",
-            innerRadius: "80%",
+            backgroundColor: "#e2e8f0",
+            innerRadius: "60%",
             outerRadius: "100%",
             shape: "arc",
           },
@@ -57,7 +57,7 @@ export default {
         },
 
         tooltip: {
-          enabled: false,
+          enabled: true,
         },
 
         // the value axis
@@ -68,9 +68,9 @@ export default {
             text: "",
           },
           stops: [
-            [0, "#60da05"], // green
+            [0, "#3bdf39"], // green
             [0.5, "#37ace3"], // yellow
-            [1, "#e33737"], // red
+            [1, "#df3955"], // red
             // [0.6, "#e81f17"], // green
             // [0.8, "#9f17e8"], // yellow
             // [1, "#3417e8"], // red
@@ -97,19 +97,19 @@ export default {
 
         series: [
           {
-            name: "RPM",
+            name: "",
             data: [],
             dataLabels: {
               format:
-                '<div style="text-align:center">' +
-                '<span style="font-size:25px">{y}</span><br/>' +
-                '<span style="font-size:12px;opacity:0.4">' +
-                "People/1M" +
+                '<div style="text-align:center; margin-top:-20px">' +
+                '<span style="font-size:25px; color:#333">{y}</span><br/>' +
+                '<span style="font-size:12px;color:#333;opacity:0.4">' +
+                "Cases/1M people" +
                 "</span>" +
                 "</div>",
             },
             tooltip: {
-              valueSuffix: " revolutions/min",
+              valueSuffix: " Cases / 1 Million people",
             },
           },
         ],

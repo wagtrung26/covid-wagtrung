@@ -33,7 +33,7 @@ export default {
       chartOptions: {
         chart: {
           type: "areaspline",
-          height: 200,
+          height: 150,
           zoomBySingleTouch: true,
           zoomType: "x",
           backgroundColor: "rgba(0,0,0,0)",

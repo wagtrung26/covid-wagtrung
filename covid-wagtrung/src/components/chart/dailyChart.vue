@@ -240,7 +240,7 @@ export default {
 
     typeClick(type = "case") {
       this.selectedType = type;
-      this.$emit("type", this.selectedType );
+      // this.$emit("type", this.selectedType );
       this.rangeClick(this.selectedRange);
     },
   },

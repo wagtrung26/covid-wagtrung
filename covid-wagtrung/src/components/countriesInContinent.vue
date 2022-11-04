@@ -1,29 +1,30 @@
 <template>
-  <h1 class=" textXl mb0 textLeft">
+  <!-- <h1 class=" textXl mb0 textLeft">
     {{ viewCountry.continent }}
     <span class="textX">({{ continentArray.length }} Countries)</span>
-  </h1>
-  <h3 class=" textLeft mbL">
-    <span class="textX"> {{ viewCountry.name }}</span> is in
-    <span class="textX">Top {{ countryTopemit }}</span> in
-    {{ viewCountry.continent }}
-  </h3>
+  </h1> -->
 
-  <div class="flex flex-wrap space-x-2">
-    <div class="w-3/12">
+  <div class="flex flex-wrap space-x-8 mb-8">
+    <div
+      class="w-3/12 bg-white pt-6 border-2 border-slate-50 rounded-2xl shadow-2xl shadow-slate-400/20"
+    >
+      <h3
+        class="text-left mb-3 ml-6 text-xl font-semibold tracking-tight text-slate-900"
+      >
+        Total {{ viewCountry.continent }}
+      </h3>
       <donutChart :continentTotal="continentTotal" />
     </div>
     <div class="w-9/12 flex-1">
       <bar-chart
         :continentArray="continentArray"
         :viewCountry="viewCountry"
-        @emitCountryTop="setemitCountryTop"
+        @countryTopA="countryTopB"
       />
     </div>
   </div>
 
-    <tableC :continentArray="continentArray"/>
-
+  <tableC :continentArray="continentArray" />
 
   <!-- <div v-for="(item, index) in continentArray" :key="index">
     <div class="flex">
@@ -40,8 +41,7 @@ import donutChart from "@/components/donutChart.vue";
 import tableC from "@/components/comp/table.vue";
 
 export default {
-   
-  components: { barChart, donutChart, tableC,},
+  components: { barChart, donutChart, tableC },
   name: "countiesInContinent",
   props: {
     continentArray: Array,
@@ -51,12 +51,13 @@ export default {
 
   data() {
     return {
-      countryTopemit: 0,
+      // countryTopemit: 0,
     };
   },
   methods: {
-    setemitCountryTop(x) {
-      this.countryTopemit = x + 1;
+    countryTopB(x) {
+      let k = x + 1;
+      this.$emit("countryTopB", k);
     },
   },
   computed: {},

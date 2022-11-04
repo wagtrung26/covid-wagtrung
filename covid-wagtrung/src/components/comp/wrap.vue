@@ -1,6 +1,9 @@
 <template>
-  <div class="container bg-white shadow-2xl shadow-slate-300/50 p-12 rounded-3xl">
-      
+  <div
+    class="container bg-white shadow-2xl shadow-slate-300/50 p-12 rounded-3xl"
+  >
+    <div class="flex flex-wrap flex-start space-x-10 mb-16">
+      <div class="w-max">
         <span class="w-full inline-flex items-baseline" v-if="subTop">
           <span class="relative flex h-4 w-4 mr-2">
             <span
@@ -13,22 +16,25 @@
           <p
             class="text-left text-sm tracking-wider font-semibold text-blue-500 uppercase mb-4"
           >
-            {{subTop}}
+            {{ subTop }}
           </p>
         </span>
-
         <h1
           class="leading-relaxed text-left text-3xl font-semibold tracking-tight text-slate-900 mb-4 sm:text-6xl"
         >
-          {{title}}
+          {{ title }}
         </h1>
-        <p class="text-left text-xl text-slate-600 mb-16 ">
-          {{subBot}}
+        <p class="text-left text-xl text-slate-600 ">
+          {{ subBot }}
         </p>
-
-        <slot />
-       
       </div>
+      <div class="flex-1 flex flex-start item-center">
+        <slot name="right" />
+      </div>
+    </div>
+
+    <slot />
+  </div>
 </template>
 
 <script>
@@ -39,7 +45,7 @@ export default {
   name: "wrapC",
   props: {
     subTop: {
-    //   type: String,
+      //   type: String,
       default: null,
     },
     title: {
