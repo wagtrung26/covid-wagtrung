@@ -527,7 +527,9 @@ export default {
     sliceDeath(index){
       let from = this.vaccineArrayValues.indexOf(this.v[index]);
       let to =  this.vaccineArrayValues.indexOf(this.v[index + 1])
-      return this.dailyDeathArrayValues.slice(from, to )
+      let rs = this.dailyDeathArrayValues.slice(from, to )
+      console.log(" sliceDeath ", rs)
+      return rs
     },
     countryTopC(x) {
       this.countryTopemit = x;
