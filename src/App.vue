@@ -4,12 +4,17 @@
       class="w-full bg-slate-200 dark:bg-slate-900 dark:text-white dark:text-"
     >
       <nav class="fixed top-0 w-full h-16 flex items-center justify-center backdrop-blur-lg z-20 ">
-      <div class="flex-1 text-xl text-medium space-x-4">
+        <div class="h-10">
+          <img class="w-full h-full" src="@/assets/logo.png" alt="">
+        </div>
+        
+      <div class="flexCen flex-1 text-lg text-medium space-x-8">
         <router-link to="/">Country</router-link> 
+        
         <router-link to="/worldwide">worldwide</router-link>
         </div>
         <div
-          class="absolute left-8 top-4 bg-slate-300/50  rounded-full p-2 hover:bg-blue-500"
+          class="absolute right-8 top-4 bg-slate-300/50  rounded-full p-2 hover:bg-blue-500"
         >
           <a-switch class="" v-model:checked="this.dark">
             <template #checkedChildren
