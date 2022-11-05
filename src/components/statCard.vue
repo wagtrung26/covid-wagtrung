@@ -8,7 +8,7 @@
     <!-- Search -> ref -->
     <div
      @click="seachOn = !seachOn"
-      class="relative bg-slate-100/10 p-4 rounded-full hover:bg-white  hover:scale-125 transition group cursor-pointer"
+      class="relative bg-slate-100/10 p-4 rounded-full hover:bg-white  hover:scale-110 transition group cursor-pointer"
     >
       <span
         class="animate-ping group-hover:animate-none absolute inset-0 h-full w-full rounded-full border-2 border-slate-50/20 opacity-75"
@@ -206,9 +206,9 @@ export default {
     },
 
     countryClickComp(countryCode) {
-      this.vModelCountry = "";
-      this.$emit("countryClickComp", countryCode);
       this.seachOn = false
+      this.$emit("countryClickComp", countryCode);
+      this.vModelCountry = "";
     },
   },
 };

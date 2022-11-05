@@ -148,10 +148,10 @@ export default {
         },
         xAxis: {
           categories: [],
-          type: 'datetime',
-      labels: {
-        format: '{value:%d-%m-%Y}',
-      }
+      //     type: 'datetime',
+      // labels: {
+      //   format: '{value:%d-%m-%Y}',
+      // }
         },
         legend: {
           enabled: false,
@@ -170,6 +170,7 @@ export default {
           borderWidth: 1,
         },
         plotOptions: {
+          series: {},
           areaspline: {
             fillOpacity: 0.2,
           },

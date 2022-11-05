@@ -8,7 +8,7 @@
       v-show="!loading"
     ></div>
     <!-- ON LOAD Skelaton -->
-    <div class="mx-auto px-20 pt-20 bg-white" v-show="loading">
+    <div class="m-auto px-20 pt-20 bg-white" v-show="loading">
       <div class="">
         <div class="flex justify-center item-center space-x-4 mb-2">
           <a-skeleton-image size="large" />
@@ -529,7 +529,7 @@ export default {
       let from = this.vaccineArrayValues.indexOf(this.v[index]);
       let to =  this.vaccineArrayValues.indexOf(this.v[index + 1])
       let rs = this.dailyDeathArrayValues.slice(from, to )
-      console.log(" sliceDeath ", rs)
+      // console.log(" sliceDeath ", rs)
       return rs
     },
     countryTopC(x) {

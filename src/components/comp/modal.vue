@@ -1,7 +1,15 @@
-<template>
-  <div class="fixed inset-0 flexCen bg-slate-900/80 backdrop-blur-lg z-40" @click.self="showModal= false" v-if="showModal">
+<template >
+
+
+   <transition name="fade" appear>
+  <div class="fixed inset-0  bg-slate-900/80 backdrop-blur-lg z-40" @click.self="showModal= false" v-if="showModal">
+
+  </div>
+   </transition>
+  <transition name="pop" appear>
     <div
-      class="relative min-w-[50%] min-h-[50%] overflow-hidden bg-white z-50 p-8 rounded-3xl shadow-xl"
+    v-if="showModal"
+      class="fixed inset-0 m-auto max-w-[50%] max-h-max overflow-hidden bg-white z-50 p-8 rounded-3xl shadow-xl"
     >
     <!-- close btn -->
       <div
@@ -34,7 +42,9 @@
         </div> -->
       
     </div>
-  </div>
+    </transition>
+
+
 </template>
 
 <script>
@@ -77,4 +87,24 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .4s linear;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.pop-enter-active,
+.pop-leave-active {
+  transition: transform 0.2s cubic-bezier(0.5, 0, 0.5, 1), opacity 0.2s linear;
+}
+
+.pop-enter,
+.pop-leave-to {
+  opacity: 0;
+  transform: scale(0.2) translateY(-50%);
+}</style>

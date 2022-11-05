@@ -24,5 +24,7 @@
     .flexCen{@apply flex justify-center items-center}
 }
 @layer utilities{
+    /* ---------------------------------- */
+
     /* h1{ @apply text-4xl} */
 }
