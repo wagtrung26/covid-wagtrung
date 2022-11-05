@@ -101,7 +101,7 @@ export default {
             data: [],
             dataLabels: {
               format:
-                '<div style="text-align:center; margin-top:-20px">' +
+                '<div style="text-align:center; margin-top:-30px">' +
                 '<span style="font-size:25px; color:#333">{y}</span><br/>' +
                 '<span style="font-size:12px;color:#333;opacity:0.4">' +
                 "Cases/1M people" +

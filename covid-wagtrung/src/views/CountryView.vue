@@ -8,19 +8,25 @@
       v-show="!loading"
     ></div>
     <!-- ON LOAD Skelaton -->
-    <div class="mx-auto px-20 pt-20" v-show="loading">
+    <div class="mx-auto px-20 pt-20 bg-white" v-show="loading">
       <div class="">
-        <div class="flex justify-center space-x-8">
+       
+        <div class="flex justify-center item-center space-x-4  mb-2">
           <a-skeleton-image size="large" />
           <a-skeleton
             active
             size="large"
             :paragraph="{ rows: 2 }"
             shape="round"
-            class="w-64"
+            class="w-96 -mt-3"
           />
         </div>
-        <div class="flex justify-center" style="margin-bottom: 20px">
+         <a-spin
+        :tip="'WagTrung-Covid Loading...' + this.viewCountry.name"
+        size="small"
+      >
+      </a-spin>
+        <div class="flex justify-center mb-8 space-x-8">
           <a-skeleton
             active
             shape="round"
@@ -37,39 +43,33 @@
           <a-skeleton
             active
             shape="round"
-            :paragraph="{ rows: 3 }"
+            :paragraph="{ rows: 3}"
             style="width: 300px"
           />
         </div>
       </div>
-      <a-spin
-        :tip="'WagTrung-Covid Loading ' + this.viewCountry.name"
-        size="default"
-      >
-      </a-spin>
       <a-skeleton avatar active :paragraph="{ rows: 4 }" />
     </div>
 
     <!-- ON LOAD MODAL - DETECT USER COUNTRY -->
-    <!-- <div>
-      <a-modal v-model:visible="visible" @ok="handleOk">
-        <a-result status="success" title="" style="padding: 20px 0px">
+    
+      <modal title="Your Country" v-if="visible &&  yourCountry.request">
+         <a-result status="success" title="" style="padding: 20px">
           <template #extra>
             <div>
-              <p>DETECT NATION BASED ON USER'S IP ADDRESS</p>
               <div class="flex items-center justify-center">
                 <img
                   style="margin-right: 16px"
                   :src="this.viewCountry.flag"
                   alt=""
-                  width="70"
+                  width="80"
                 />
-                <h1 class="text-6xl font-bold leading-relaxed">
+                <h1 class="text-6xl font-semibold text-slate-900 leading-snug tracking-tight truncate">
                   {{ yourCountry.countryName }}
                 </h1>
               </div>
 
-              <p class="text-xl uppercase">
+              <p class="text-2xl uppercase font-semibold text-slate-500 tracking-wide mb-4 ">
                 IP: {{ yourCountry.request }} - {{ yourCountry.continentName }}
               </p>
 
@@ -77,8 +77,9 @@
             </div>
           </template>
         </a-result>
-      </a-modal>
-    </div> -->
+        </modal>
+    
+
 
     <div class="container space-y-14 mx-auto" v-show="!loading">
       <!-- 1 STAT HIGHLIGHT -->
@@ -349,10 +350,7 @@
           <div
             class="w-3/12 h-full bg-white p-4 border-2 border-slate-50 rounded-2xl shadow-2xl shadow-slate-400/20"
           >
-            <a-radio-group v-model:value="selectedType" size="large" class="bg-slate-50 rounded-2xl p-4 my-4">
-              <a-radio-button value="cases">Cases</a-radio-button>
-              <a-radio-button value="death">Deaths</a-radio-button>
-            </a-radio-group>
+            
             <div v-show="selectedType != 'death'">
               <h3
                 class="text-center mb-0 text-xl font-semibold tracking-tight text-slate-900"
@@ -365,7 +363,7 @@
 
             <div v-show="selectedType == 'death'">
               <h3
-                class="text-left mb-3 text-xl font-semibold tracking-tight text-slate-900"
+                class="text-center mb-3 text-xl font-semibold tracking-tight text-slate-900"
               >
                 Deaths every 1 Million
               </h3>
@@ -373,6 +371,10 @@
               <solidgaugeChart :val="viewCountry.deathsPerOneMillion" />
             </div>
 
+<a-radio-group v-model:value="selectedType" size="large" class="">
+              <a-radio-button value="cases">Cases</a-radio-button>
+              <a-radio-button value="death">Deaths</a-radio-button>
+            </a-radio-group>
             <!-- Population -->
 
             <div class="w-full p-4 border-t-2 border-slate-50 rounded-2xl">
@@ -473,11 +475,13 @@ import solidgaugeChart from "@/components/chart/solidgaugeChart.vue";
 import mixLineChart from "@/components/chart/mixLineChart.vue";
 import wrap from "@/components/comp/wrap.vue";
 import card from "@/components/comp/card.vue";
+import modal from "@/components/comp/modal.vue";
 
 export default {
   name: "CountryView",
   components: {
     wrap,
+    modal,
     card,
     statCard,
     lineChart,
