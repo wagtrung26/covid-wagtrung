@@ -558,7 +558,9 @@ export default {
     },
     handleOk(e) {
       console.log(e);
-      this.visible = false;
+      setTimeout( () => {this.visible = false}
+      , 5000
+    )
     },
     vacTrend() {
       let totalVac =
@@ -621,6 +623,7 @@ export default {
     },
     countryClick(countryCode = "VN") {
       this.loading = true;
+      this.handleOk();
       var country = this.allCountries.find((i) => i.code === countryCode);
       this.viewCountry = country;
       // console.log(" 3 this.viewCountry ", this.viewCountry);
