@@ -148,6 +148,10 @@ export default {
         },
         xAxis: {
           categories: [],
+          type: 'datetime',
+      labels: {
+        format: '{value:%d-%m-%Y}',
+      }
         },
         legend: {
           enabled: false,

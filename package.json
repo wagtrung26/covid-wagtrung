@@ -18,6 +18,7 @@
     "highcharts": "^10.2.1",
     "highcharts-vue": "^1.4.0",
     "lodash": "^4.17.21",
+    "moment": "^2.29.4",
     "numeral": "^2.0.6",
     "postcss": "^8",
     "tailwindcss": "^3",

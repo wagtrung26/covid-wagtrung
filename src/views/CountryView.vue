@@ -233,7 +233,7 @@
         <p
           class="text-left text-sm tracking-wider font-semibold text-slate-500 uppercase mb-3"
         >
-          Timline
+          Timeline
         </p>
         <h1
           class="text-left text-5xl font-semibold tracking-tight text-slate-900"
@@ -243,7 +243,7 @@
         <h2 class="text-left text-base text-slate-500 mt-2 mb-8">
           Population full dose of Vaccination
         </h2>
-        <p class="bg-rose-600 p-4 text-white">đang fix lỗi không hiển thị chart sau khi deploy lên web (local vẫn chạy bình thường)</p>
+        <!-- <p class="bg-rose-600 p-4 text-white">đang fix lỗi không hiển thị chart sau khi deploy lên web (local vẫn chạy bình thường)</p> -->
 
         <div class="w-full p-8 bg-slate-50 space-y-8 rounded-2xl">
           <div v-for="(item, index) in v" :key="index">
@@ -648,7 +648,13 @@ export default {
 
           //TOTAL HISTORY
           //xAsis
-          this.dates = Object.keys(listTimeline.deaths);
+          const moment = require('moment');
+
+         let rawDates = Object.keys(listTimeline.deaths);
+          rawDates.forEach((i)=>{
+              let k = moment(i).format("DD MMM YYYY") 
+               this.dates.push(k)
+          })
           //yAxis
           this.caseArrayValues = Object.values(listTimeline.cases);
           this.recoverArrayValues = Object.values(listTimeline.recovered);
@@ -733,6 +739,8 @@ export default {
     // this.getTotalContinent();
   },
   mounted() {
+    
+ 
     // Asyncronous 1.then 2.async-await
     this.getAllCountries().then(() => {
       this.getUserCountry().then(() => {
