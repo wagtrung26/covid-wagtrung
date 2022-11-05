@@ -167,8 +167,7 @@ export default {
     },
   },
   created() {},
-  mounted() {},
-  updated() {
+  mounted() {
     if (this.type) {
       this.chartOptions.series[0].color = "#0093ff";
       this.chartOptions.series[0].fillColor.stops[0] = [0, "#0093ff"];
@@ -180,6 +179,8 @@ export default {
     this.chartOptions.series[1].data = this.avg;
     this.chartOptions.xAxis.categories = this.x;
   },
+  updated() {
+  }
 };
 </script>
 
