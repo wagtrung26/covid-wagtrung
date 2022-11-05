@@ -1,4 +1,6 @@
 # covid-wagtrung
+## Vue Project
+Covid-19 data Visualization & Vaccination Efficiency
 
 ## Project setup
 ```
