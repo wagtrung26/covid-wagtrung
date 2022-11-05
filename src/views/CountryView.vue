@@ -431,7 +431,7 @@
                 continent
               </div>
               <div
-                class="leading-tight text-5xl font-semibold text-slate-900 uppercase"
+                class="leading-tight text-5xl font-semibold text-slate-900 uppercase truncate"
               >
                 {{ this.viewCountry.continent }}
               </div>
