@@ -179,6 +179,18 @@ export default {
     this.chartOptions.series[1].data = this.avg;
     this.chartOptions.xAxis.categories = this.x;
   },
+  // mounted() {
+  //   if (this.type) {
+  //     this.chartOptions.series[0].color = "#0093ff";
+  //     this.chartOptions.series[0].fillColor.stops[0] = [0, "#0093ff"];
+  //     this.chartOptions.series[0].name = "DAILY CASES";
+  //   }
+
+  //   this.chartOptions.series[0].data = this.y;
+  //   this.avgFunc();
+  //   this.chartOptions.series[1].data = this.avg;
+  //   this.chartOptions.xAxis.categories = this.x;
+  // },
  
 };
 </script>

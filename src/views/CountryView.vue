@@ -625,6 +625,17 @@ export default {
     },
     countryClick(countryCode = "VN") {
       this.loading = true;
+      this.caseArrayValues= [];
+      this.deathArrayValues= [];
+      this.recoverArrayValues= [];
+      this.vaccineArrayValues= [];
+      this.activeArrayValues= [];
+      this.dailyCaseArrayValues= [];
+      this.dailyRecoverArrayValues= [];
+      this.dailyDeathArrayValues= [];
+      this.dailyVaccineArrayValues= [];
+      this.dailyActiveArrayValues= [];
+      this.dates= [];
       // this.handleOk();
       var country = this.allCountries.find((i) => i.code === countryCode);
       this.viewCountry = country;

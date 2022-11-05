@@ -206,8 +206,8 @@ export default {
     },
 
     countryClickComp(countryCode) {
-      this.seachOn = false
       this.$emit("countryClickComp", countryCode);
+      this.seachOn = false
       this.vModelCountry = "";
     },
   },
