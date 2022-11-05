@@ -50,7 +50,7 @@ export default {
           {
             name: "DAILY DEATHS",
             // type: 'column',
-            data: [0, 6, 9],
+            data: [],
             lineWidth: 3,
             color: "#d6172d",
             fillColor: {
@@ -69,7 +69,7 @@ export default {
           {
             name: "AVG ",
             type: "spline",
-            data: [1, 1, 1],
+            data: [],
             lineWidth: 3,
             color: "#525152",
             dashStyle: "shortdot",

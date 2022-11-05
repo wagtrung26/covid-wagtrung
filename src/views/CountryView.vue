@@ -10,8 +10,7 @@
     <!-- ON LOAD Skelaton -->
     <div class="mx-auto px-20 pt-20 bg-white" v-show="loading">
       <div class="">
-       
-        <div class="flex justify-center item-center space-x-4  mb-2">
+        <div class="flex justify-center item-center space-x-4 mb-2">
           <a-skeleton-image size="large" />
           <a-skeleton
             active
@@ -21,11 +20,11 @@
             class="w-96 -mt-3"
           />
         </div>
-         <a-spin
-        :tip="'WagTrung-Covid Loading...' + this.viewCountry.name"
-        size="small"
-      >
-      </a-spin>
+        <a-spin
+          :tip="'WagTrung-Covid Loading...' + this.viewCountry.name"
+          size="small"
+        >
+        </a-spin>
         <div class="flex justify-center mb-8 space-x-8">
           <a-skeleton
             active
@@ -43,7 +42,7 @@
           <a-skeleton
             active
             shape="round"
-            :paragraph="{ rows: 3}"
+            :paragraph="{ rows: 3 }"
             style="width: 300px"
           />
         </div>
@@ -52,34 +51,34 @@
     </div>
 
     <!-- ON LOAD MODAL - DETECT USER COUNTRY -->
-    
-      <modal title="Your Country" v-if="visible &&  yourCountry.request">
-         <a-result status="success" title="" style="padding: 20px">
-          <template #extra>
-            <div>
-              <div class="flex items-center justify-center">
-                <img
-                  style="margin-right: 16px"
-                  :src="this.viewCountry.flag"
-                  alt=""
-                  width="80"
-                />
-                <h1 class="text-6xl font-semibold text-slate-900 leading-snug tracking-tight truncate">
-                  {{ yourCountry.countryName }}
-                </h1>
-              </div>
 
-              <p class="text-2xl uppercase font-semibold text-slate-500 tracking-wide mb-4 ">
-                IP: {{ yourCountry.request }} - {{ yourCountry.continentName }}
-              </p>
-
-
+    <modal title="Your Country" v-if="visible && yourCountry.request">
+      <a-result status="success" title="" style="padding: 20px">
+        <template #extra>
+          <div>
+            <div class="flex items-center justify-center">
+              <img
+                style="margin-right: 16px"
+                :src="this.viewCountry.flag"
+                alt=""
+                width="80"
+              />
+              <h1
+                class="text-6xl font-semibold text-slate-900 leading-snug tracking-tight truncate"
+              >
+                {{ yourCountry.countryName }}
+              </h1>
             </div>
-          </template>
-        </a-result>
-        </modal>
-    
 
+            <p
+              class="text-2xl uppercase font-semibold text-slate-500 tracking-wide mb-4"
+            >
+              IP: {{ yourCountry.request }} - {{ yourCountry.continentName }}
+            </p>
+          </div>
+        </template>
+      </a-result>
+    </modal>
 
     <div class="container space-y-14 mx-auto" v-show="!loading">
       <!-- 1 STAT HIGHLIGHT -->
@@ -350,7 +349,6 @@
           <div
             class="w-3/12 h-full bg-white p-4 border-2 border-slate-50 rounded-2xl shadow-2xl shadow-slate-400/20"
           >
-            
             <div v-show="selectedType != 'death'">
               <h3
                 class="text-center mb-0 text-xl font-semibold tracking-tight text-slate-900"
@@ -371,7 +369,7 @@
               <solidgaugeChart :val="viewCountry.deathsPerOneMillion" />
             </div>
 
-<a-radio-group v-model:value="selectedType" size="large" class="">
+            <a-radio-group v-model:value="selectedType" size="large" class="">
               <a-radio-button value="cases">Cases</a-radio-button>
               <a-radio-button value="death">Deaths</a-radio-button>
             </a-radio-group>
@@ -409,7 +407,7 @@
         <template #right>
           <div class="w-full flex space-x-8 flex-wrap">
             <div
-              class="flex-1  text-center bg-white p-4 border-2 border-slate-50 rounded-2xl shadow-2xl shadow-slate-400/20"
+              class="flex-1 text-center bg-white p-4 border-2 border-slate-50 rounded-2xl shadow-2xl shadow-slate-400/20"
             >
               <div
                 class="leading-normal text-lg text-slate-500 font-medium uppercase tracking-wider"
@@ -558,9 +556,9 @@ export default {
     },
     handleOk(e) {
       console.log(e);
-      setTimeout( () => {this.visible = false}
-      , 5000
-    )
+      setTimeout(() => {
+        this.visible = false;
+      }, 3000);
     },
     vacTrend() {
       let totalVac =
