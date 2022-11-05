@@ -6,7 +6,7 @@
       <p
         class="text-left text-xs tracking-wider font-semibold text-slate-500 uppercase mb-3"
       >
-        Average
+        Average {{type}}
       </p>
       <h2 class="text-left text-2xl font-semibold text-slate-900"> {{avgVal}} </h2>
     </div>
