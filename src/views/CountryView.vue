@@ -246,6 +246,7 @@
 
         <div class="w-full p-8 bg-slate-50 space-y-8 rounded-2xl">
           <div v-for="(item, index) in v" :key="index">
+
             <div class="w-full" v-if="index < this.v.length - 1">
               <div class="flex items-center flex-start mb-5">
                 <p
@@ -267,12 +268,7 @@
               <div class="flex space-x-8">
                 <mixLineChart
                   class="w-1/2"
-                  :y="
-                    this.dailyDeathArrayValues.slice(
-                      this.vaccineArrayValues.indexOf(this.v[index]),
-                      this.vaccineArrayValues.indexOf(this.v[index + 1])
-                    )
-                  "
+                  :y="sliceDeath(index)"
                   :x="
                     this.dates.slice(
                       this.vaccineArrayValues.indexOf(this.v[index]) + 1,
@@ -528,6 +524,11 @@ export default {
 
   methods: {
     // Normal Method
+    sliceDeath(index){
+      let from = this.vaccineArrayValues.indexOf(this.v[index]);
+      let to =  this.vaccineArrayValues.indexOf(this.v[index + 1])
+      return this.dailyDeathArrayValues.slice(from, to )
+    },
     countryTopC(x) {
       this.countryTopemit = x;
     },
@@ -719,7 +720,9 @@ export default {
   //   }
   // },
 
-  computed: {},
+  computed: {
+    
+  },
 
   updated() {
     // this.getHistoricalCountry();
