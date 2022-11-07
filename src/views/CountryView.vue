@@ -7,6 +7,7 @@
       class="relative w-full h-96 bg-gradient-to-tr from-indigo-900 via-slate-800 to-blue-600 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-700 z-0"
       v-show="!loading"
     ></div>
+  
     <!-- ON LOAD Skelaton -->
     <div class="m-auto px-20 pt-20 bg-white" v-show="loading">
       <div class="">
@@ -254,7 +255,7 @@
         <div class="w-full p-8 bg-slate-50 space-y-8 rounded-2xl">
           <div v-for="(item, index) in v" :key="index">
             <div class="w-full" v-if="index < this.v.length - 1">
-              <div class="flex flex-wrap items-center flex-start mb-5">
+              <div class="flex  items-center flex-start mb-5">
                 <p
                   class="text-2xl leading-none font-semibold text-white bg-violet-600 py-2 px-4 rounded-lg mr-4"
                 >
@@ -271,7 +272,7 @@
                   }}</span
                 >
               </div>
-              <div class="flex flex-wrap space-x-8">
+              <div class="flex space-x-8">
                 <mixLineChart
                   class="w-1/2"
                   :y="sliceDeath(index)"
@@ -302,12 +303,12 @@
             </div>
 
             <div class="w-full" v-else>
-              <div class="flex flex-wrap items-center flex-start mb-5">
+              <div class="flex items-center flex-start mb-5">
                 <span class="text-2xl leading-none font-semibold text-slate-900"
                   >Up to Now
                 </span>
               </div>
-              <div class="flex flex-wrap space-x-8">
+              <div class="flex space-x-8">
                 <mixLineChart
                   class="w-1/2"
                   :y="
@@ -640,7 +641,7 @@ export default {
         .getForCountry(this.viewCountry.code, this.viewCountry.continent)
         .then(
           axios.spread((hisC, vacC, contiC) => {
-            this.$Progress.set(50);
+            this.$Progress.set(80);
             // hisC - historyTimeline / vacC = vaccineTimeline / contiC - continentTotal
             this.handleGetForCountry(hisC, vacC, contiC);
           })
@@ -726,10 +727,11 @@ export default {
     });
   },
 
-  // beforeUpdate(){
-  //     this.$Progress.start();
-  // },
+  beforeUpdate(){
+      this.$Progress.start();
+  },
   updated() {
+      this.$Progress.finish();
     
   },
 };
