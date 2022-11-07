@@ -8,7 +8,7 @@
       >
         Average {{type}}
       </p>
-      <h2 class="text-left text-2xl font-semibold text-slate-900"> {{avgVal}} </h2>
+      <h2 class="text-left text-2xl font-semibold text-slate-900"> {{numF(avgVal)}} </h2>
     </div>
 
     <highcharts class="flex-1" :options="chartOptions" ref="chart"></highcharts>
@@ -17,14 +17,17 @@
 
 <script>
 // import { mapGetters, mapMutations, mapActions } from "vuex";
-
+import numeral from "numeral"
 export default {
   components: {},
   name: "mixLineChart",
   props: {
     y: Array,
     x: Array,
-    type: String,
+    type: {
+      type: String,
+      default: "Death"
+    }
   },
   data() {
     return {
@@ -140,6 +143,9 @@ export default {
     };
   },
   methods: {
+    numF(num) {
+      return numeral(num).format("0,0");
+    },
     // VUEX-Method
     // ...mapMutations(["increase"]),
     // VUEX-Action
@@ -168,7 +174,7 @@ export default {
   },
   created() {},
   updated() {
-    if (this.type) {
+    if (this.type=="cases") {
       this.chartOptions.series[0].color = "#0093ff";
       this.chartOptions.series[0].fillColor.stops[0] = [0, "#0093ff"];
       this.chartOptions.series[0].name = "DAILY CASES";
@@ -180,7 +186,7 @@ export default {
     this.chartOptions.xAxis.categories = this.x;
   },
   mounted() {
-    if (this.type) {
+    if (this.type=="cases") {
       this.chartOptions.series[0].color = "#0093ff";
       this.chartOptions.series[0].fillColor.stops[0] = [0, "#0093ff"];
       this.chartOptions.series[0].name = "DAILY CASES";

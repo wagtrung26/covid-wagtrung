@@ -158,31 +158,30 @@
 
           <!-- daily colums + stack -->
           <div
+            class="w-full bg-white shadow-2xl shadow-slate-200/70 px-8 py-2 rounded-2xl mb-8"
+          >
+            <dailyChart
+              class="mt-4"
+              :dailyCaseArrayValues="dailyCaseArrayValues"
+              :dailyActiveArrayValues="dailyActiveArrayValues"
+              :dailyRecoverArrayValues="dailyRecoverArrayValues"
+              :dailyDeathArrayValues="dailyDeathArrayValues"
+              :dates="dates"
+            />
+          </div>
+
+          <div
             class="w-full bg-white shadow-2xl shadow-slate-200/70 px-8 py-2 rounded-2xl"
           >
-            <a-tabs v-model:activeKey="key" size="large" @click="this.tab()">
-              <a-tab-pane key="1" tab="Column Chart">
-                <dailyChart
-                  class="mt-4"
-                  :dailyCaseArrayValues="dailyCaseArrayValues"
-                  :dailyActiveArrayValues="dailyActiveArrayValues"
-                  :dailyRecoverArrayValues="dailyRecoverArrayValues"
-                  :dailyDeathArrayValues="dailyDeathArrayValues"
-                  :dates="dates"
-                />
-              </a-tab-pane>
-              <a-tab-pane key="2" tab="Distribution Chart">
-                <stackChart
-                  ref="stack"
-                  class="mt-4"
-                  :dailyActiveArrayValues="dailyActiveArrayValues"
-                  :dailyRecoverArrayValues="dailyRecoverArrayValues"
-                  :dailyDeathArrayValues="dailyDeathArrayValues"
-                  :dailyVaccineArrayValues="dailyVaccineArrayValues"
-                  :dates="dates"
-                />
-              </a-tab-pane>
-            </a-tabs>
+            <stackChart
+              ref="stack"
+              class="mt-4"
+              :dailyActiveArrayValues="dailyActiveArrayValues"
+              :dailyRecoverArrayValues="dailyRecoverArrayValues"
+              :dailyDeathArrayValues="dailyDeathArrayValues"
+              :dailyVaccineArrayValues="dailyVaccineArrayValues"
+              :dates="dates"
+            />
           </div>
         </div>
 
@@ -247,7 +246,6 @@
 
         <div class="w-full p-8 bg-slate-50 space-y-8 rounded-2xl">
           <div v-for="(item, index) in v" :key="index">
-
             <div class="w-full" v-if="index < this.v.length - 1">
               <div class="flex items-center flex-start mb-5">
                 <p
@@ -377,7 +375,7 @@
                 {{ viewCountry.name }} Population
               </p>
               <h2 class="text-3xl font-semibold tracking-tight text-slate-900">
-                {{ viewCountry.population }}
+                {{ numF(viewCountry.population) }}
               </h2>
             </div>
           </div>
@@ -471,6 +469,8 @@ import mixLineChart from "@/components/chart/mixLineChart.vue";
 import wrap from "@/components/comp/wrap.vue";
 import card from "@/components/comp/card.vue";
 import modal from "@/components/comp/modal.vue";
+import numeral from "numeral";
+import axios from "axios";
 
 export default {
   name: "CountryView",
@@ -495,7 +495,7 @@ export default {
     return {
       countryTopemit: "",
       key: "1",
-      loading: false,
+      loading: null,
       allCountries: [],
       yourCountry: {},
       viewCountry: {},
@@ -515,7 +515,7 @@ export default {
       dates: [],
       continentArray: [],
       continentTotal: {},
-      visible: true,
+      visible: null,
       selectedType: "cases",
 
       // v1: "",
@@ -525,12 +525,15 @@ export default {
 
   methods: {
     // Normal Method
-    sliceDeath(index){
+    numF(num) {
+      return numeral(num).format("0,0");
+    },
+    sliceDeath(index) {
       let from = this.vaccineArrayValues.indexOf(this.v[index]);
-      let to =  this.vaccineArrayValues.indexOf(this.v[index + 1])
-      let rs = this.dailyDeathArrayValues.slice(from, to )
+      let to = this.vaccineArrayValues.indexOf(this.v[index + 1]);
+      let rs = this.dailyDeathArrayValues.slice(from, to);
       // console.log(" sliceDeath ", rs)
-      return rs
+      return rs;
     },
     countryTopC(x) {
       this.countryTopemit = x;
@@ -558,13 +561,7 @@ export default {
     type(x) {
       this.selectedType = x;
     },
-    handleOk(e) {
-      console.log(e);
-      setTimeout(() => {
-        this.visible = false;
-      }, 3000);
-    },
-    vacTrend() {
+    vacEffi() {
       let totalVac =
         this.vaccineArrayValues[this.vaccineArrayValues.length - 1];
       let popu = this.viewCountry.population;
@@ -574,13 +571,6 @@ export default {
         const x = this.vaccineArrayValues.find((k) => k >= popu * i);
         this.v.push(x);
       }
-
-      // this.v1 = this.vaccineArrayValues.indexOf(v[0]);
-
-      // console.log(" timesFullVac", timesFullVac);
-      // console.log(" v", this.v);
-      // console.log(" vacTrend popu", this.viewCountry.population);
-      // console.log(" vacTrend x ", x);
     },
     dailyArrayValues(mockArray) {
       let chartDataY = [];
@@ -625,113 +615,88 @@ export default {
     },
     countryClick(countryCode = "VN") {
       this.loading = true;
-      this.caseArrayValues= [];
-      this.deathArrayValues= [];
-      this.recoverArrayValues= [];
-      this.vaccineArrayValues= [];
-      this.activeArrayValues= [];
-      this.dailyCaseArrayValues= [];
-      this.dailyRecoverArrayValues= [];
-      this.dailyDeathArrayValues= [];
-      this.dailyVaccineArrayValues= [];
-      this.dailyActiveArrayValues= [];
-      this.dates= [];
-      // this.handleOk();
-      var country = this.allCountries.find((i) => i.code === countryCode);
+      this.$Progress.start();
+
+      let country = this.allCountries.find((i) => i.code === countryCode);
       this.viewCountry = country;
-      // console.log(" 3 this.viewCountry ", this.viewCountry);
 
-      this.getHistoricalCountry();
-      // console.log(" 4 getHistoricalCountry ");
-
-      this.countriesInContinent(this.viewCountry.continent);
-      // console.log(" 5.1 countries Continent ");
-
-      this.getTotalContinent(this.viewCountry.continent);
-      // console.log(" 5.2 total Continent ");
-    },
-    getHistoricalCountry() {
+      this.caseArrayValues = [];
+      this.deathArrayValues = [];
+      this.recoverArrayValues = [];
+      this.vaccineArrayValues = [];
+      this.activeArrayValues = [];
+      this.dailyCaseArrayValues = [];
+      this.dailyRecoverArrayValues = [];
+      this.dailyDeathArrayValues = [];
+      this.dailyVaccineArrayValues = [];
+      this.dailyActiveArrayValues = [];
+      this.dates = [];
       api
-        .getHistoricalCountry(this.viewCountry.code)
-        .then((res) => {
-          let listTimeline = res.data.timeline;
-          // console.log(" listTimeline ",res.data)
-
-          //TOTAL HISTORY
-          //xAsis
-          const moment = require('moment');
-
-         let rawDates = Object.keys(listTimeline.deaths);
-          rawDates.forEach((i)=>{
-              let k = moment(i).format("DD MMM YYYY") 
-               this.dates.push(k)
+        .getForCountry(this.viewCountry.code, this.viewCountry.continent)
+        .then(
+          axios.spread((hisC, vacC, contiC) => {
+            // hisC - historyTimeline / vacC = vaccineTimeline / contiC - continentTotal
+          this.$Progress.increase(80);
+          this.handleGetForCountry(hisC, vacC, contiC);
           })
-          //yAxis
-          this.caseArrayValues = Object.values(listTimeline.cases);
-          this.recoverArrayValues = Object.values(listTimeline.recovered);
-          this.deathArrayValues = Object.values(listTimeline.deaths);
-          //create ACTIVE TOTAL
-          this.activeArrayValues = [];
-          this.caseArrayValues.forEach((i, index) => {
-            let active =
-              i - this.deathArrayValues[index] - this.deathArrayValues[index];
-            this.activeArrayValues.push(active);
-          });
-          // console.log(" this.activeArrayValues ", this.activeArrayValues);
-          this.dailyActiveArrayValues = this.dailyArrayValues(
-            this.activeArrayValues
-          );
-          // console.log(" dailyActiveArrayValues ", this.dailyActiveArrayValues);
-
-          //DAILY CASE HISTORY - total[last] - total[last-1]
-          this.dailyCaseArrayValues = this.dailyArrayValues(
-            this.caseArrayValues
-          );
-          this.dailyDeathArrayValues = this.dailyArrayValues(
-            this.deathArrayValues
-          );
-          this.dailyRecoverArrayValues = this.dailyArrayValues(
-            this.recoverArrayValues
-          );
-        })
-        .catch((e) => console.log(" getHistoricalCountry ", e));
-
-      api
-        .getHistoricalCountryVaccine(this.viewCountry.code)
-        .then((res) => {
-          let listTimeline = res.data.timeline;
-          let newVaccineArrayValues = Object.values(listTimeline);
-          let n = this.dates.length - newVaccineArrayValues.length;
-          for (let i = 0; i < n; i++) {
-            newVaccineArrayValues.unshift(0);
-          }
-
-          this.vaccineArrayValues = newVaccineArrayValues;
-          this.dailyVaccineArrayValues = this.dailyArrayValues(
-            newVaccineArrayValues
-          );
-          this.vacTrend();
-        })
-        .catch((e) => console.log(" getHistoricalCountryVaccine ", e));
+        )
+        .then(() => {
+          this.loading = false;
+          this.$Progress.finish();
+        });
     },
-    countriesInContinent() {
-      this.continentArray = [];
+    handleGetForCountry(hisC, vacC, contiC) {
+      //TOTAL HISTORY ------------
+      let listTimeline = hisC.data.timeline;
+      //xAsis
+      const moment = require("moment");
+      let rawDates = Object.keys(listTimeline.deaths);
+      rawDates.forEach((i) => {
+        let k = moment(i).format("DD MMM YYYY");
+        this.dates.push(k);
+      });
+      //yAxis
+      this.caseArrayValues = Object.values(listTimeline.cases);
+      this.recoverArrayValues = Object.values(listTimeline.recovered);
+      this.deathArrayValues = Object.values(listTimeline.deaths);
+      //create ACTIVE TOTAL
+      this.activeArrayValues = [];
+      this.caseArrayValues.forEach((i, index) => {
+        let active =
+          i - this.deathArrayValues[index] - this.deathArrayValues[index];
+        this.activeArrayValues.push(active);
+      });
+      this.dailyActiveArrayValues = this.dailyArrayValues(
+        this.activeArrayValues
+      );
+      //DAILY CASE HISTORY - total[last] - total[last-1]
+      this.dailyCaseArrayValues = this.dailyArrayValues(this.caseArrayValues);
+      this.dailyDeathArrayValues = this.dailyArrayValues(this.deathArrayValues);
+      this.dailyRecoverArrayValues = this.dailyArrayValues(
+        this.recoverArrayValues
+      );
 
+      // VACCINE -------
+      let listTimelineVacC = vacC.data.timeline;
+      let newVaccineArrayValues = Object.values(listTimelineVacC);
+      let n = this.dates.length - newVaccineArrayValues.length;
+      for (let i = 0; i < n; i++) {
+        newVaccineArrayValues.unshift(0);
+      }
+      this.vaccineArrayValues = newVaccineArrayValues;
+      this.dailyVaccineArrayValues = this.dailyArrayValues(
+        newVaccineArrayValues
+      );
+      this.vacEffi();
+
+      // CONTINENT ------
+      this.continentArray = [];
       this.allCountries.forEach((i) => {
         if (i.continent == this.viewCountry.continent) {
           this.continentArray.push(i);
         }
       });
-    },
-    getTotalContinent() {
-      api
-        .getTotalContinent(this.viewCountry.continent)
-        .then((res) => {
-          this.continentTotal = res.data;
-          this.loading = false;
-          // console.log(" this.continentTotal  ", this.continentTotal )
-        })
-        .catch((e) => console.log(" getTotalContinent err ", e));
+      this.continentTotal = contiC.data;
     },
   },
   // watch:{
@@ -740,18 +705,10 @@ export default {
   //   }
   // },
 
-  computed: {
-    
-  },
+  computed: {},
 
-  updated() {
-    // this.getHistoricalCountry();
-    // this.countriesInContinent();
-    // this.getTotalContinent();
-  },
-  mounted() {
-    
- 
+  created() {
+    this.visible = true;
     // Asyncronous 1.then 2.async-await
     this.getAllCountries().then(() => {
       this.getUserCountry().then(() => {
@@ -759,6 +716,11 @@ export default {
         this.countryClick(code);
       });
     });
+  },
+  mounted() {
+    setTimeout(() => {
+      this.visible = false;
+    }, 1000);
   },
 };
 </script>

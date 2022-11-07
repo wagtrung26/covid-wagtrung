@@ -29,6 +29,14 @@ export const getHistoricalCountryVaccine = (countryCode) => {
    return axios.get(url)
 }
 
+export const getForCountry = (countryCode,continentName)=>{
+  return axios.all([
+      getHistoricalCountry(countryCode),
+      getHistoricalCountryVaccine(countryCode),
+      getTotalContinent(continentName),
+   ])
+}
+
 // WORLD VIEW
 export const getTotalWorld = () => {
 

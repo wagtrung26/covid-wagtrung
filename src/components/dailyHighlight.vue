@@ -90,6 +90,7 @@ export default {
     };
   },
   methods: {
+    
     topCaseC() {
       // const _ = require("lodash");
       this.topCase = Math.max(...this.dailyCaseArrayValues);
@@ -110,6 +111,8 @@ export default {
           this.dailyDeathArrayValues.indexOf(this.startDeath)
         ];
 
+      
+
       // this.startVac = this.dailyVaccineArrayValues.find((x) => x > 0);
       // this.statVacDate =
       //   this.dates.slice(1)[
@@ -120,7 +123,9 @@ export default {
       //   this.dates[this.dailyVaccineArrayValues.indexOf(this.topVac)];
     },
   },
-  computed: {},
+  computed: {
+    
+  },
   created() {},
   updated() {
     this.topCaseC();

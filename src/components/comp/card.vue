@@ -21,7 +21,7 @@
       <h2
         class="text-left text-5xl font-semibold tracking-tight text-slate-900 mb-2"
       >
-        {{ title }}
+        {{ titleC }}
       </h2>
       <div
       v-if="subBot"
@@ -36,6 +36,7 @@
 
 <script>
 // import { mapGetters, mapMutations, mapActions } from "vuex";
+import numeral from "numeral";
 
 export default {
   components: {},
@@ -73,6 +74,14 @@ export default {
     // VUEX-State
     // ...mapGetters(["count"]),
     // Computed
+    titleC(){
+      if(isNaN(this.title)){
+        return this.title;
+      }
+      else{
+        return numeral(this.title).format("0,0");
+      }
+    },
     type() {
       return this.subBot<0 ? "exception": "";
     },

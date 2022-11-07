@@ -1,35 +1,40 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div class="flex justify-center items-center space-x-6 mb-4">
-    <img class="h-20" :src="viewCountry.flag" alt="" />
-    <h1 class="text-8xl text-white font-semibold leading-none truncate ">
-      {{ viewCountry.name }}
-    </h1>
-    <!-- Search -> ref -->
+  <div class=" mb-4">
     <div
-     @click="seachOn = !seachOn"
-      class="relative bg-slate-100/10 p-4 rounded-full hover:bg-white  hover:scale-110 transition group cursor-pointer"
+      class="cursor-pointer flex justify-center items-center space-x-6 p-4"
+      @click="seachOn = !seachOn"
     >
-      <span
-        class="animate-ping group-hover:animate-none absolute inset-0 h-full w-full rounded-full border-2 border-slate-50/20 opacity-75"
-      ></span>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="2"
-        stroke="currentColor"
-        class="w-10 h-10 stroke-white group-hover:stroke-black"
+      <img class="h-20" :src="viewCountry.flag" alt="" />
+      <h1 class="text-8xl text-white font-semibold leading-none truncate">
+        {{ viewCountry.name }}
+      </h1>
+
+      <!-- Search -> ref -->
+      <div
+        @click="seachOn = !seachOn"
+        class="relative bg-slate-100/10 p-4 rounded-full hover:bg-white hover:scale-110 transition group cursor-pointer"
       >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-        />
-      </svg>
+        <span
+          class="animate-ping group-hover:animate-none absolute inset-0 h-full w-full rounded-full border-2 border-slate-50/20 opacity-75"
+        ></span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+          stroke="currentColor"
+          class="w-10 h-10 stroke-white group-hover:stroke-black"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+          />
+        </svg>
+      </div>
     </div>
   </div>
-  <br />
 
   <!-- border-8	border-white	 [clip-path:circle()] -->
 
@@ -98,38 +103,54 @@
     </div>
   </div>
 
-<modal title="Select a country" v-if="seachOn">
-  <div
-    class="searchSelectCountry "   
-  >
-  <div class="">
-    <input class="z-10 bg-white shadow-lg " type="text" v-model="vModelCountry" placeholder="Type your a country's name" />
-    <!-- <button>search</button> -->
-    <div class="listCountriesSelect " >
-      <ul  v-for="(country, index) in filteredAllCountries" :key="index" class="odd:bg-white even:bg-slate-50">
-        <li  @click="countryClickComp(country.code)">
-          <div class="flex items-center justify-between pr-4 ">
-            <!-- left -->
-            <div class="flex items-center justify-around">
-              <span class="flexCen p-3 h-1 w-1 bg-slate-900/70 text-white rounded text-xs mr-4  ">{{ index + 1 }}</span>
-              <img class=" h-9 mr-2 [clip-path:circle()]" :src="country.flag" alt="" />
-              <div>
-              <h4 class="text-base leading-relaxed font-semibold tracking-tight text-slate-900">{{ country.name }}</h4>
-              <p>{{ country.continent }}</p>
+  <modal title="Select a country" v-if="seachOn">
+    <div class="searchSelectCountry">
+      <div class="">
+        <input
+          class="z-10 bg-white shadow-lg"
+          type="text"
+          v-model="vModelCountry"
+          placeholder="Type a country's name"
+        />
+        <!-- <button>search</button> -->
+        <div class="listCountriesSelect">
+          <ul
+            v-for="(country, index) in filteredAllCountries"
+            :key="index"
+            class="odd:bg-white even:bg-slate-50"
+          >
+            <li @click="countryClickComp(country.code)">
+              <div class="flex items-center justify-between pr-4">
+                <!-- left -->
+                <div class="flex items-center justify-around">
+                  <span
+                    class="flexCen p-3 h-1 w-1 bg-slate-900/70 text-white rounded text-xs mr-4"
+                    >{{ index + 1 }}</span
+                  >
+                  <img
+                    class="h-9 mr-2 [clip-path:circle()]"
+                    :src="country.flag"
+                    alt=""
+                  />
+                  <div>
+                    <h4
+                      class="text-base leading-relaxed font-semibold tracking-tight text-slate-900"
+                    >
+                      {{ country.name }}
+                    </h4>
+                    <p>{{ country.continent }}</p>
+                  </div>
+                </div>
+                <!-- right -->
+                <div>
+                  {{ numF(country.cases) }}
+                </div>
               </div>
-            </div>
-          <!-- right -->
-            <div >
-              {{ numF(country.cases)}}
-            </div>
-          </div>
-        </li>
-      </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
-    </div>
-
-  </div>
-
   </modal>
 </template>
 
@@ -137,7 +158,7 @@
 import numeral from "numeral";
 import CountUp from "vue-countup-v3";
 import sparklineChart from "./sparklineChart.vue";
-import modal from '@/components/comp/modal.vue';
+import modal from "@/components/comp/modal.vue";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -152,14 +173,14 @@ export default {
   components: {
     CountUp,
     sparklineChart,
-    modal
+    modal,
   },
   data() {
     return {
       vModelCountry: "",
       showList: false,
       type: "cases",
-      seachOn: false
+      seachOn: false,
     };
   },
   computed: {
@@ -187,11 +208,10 @@ export default {
     //   this.vModelCountry =" "
     // },
     // searchClick(){
-  
-      // console.log(" this.refs.search ", this.$refs)
-      // this.search.value.focus()
-      // this.$refs.search.click()
-      
+
+    // console.log(" this.refs.search ", this.$refs)
+    // this.search.value.focus()
+    // this.$refs.search.click()
 
     // },
     changed() {
@@ -201,13 +221,13 @@ export default {
     numeralFunc(num) {
       return numeral(num).format("0.000 a");
     },
-     numF(num) {
+    numF(num) {
       return numeral(num).format("0,0");
     },
 
     countryClickComp(countryCode) {
       this.$emit("countryClickComp", countryCode);
-      this.seachOn = false
+      this.seachOn = false;
       this.vModelCountry = "";
     },
   },
@@ -251,7 +271,7 @@ li:hover {
   /* background: rgb(239, 239, 239); */
   /* border-bottom: 1px solid rgb(190, 190, 190); */
   position: sticky;
-  top:0
+  top: 0;
 }
 .listCountriesSelect {
   /* box-shadow: 0px 3px 20px rgba(124, 124, 124, 0.35); */

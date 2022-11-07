@@ -1,20 +1,25 @@
 <template>
+
   <div :class="{ dark: dark }">
     <div
       class="w-full bg-slate-200 dark:bg-slate-900 dark:text-white dark:text-"
     >
-      <nav class="fixed top-0 w-full h-16 flex items-center justify-center backdrop-blur-lg z-20 ">
+      <nav
+        class="fixed top-0 w-full h-16 flex items-center justify-center backdrop-blur-lg z-20"
+      >
+      <vue-progress-bar class="z-50"></vue-progress-bar>
+
         <div class="h-10">
-          <img class="w-full h-full" src="@/assets/logo.png" alt="">
+          <img class="w-full h-full" src="@/assets/logo.png" alt="" />
         </div>
-        
-      <div class="flexCen flex-1 text-lg text-medium space-x-8">
-        <router-link to="/">Country</router-link> 
-        
-        <router-link to="/worldwide">worldwide</router-link>
+
+        <div class="flexCen flex-1 text-lg text-medium space-x-8">
+          <router-link to="/">Country</router-link>
+
+          <router-link to="/worldwide">worldwide</router-link>
         </div>
         <div
-          class="absolute right-8 top-4 bg-slate-300/50  rounded-full p-2 hover:bg-blue-500"
+          class="absolute right-8 top-4 bg-slate-300/50 rounded-full p-2 hover:bg-blue-500"
         >
           <a-switch class="" v-model:checked="this.dark">
             <template #checkedChildren
@@ -46,7 +51,9 @@
           </a-switch>
         </div>
       </nav>
-      <router-view class=""/>
+
+      <router-view class="" />
+
     </div>
   </div>
 </template>
@@ -82,8 +89,10 @@ export default {
       return 0;
     },
   },
-  created() {},
-  mounted() {},
+  created() {
+  },
+  mounted() {
+  },
   updated() {},
 };
 </script>
