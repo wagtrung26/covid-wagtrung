@@ -94,7 +94,10 @@ export default {
   },
   mounted() {
   },
-  updated() {},
+  updated() {
+      
+
+  },
 };
 </script>
 

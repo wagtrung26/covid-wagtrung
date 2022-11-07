@@ -1,22 +1,19 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div class=" mb-4">
-    <div
-      class="cursor-pointer flex justify-center items-center space-x-6 p-4"
-      @click="seachOn = seachOn=true"
-    >
+  <div class="pb-8" >
+    <div class="cursor-pointer flex flex-wrap justify-center items-center space-x-6">
       <img class="h-20" :src="viewCountry.flag" alt="" />
-      <h1 class="text-8xl text-white font-semibold leading-none truncate">
+      <h1 class="text-8xl text-white font-semibold  truncate">
         {{ viewCountry.name }}
       </h1>
 
       <!-- Search -> ref -->
       <div
-        @click.self="seachOn=true"
-        class="relative bg-slate-100/10 p-4 rounded-full hover:bg-white hover:scale-110 transition group cursor-pointer"
+        @click="searchOn"
+        class="relative bg-slate-100/10 p-4 rounded-full hover:bg-white hover:scale-150 transition group cursor-pointer"
       >
         <span
-          class="animate-ping group-hover:animate-none absolute inset-0 h-full w-full rounded-full border-2 border-slate-50/20 opacity-75"
+          class="animate-ping group-hover:animate-none hover:animate-none absolute inset-0 h-full w-full rounded-full border-4 border-slate-50/30 opacity-75"
         ></span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -37,7 +34,7 @@
   </div>
 
   <!-- border-8	border-white	 [clip-path:circle()] -->
-
+<!-- Stat -->
   <div
     class="flex justify-center items-center flex-wrap mx-auto bg-white max-w-screen-lg shadow-2xl rounded-3xl p-8 space-x-8"
   >
@@ -103,67 +100,18 @@
     </div>
   </div>
 
-  <modal title="Select a country" v-if="seachOn">
-    <div class="searchSelectCountry">
-      <div class="">
-        <input
-          class="z-10 bg-white shadow-lg"
-          type="text"
-          v-model="vModelCountry"
-          placeholder="Type a country's name"
-        />
-        <div class="listCountriesSelect" v-if="allCountries">
-          <ul
-            v-for="(country, index) in filteredAllCountries"
-            :key="index"
-            class="odd:bg-white even:bg-slate-100"
-          >
-            <li @click="countryClickComp(country.code)">
-              <div class="flex items-center justify-between pr-4">
-                <!-- left -->
-                <div class="flex items-center justify-around">
-                  <span
-                    class="flexCen p-3 h-1 w-1 bg-slate-900/70 text-white rounded text-xs mr-4"
-                    >{{ index + 1 }}</span
-                  >
-                  <img
-                    class="h-9 mr-2 [clip-path:circle()]"
-                    :src="country.flag"
-                    alt=""
-                  />
-                  <div>
-                    <h4
-                      class="text-base leading-relaxed font-semibold tracking-tight text-slate-900"
-                    >
-                      {{ country.name }}
-                    </h4>
-                    <p>{{ country.continent }}</p>
-                  </div>
-                </div>
-                <!-- right -->
-                <div>
-                  {{ numF(country.cases) }}
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </modal>
+
 </template>
 
 <script>
 import numeral from "numeral";
 import CountUp from "vue-countup-v3";
 import sparklineChart from "./sparklineChart.vue";
-import modal from "@/components/comp/modal.vue";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "statCard",
   props: {
-    allCountries: Array,
     viewCountry: Object,
     dailyCaseArrayValues: Array,
     dailyRecoverArrayValues: Array,
@@ -172,113 +120,36 @@ export default {
   components: {
     CountUp,
     sparklineChart,
-    modal,
+ 
   },
   data() {
     return {
-      vModelCountry: "",
-      showList: false,
-      type: "cases",
-      seachOn: null,
+     
     };
   },
-  computed: {
-    filteredAllCountries() {
-      const _ = require("lodash");
-
-      let countries = this.allCountries;
-      let sortedCountries = _.orderBy(countries, [this.type], ["desc"]);
-      // console.log(sortedCountries);
-
-      return sortedCountries.filter((country) => {
-        var countryN = country.name.toLowerCase(),
-          vModel = this.vModelCountry.toLowerCase();
-        return countryN.startsWith(vModel);
-      });
-    },
+ 
     // countryIs() {
     //   if(this.viewCountryName) return this.viewCountryName
     //   else return this.yourCountry.name
     // }
-  },
+ 
   methods: {
-    // outInputClick(){
-    //   this.showList = !this.showList
-    //   this.vModelCountry =" "
-    // },
-    // searchClick(){
-
-    // console.log(" this.refs.search ", this.$refs)
-    // this.search.value.focus()
-    // this.$refs.search.click()
-
-    // },
-    // changed() {
-    //   this.type = "deaths";
-    //   console.log(this.type);
-    // },
+    searchOn(){
+        this.$emit("searchOn")
+    },
     numeralFunc(num) {
-      return numeral(num).format("0.000 a");
+      return numeral(num).format("0a");
     },
     numF(num) {
       return numeral(num).format("0,0");
     },
 
-    countryClickComp(countryCode) {
-      this.$emit("countryClickComp", countryCode);
-      this.seachOn = false;
-      this.vModelCountry = "";
-    },
+    
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-ul {
-  margin: 0;
-  padding: 0;
-}
-li {
-  cursor: pointer;
-  list-style: none;
-  padding: 20px 10px;
-  text-align: left;
-}
-li:hover {
-  background-color: #ddd;
-}
-.countryFlag {
-  width: 50px;
-  height: auto;
-}
-.countryFlagHead {
-  width: 80px;
-  height: auto;
-}
 
-/* .searchSelectCountry {
-  position: absolute;
-  top: 200px;
-  right: 0;
-  z-index: 2;
-} */
-.searchSelectCountry input {
-  padding: 14px;
-  font-size: 20px;
-  width: 100%;
-  /* background: rgb(239, 239, 239); */
-  /* border-bottom: 1px solid rgb(190, 190, 190); */
-  position: sticky;
-  top: 0;
-}
-.listCountriesSelect {
-  /* box-shadow: 0px 3px 20px rgba(124, 124, 124, 0.35); */
-  /* border-radius: 20px; */
-  /* max-height: 500px; */
-  /* background: rgb(252, 252, 252); */
-}
-.spacebtw {
-  justify-content: space-between;
-}
 </style>

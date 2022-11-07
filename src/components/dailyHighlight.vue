@@ -14,7 +14,7 @@
         >
           Daily Cases
         </h3>
-        <div class="flex space-x-4 pt-4 pb-8">
+        <div class="flex flex-wrap space-x-4 pt-4 pb-8">
           <card
             subTop="First cases "
             :title="startCase"
@@ -38,7 +38,7 @@
         >
           Daily Deaths
         </h3>
-        <div class="flex space-x-4 pt-4">
+        <div class="flex flex-wrap space-x-4 pt-4">
           <card
             subTop="First Death "
             :title="startDeath"

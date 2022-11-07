@@ -1,20 +1,20 @@
-<template >
-
-
-   <transition name="fade" appear>
-  <div class="fixed inset-0  bg-slate-900/80 backdrop-blur-lg z-40" @click.self="showModal= false" v-if="showModal">
-
-  </div>
-   </transition>
+<template>
+  <transition name="fade" appear>
+    <div
+      class="fixed inset-0 bg-slate-900/60 backdrop-blur z-40"
+      @click.self="closeModal"
+      v-if="showModal"
+    ></div>
+  </transition>
   <transition name="pop" appear>
     <div
-    v-if="showModal"
+      v-if="showModal"
       class="fixed inset-0 m-auto max-w-[50%] max-h-max overflow-hidden bg-white z-50 p-8 rounded-3xl shadow-xl"
     >
-    <!-- close btn -->
+      <!-- close btn -->
       <div
-        class="absolute top-6 right-6  p-3 flexCen bg-slate-200/50 rounded-full hover:scale-110 transition"
-        @click="showModal=false"
+        class="absolute top-6 right-6 p-3 flexCen bg-slate-200/50 rounded-full hover:scale-110 transition"
+        @click="closeModal"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -32,19 +32,19 @@
         </svg>
       </div>
 
-      <h2 class="leading-relaxed text-left font-semibold tracking-tight text-slate-900 mb-4 sm:text-4xl ">{{title}}</h2>
-     
-      <div class="max-h-80 overflow-y-auto mb-4"><slot /></div>
+      <h2
+        class="leading-relaxed text-left font-semibold tracking-tight text-slate-900 mb-4 sm:text-4xl"
+      >
+        {{ title }}
+      </h2>
 
-    
-        <!-- <div class="flex justify-end mt-2" >
+      <div class="max-h-96 overflow-y-auto mb-4"><slot /></div>
+
+      <!-- <div class="flex justify-end mt-2" >
             <button>ok</button>
         </div> -->
-      
     </div>
-    </transition>
-
-
+  </transition>
 </template>
 
 <script>
@@ -54,7 +54,6 @@ export default {
   components: {},
   name: "modalC",
   props: {
-   
     title: {
       type: String,
       default: "title",
@@ -62,7 +61,7 @@ export default {
   },
   data() {
     return {
-         showModal: true
+      showModal: true,
     };
   },
   methods: {
@@ -71,7 +70,10 @@ export default {
     // VUEX-Action
     // ...mapActions(["handle"]),
     // Method
-    sample() {},
+    closeModal() {
+      this.showModal = false;
+      this.$emit("closeModal");
+    },
   },
   computed: {
     // VUEX-State
@@ -90,7 +92,7 @@ export default {
 <style scoped>
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity .4s linear;
+  transition: opacity 0.4s linear;
 }
 
 .fade-enter,
@@ -107,4 +109,5 @@ export default {
 .pop-leave-to {
   opacity: 0;
   transform: scale(0.2) translateY(-50%);
-}</style>
+}
+</style>

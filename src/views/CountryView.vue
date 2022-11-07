@@ -80,16 +80,23 @@
       </a-result>
     </modal>
 
+    <selectCountry
+      :allCountries="allCountries"
+      :viewCountry="viewCountry"
+      @searchOff="searchOn = false"
+      @countryClickComp="countryClick"
+      v-if="searchOn"
+    />
+
     <div class="container space-y-14 mx-auto" v-show="!loading">
       <!-- 1 STAT HIGHLIGHT -->
       <div class="relative -mt-64 z-10 mb-12">
         <statCard
-          :allCountries="allCountries"
           :viewCountry="viewCountry"
           :dailyCaseArrayValues="dailyCaseArrayValues"
           :dailyRecoverArrayValues="dailyRecoverArrayValues"
           :dailyDeathArrayValues="dailyDeathArrayValues"
-          @countryClickComp="countryClick"
+          @searchOn="searchOn = true"
         />
       </div>
       <!--2 DAILY -->
@@ -100,7 +107,7 @@
       >
         <!-- DAILY card yesterday-->
         <div class="-mt-8 bg-slate-50 p-10 rounded-2xl mb-8">
-          <div class="flex space-x-8 mb-8">
+          <div class="flex flex-wrap space-x-8 mb-8">
             <!-- card -->
             <card
               :percent="
@@ -247,7 +254,7 @@
         <div class="w-full p-8 bg-slate-50 space-y-8 rounded-2xl">
           <div v-for="(item, index) in v" :key="index">
             <div class="w-full" v-if="index < this.v.length - 1">
-              <div class="flex items-center flex-start mb-5">
+              <div class="flex flex-wrap items-center flex-start mb-5">
                 <p
                   class="text-2xl leading-none font-semibold text-white bg-violet-600 py-2 px-4 rounded-lg mr-4"
                 >
@@ -264,7 +271,7 @@
                   }}</span
                 >
               </div>
-              <div class="flex space-x-8">
+              <div class="flex flex-wrap space-x-8">
                 <mixLineChart
                   class="w-1/2"
                   :y="sliceDeath(index)"
@@ -295,12 +302,12 @@
             </div>
 
             <div class="w-full" v-else>
-              <div class="flex items-center flex-start mb-5">
+              <div class="flex flex-wrap items-center flex-start mb-5">
                 <span class="text-2xl leading-none font-semibold text-slate-900"
                   >Up to Now
                 </span>
               </div>
-              <div class="flex space-x-8">
+              <div class="flex flex-wrap space-x-8">
                 <mixLineChart
                   class="w-1/2"
                   :y="
@@ -471,10 +478,12 @@ import card from "@/components/comp/card.vue";
 import modal from "@/components/comp/modal.vue";
 import numeral from "numeral";
 import axios from "axios";
+import selectCountry from "@/components/selectCountry.vue";
 
 export default {
   name: "CountryView",
   components: {
+    selectCountry,
     wrap,
     modal,
     card,
@@ -493,6 +502,7 @@ export default {
 
   data() {
     return {
+      searchOn: null,
       countryTopemit: "",
       key: "1",
       loading: null,
@@ -615,10 +625,8 @@ export default {
     },
     countryClick(countryCode = "VN") {
       this.loading = true;
-      this.$Progress.start;
-      this.$Progress.set(40);
-
-      let country = this.allCountries.find((i) => i.code === countryCode);
+      this.$Progress.start();
+      let country = this.allCountries.find((i) => i.code == countryCode);
       this.viewCountry = country;
 
       this.caseArrayValues = [];
@@ -626,16 +634,13 @@ export default {
       this.recoverArrayValues = [];
       this.vaccineArrayValues = [];
       this.activeArrayValues = [];
-      this.dailyCaseArrayValues = [];
-      this.dailyRecoverArrayValues = [];
-      this.dailyDeathArrayValues = [];
-      this.dailyVaccineArrayValues = [];
-      this.dailyActiveArrayValues = [];
+ 
       this.dates = [];
       api
         .getForCountry(this.viewCountry.code, this.viewCountry.continent)
         .then(
           axios.spread((hisC, vacC, contiC) => {
+            this.$Progress.set(50);
             // hisC - historyTimeline / vacC = vaccineTimeline / contiC - continentTotal
             this.handleGetForCountry(hisC, vacC, contiC);
           })
@@ -643,7 +648,6 @@ export default {
         .then(() => {
           this.loading = false;
           this.$Progress.finish();
-
         });
     },
     handleGetForCountry(hisC, vacC, contiC) {
@@ -725,10 +729,9 @@ export default {
   // beforeUpdate(){
   //     this.$Progress.start();
   // },
-  // updated(){
-  //     this.$Progress.finish();
-
-  // }
+  updated() {
+    
+  },
 };
 </script>
 
