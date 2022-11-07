@@ -7,7 +7,6 @@
       <nav
         class="fixed top-0 w-full h-16 flex items-center justify-center backdrop-blur-lg z-20"
       >
-      <vue-progress-bar class="z-50"></vue-progress-bar>
 
         <div class="h-10">
           <img class="w-full h-full" src="@/assets/logo.png" alt="" />
@@ -53,6 +52,8 @@
       </nav>
 
       <router-view class="" />
+      <vue-progress-bar ></vue-progress-bar>
+
 
     </div>
   </div>

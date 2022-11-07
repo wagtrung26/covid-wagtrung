@@ -21,7 +21,9 @@ const options = {
       speed: "0.8s",
       opacity: "0.6s",
       termination: 300,
-    },
+    },  autoRevert: true,
+    inverse: false,
+  
   };
 // Vue.config.silent = true;
 const app = createApp(App);

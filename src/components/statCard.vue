@@ -3,7 +3,7 @@
   <div class=" mb-4">
     <div
       class="cursor-pointer flex justify-center items-center space-x-6 p-4"
-      @click="seachOn = !seachOn"
+      @click="seachOn = seachOn=true"
     >
       <img class="h-20" :src="viewCountry.flag" alt="" />
       <h1 class="text-8xl text-white font-semibold leading-none truncate">
@@ -12,7 +12,7 @@
 
       <!-- Search -> ref -->
       <div
-        @click="seachOn = !seachOn"
+        @click.self="seachOn=true"
         class="relative bg-slate-100/10 p-4 rounded-full hover:bg-white hover:scale-110 transition group cursor-pointer"
       >
         <span
@@ -112,12 +112,11 @@
           v-model="vModelCountry"
           placeholder="Type a country's name"
         />
-        <!-- <button>search</button> -->
-        <div class="listCountriesSelect">
+        <div class="listCountriesSelect" v-if="allCountries">
           <ul
             v-for="(country, index) in filteredAllCountries"
             :key="index"
-            class="odd:bg-white even:bg-slate-50"
+            class="odd:bg-white even:bg-slate-100"
           >
             <li @click="countryClickComp(country.code)">
               <div class="flex items-center justify-between pr-4">
@@ -180,7 +179,7 @@ export default {
       vModelCountry: "",
       showList: false,
       type: "cases",
-      seachOn: false,
+      seachOn: null,
     };
   },
   computed: {
@@ -189,7 +188,7 @@ export default {
 
       let countries = this.allCountries;
       let sortedCountries = _.orderBy(countries, [this.type], ["desc"]);
-      console.log(sortedCountries);
+      // console.log(sortedCountries);
 
       return sortedCountries.filter((country) => {
         var countryN = country.name.toLowerCase(),
@@ -214,10 +213,10 @@ export default {
     // this.$refs.search.click()
 
     // },
-    changed() {
-      this.type = "deaths";
-      console.log(this.type);
-    },
+    // changed() {
+    //   this.type = "deaths";
+    //   console.log(this.type);
+    // },
     numeralFunc(num) {
       return numeral(num).format("0.000 a");
     },

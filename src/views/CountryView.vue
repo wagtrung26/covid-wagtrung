@@ -615,7 +615,8 @@ export default {
     },
     countryClick(countryCode = "VN") {
       this.loading = true;
-      this.$Progress.start();
+      this.$Progress.start;
+      this.$Progress.set(40);
 
       let country = this.allCountries.find((i) => i.code === countryCode);
       this.viewCountry = country;
@@ -636,13 +637,13 @@ export default {
         .then(
           axios.spread((hisC, vacC, contiC) => {
             // hisC - historyTimeline / vacC = vaccineTimeline / contiC - continentTotal
-          this.$Progress.increase(80);
-          this.handleGetForCountry(hisC, vacC, contiC);
+            this.handleGetForCountry(hisC, vacC, contiC);
           })
         )
         .then(() => {
           this.loading = false;
           this.$Progress.finish();
+
         });
     },
     handleGetForCountry(hisC, vacC, contiC) {
@@ -708,20 +709,26 @@ export default {
   computed: {},
 
   created() {
-    this.visible = true;
     // Asyncronous 1.then 2.async-await
     this.getAllCountries().then(() => {
       this.getUserCountry().then(() => {
         let code = this.yourCountry.countryCode;
+        this.visible = true;
+        setTimeout(() => {
+          this.visible = false;
+        }, 1000);
         this.countryClick(code);
       });
     });
   },
-  mounted() {
-    setTimeout(() => {
-      this.visible = false;
-    }, 1000);
-  },
+
+  // beforeUpdate(){
+  //     this.$Progress.start();
+  // },
+  // updated(){
+  //     this.$Progress.finish();
+
+  // }
 };
 </script>
 
