@@ -191,6 +191,12 @@
               :dates="dates"
             />
           </div>
+          <div
+            class="w-full bg-white shadow-2xl shadow-slate-200/70 px-8 py-2 rounded-2xl"
+          >
+            <heatChart
+            />
+          </div>
         </div>
 
         <!-- Daily Map + Highlight -->
@@ -480,10 +486,13 @@ import modal from "@/components/comp/modal.vue";
 import numeral from "numeral";
 import axios from "axios";
 import selectCountry from "@/components/selectCountry.vue";
+import heatChart from "@/components/chart/heatChart.vue";
+
 
 export default {
   name: "CountryView",
   components: {
+    heatChart,
     selectCountry,
     wrap,
     modal,
