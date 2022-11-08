@@ -38,7 +38,7 @@
                 <!-- left -->
                 <div class="flex items-center justify-around">
                   <span
-                    class="flexCen flex-wrap p-3 h-1 w-1 bg-slate-900/70 text-white rounded text-xs mr-4"
+                    class="flexCen ml-4 p-3 h-1 w-1 bg-slate-900/70 text-white rounded text-xs mr-4"
                     >{{ index + 1 }}</span
                   >
                   <img

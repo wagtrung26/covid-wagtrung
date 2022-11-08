@@ -3,29 +3,29 @@
     <div class="btnGroup">
       <button
         class="btn"
-        @click="rangeClick(30)"
-        :class="{ active: this.selectedRange == 30 }"
+        @click="rangeClick(-30)"
+        :class="{ active: this.selectedRange == -30 }"
       >
-        30 days
+        last month
       </button>
       <button
         class="btn"
-        @click="rangeClick(7)"
-        :class="{ active: this.selectedRange == 7 }"
+        @click="rangeClick(-7)"
+        :class="{ active: this.selectedRange == -7 }"
       >
-        7 days
+        last week
       </button>
       <button
         class="btn"
-        @click="rangeClick(365)"
-        :class="{ active: this.selectedRange == 365 }"
+        @click="rangeClick(-365)"
+        :class="{ active: this.selectedRange == -365 }"
       >
-        a year
+        last year
       </button>
       <button
         class="btn"
-        @click="rangeClick(0)"
-        :class="{ active: this.selectedRange == 0 }"
+        @click="rangeClick(1)"
+        :class="{ active: this.selectedRange == 1 }"
       >
         All time
       </button>
@@ -86,7 +86,7 @@ export default {
   data() {
     return {
       selectedType: "case",
-      selectedRange: 30,
+      selectedRange: -30,
       aPush: [],
       chartOptions: {
         chart: {
@@ -222,12 +222,14 @@ export default {
         this.chartOptions.series[0].color = "#0093ff";
       }
 
-      this.chartOptions.series[0].data = k.slice(-this.selectedRange);
-      this.chartOptions.series[1].data = this.avg(k).slice(-this.selectedRange);
+      this.chartOptions.series[0].data = k.slice(this.selectedRange);
+      this.chartOptions.series[1].data = this.avg(k).slice(this.selectedRange);
+    
+        this.chartOptions.xAxis.categories = this.dates.slice(
+          this.selectedRange
+        );
 
-      this.chartOptions.xAxis.categories = this.dates.slice(
-        -this.selectedRange
-      );
+
     },
     avg(arr) {
       const _ = require("lodash");

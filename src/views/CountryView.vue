@@ -194,7 +194,7 @@
           <div
             class="w-full bg-white shadow-2xl shadow-slate-200/70 px-8 py-2 rounded-2xl"
           >
-            <heatChart
+            <heatChart :y="heatY"
             />
           </div>
         </div>
@@ -540,6 +540,7 @@ export default {
 
       // v1: "",
       v: [],
+      heatY:[]
     };
   },
 
@@ -670,6 +671,8 @@ export default {
         let k = moment(i).format("DD MMM YYYY");
         this.dates.push(k);
       });
+     
+      
       //yAxis
       this.caseArrayValues = Object.values(listTimeline.cases);
       this.recoverArrayValues = Object.values(listTimeline.recovered);
@@ -690,6 +693,20 @@ export default {
       this.dailyRecoverArrayValues = this.dailyArrayValues(
         this.recoverArrayValues
       );
+      // heatChart
+      this.heatY=[];
+      let dailyDate =this.dates.slice(1)
+
+      let a = 0;
+      dailyDate.forEach((i, index)=>{
+        let x =  moment(i).day()
+        this.heatY.push([a, x, this.dailyCaseArrayValues[index]])
+        if((a>0 && x>0 && x%6==0) || (a==0 && x%6==0)){
+          a++
+        }
+       
+      })
+      // console.log(" this.heatY ",this.heatY)
 
       // VACCINE -------
       let listTimelineVacC = vacC.data.timeline;
