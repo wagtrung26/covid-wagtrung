@@ -1,9 +1,9 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="pb-8" >
-    <div class="cursor-pointer flex flex-wrap justify-center items-center space-x-6">
+    <div class="cursor-pointer flex flex-wrap justify-center items-center space-x-6 mb-6">
       <img class="h-20" :src="viewCountry.flag" alt="" />
-      <h1 class="text-8xl text-white font-semibold  truncate">
+      <h1 class="text-8xl text-white font-semibold max-w-[60%] truncate">
         {{ viewCountry.name }}
       </h1>
 
