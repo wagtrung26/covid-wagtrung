@@ -17,7 +17,8 @@ export default {
   components: {},
   name: "heatC",
   props: {
-    y: Array
+    y: Array,
+    x: Array
     // propSample: {
     //   type: String,
     //   default: "col-md-3",
@@ -43,7 +44,8 @@ export default {
     },
 
     xAxis: {
-        categories: []
+        categories: [],
+        enabled: true,
     },
 
     yAxis: {
@@ -126,6 +128,7 @@ export default {
     // Method
     sample() {
       this.chartOptions.series[0].data = this.y.slice(this.range);
+      this.chartOptions.xAxis.categories= this.x;
 
     },
   },

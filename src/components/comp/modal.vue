@@ -1,7 +1,7 @@
 <template>
   <transition name="fade" appear>
     <div
-      class="fixed inset-0 bg-slate-900/60 backdrop-blur z-40"
+      class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40"
       @click.self="closeModal"
       v-if="showModal"
     ></div>
