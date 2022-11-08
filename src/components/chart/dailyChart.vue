@@ -93,7 +93,8 @@ export default {
           height: 500,
           zoomBySingleTouch: true,
           zoomType: "x",
-          // spacing: [0, 0, 0, 0],
+          // spacing: [50, 0, 0, 0],
+          spacingTop:60,
           backgroundColor: "rgba(0,0,0,0)"
           //   inverted: true,
         },
@@ -129,7 +130,7 @@ export default {
         ],
 
         title: {
-          text: "New Daily Stat",
+          text: "",
           align: "left",
           margin: 24,
         },
@@ -262,10 +263,10 @@ export default {
 <style scoped>
 .btnGroup2 {
   top: -8px;
-  right: 21px;
+  right: 0px;
 }
 .btnGroup {
   top: -8px;
-  left: 156px;
+  left: 0px;
 }
 </style>

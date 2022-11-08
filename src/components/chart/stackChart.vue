@@ -32,7 +32,7 @@ export default {
           backgroundColor: "rgba(0,0,0,0)"
         },
         title: {
-          text: "Cases Distribution",
+          text: "",
           align: "left",
           // margin: 24,
         },

@@ -1,11 +1,11 @@
 <template>
  <a-select
       ref="select"
-      v-model:value="range"
+      v-model:value="range" size="large" class="w-32 flex justify-start"
     >
       <a-select-option value="-30">30 days</a-select-option>
-      <a-select-option value="-365">a year</a-select-option>
-      <a-select-option value="0">all time</a-select-option>
+      <a-select-option value="-365">Last year</a-select-option>
+      <a-select-option value="0">All time</a-select-option>
     </a-select>
     <highcharts class="hc" :options="chartOptions" ref="chart"></highcharts>
 </template>
@@ -40,7 +40,7 @@ export default {
 
 
     title: {
-        text: 'Cases by weeks'
+        text: ''
     },
 
     xAxis: {
@@ -79,7 +79,7 @@ export default {
         enabled: true,
           layout: "horizontal",
           align: "center",
-          verticalAlign: "top",
+          verticalAlign: "bottom",
         // y: 25,
         // symbolHeight: 280
     },

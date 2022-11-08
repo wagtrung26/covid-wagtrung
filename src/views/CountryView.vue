@@ -7,7 +7,7 @@
       class="relative w-full h-96 bg-gradient-to-tr from-indigo-900 via-slate-800 to-blue-600 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-700 z-0"
       v-show="!loading"
     ></div>
-  
+
     <!-- ON LOAD Skelaton -->
     <div class="m-auto px-20 pt-20 bg-white" v-show="loading">
       <div class="">
@@ -54,31 +54,33 @@
     <!-- ON LOAD MODAL - DETECT USER COUNTRY -->
 
     <modal title="Your Country" v-if="visible && yourCountry.request">
-      <a-result status="success" title="" style="padding: 20px">
-        <template #extra>
-          <div>
-            <div class="flex items-center justify-center">
-              <img
-                style="margin-right: 16px"
-                :src="this.viewCountry.flag"
-                alt=""
-                width="80"
-              />
-              <h1
-                class="text-6xl font-semibold text-slate-900 leading-snug tracking-tight truncate"
-              >
-                {{ yourCountry.countryName }}
-              </h1>
-            </div>
+      <div class="flexCen flex-col mt-10">
+        <div class="h-32 w-32 relative">
+          <img class="animate-spin" src="@/assets/fav.png" alt="" />
+          <span
+          class="animate-ping absolute inset-0 h-full w-full rounded-full border-4 border-emerald-200/70 opacity-75"
+        ></span>
+        </div>
+        <div class="flexCen mt-6">
+          <img
+            style="margin-right: 16px"
+            :src="this.viewCountry.flag"
+            alt=""
+            width="80"
+          />
+          <h1
+            class="text-6xl font-semibold text-slate-900 leading-snug tracking-tight truncate"
+          >
+            {{ yourCountry.countryName }}
+          </h1>
+        </div>
 
-            <p
-              class="text-2xl uppercase font-semibold text-slate-500 tracking-wide mb-4"
-            >
-              IP: {{ yourCountry.request }} - {{ yourCountry.continentName }}
-            </p>
-          </div>
-        </template>
-      </a-result>
+        <p
+          class="text-2xl uppercase font-semibold text-slate-500 tracking-wide mb-4"
+        >
+          IP: {{ yourCountry.request }} - {{ yourCountry.continentName }}
+        </p>
+      </div>
     </modal>
 
     <selectCountry
@@ -168,8 +170,12 @@
           <div
             class="w-full bg-white shadow-2xl shadow-slate-200/70 px-8 py-2 rounded-2xl mb-8"
           >
+            <h3
+              class="text-left my-6 pl-4 border-l-8 border-blue-500 text-xl font-semibold tracking-tight text-slate-900"
+            >
+              Everyday Cases and Weekly Average
+            </h3>
             <dailyChart
-              class="mt-4"
               :dailyCaseArrayValues="dailyCaseArrayValues"
               :dailyActiveArrayValues="dailyActiveArrayValues"
               :dailyRecoverArrayValues="dailyRecoverArrayValues"
@@ -181,9 +187,13 @@
           <div
             class="w-full bg-white shadow-2xl shadow-slate-200/70 px-8 py-2 rounded-2xl mb-8"
           >
+            <h3
+              class="text-left my-6 pl-4 border-l-8 border-blue-500 text-xl font-semibold tracking-tight text-slate-900"
+            >
+              Distribution Factors
+            </h3>
             <stackChart
               ref="stack"
-              class="mt-4"
               :dailyActiveArrayValues="dailyActiveArrayValues"
               :dailyRecoverArrayValues="dailyRecoverArrayValues"
               :dailyDeathArrayValues="dailyDeathArrayValues"
@@ -194,8 +204,12 @@
           <div
             class="w-full bg-white shadow-2xl shadow-slate-200/70 px-8 py-2 rounded-2xl"
           >
-            <heatChart :y="heatY" :x="heatX"
-            />
+            <h3
+              class="text-left my-6 pl-4 border-l-8 border-blue-500 text-xl font-semibold tracking-tight text-slate-900"
+            >
+              Weekly Cases
+            </h3>
+            <heatChart :y="heatY" :x="heatX" />
           </div>
         </div>
 
@@ -261,7 +275,7 @@
         <div class="w-full p-8 bg-slate-50 space-y-8 rounded-2xl">
           <div v-for="(item, index) in v" :key="index">
             <div class="w-full" v-if="index < this.v.length - 1">
-              <div class="flex  items-center flex-start mb-5">
+              <div class="flex items-center flex-start mb-5">
                 <p
                   class="text-2xl leading-none font-semibold text-white bg-violet-600 py-2 px-4 rounded-lg mr-4"
                 >
@@ -488,7 +502,6 @@ import axios from "axios";
 import selectCountry from "@/components/selectCountry.vue";
 import heatChart from "@/components/chart/heatChart.vue";
 
-
 export default {
   name: "CountryView",
   components: {
@@ -540,9 +553,8 @@ export default {
 
       // v1: "",
       v: [],
-      heatY:[],
-      heatX:[]
-
+      heatY: [],
+      heatX: [],
     };
   },
 
@@ -647,7 +659,7 @@ export default {
       this.recoverArrayValues = [];
       this.vaccineArrayValues = [];
       this.activeArrayValues = [];
- 
+
       this.dates = [];
       api
         .getForCountry(this.viewCountry.code, this.viewCountry.continent)
@@ -673,8 +685,7 @@ export default {
         let k = moment(i).format("DD MMM YYYY");
         this.dates.push(k);
       });
-     
-      
+
       //yAxis
       this.caseArrayValues = Object.values(listTimeline.cases);
       this.recoverArrayValues = Object.values(listTimeline.recovered);
@@ -696,25 +707,24 @@ export default {
         this.recoverArrayValues
       );
       // heatChart
-      this.heatY=[];
-      this.heatX=[]
-      let dailyDate =this.dates.slice(1)
+      this.heatY = [];
+      this.heatX = [];
+      let dailyDate = this.dates.slice(1);
 
       let a = 0;
-      dailyDate.forEach((i, index)=>{
-        let x =  moment(i).day()
-        this.heatY.push([a, x, this.dailyCaseArrayValues[index]])
-      
-        if((a>0 && x>0 && x%6==0) || (a==0 && x%6==0)){
-          let h = `W-${a}, to ${moment(i).format("DD/MM/YY")}`
-          this.heatX.push(h)
+      dailyDate.forEach((i, index) => {
+        let x = moment(i).day();
+        this.heatY.push([a, x, this.dailyCaseArrayValues[index]]);
+
+        if ((a > 0 && x > 0 && x % 6 == 0) || (a == 0 && x % 6 == 0)) {
+          let h = `W-${a}, to ${moment(i).format("DD/MM/YY")}`;
+          this.heatX.push(h);
           a++;
         }
-        if(index == dailyDate.length-1) {
-           this.heatX.push(`W-${a}, to ${moment(i).format("DD/MM/YY")}`)
+        if (index == dailyDate.length - 1) {
+          this.heatX.push(`W-${a}, to ${moment(i).format("DD/MM/YY")}`);
         }
-       
-      })
+      });
       // console.log(" this.X ",this.heatX)
 
       // VACCINE -------
@@ -762,12 +772,11 @@ export default {
     });
   },
 
-  beforeUpdate(){
-      this.$Progress.start();
+  beforeUpdate() {
+    this.$Progress.start();
   },
   updated() {
-      this.$Progress.finish();
-    
+    this.$Progress.finish();
   },
 };
 </script>

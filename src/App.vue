@@ -8,13 +8,13 @@
         class="fixed top-0 w-full h-16 flex items-center justify-center backdrop-blur-lg z-20"
       >
 
-        <div class="h-10">
-          <img class="w-full h-full" src="@/assets/logo.png" alt="" />
-        </div>
+        
 
         <div class="flexCen flex-1 text-lg text-medium space-x-8">
           <router-link to="/">Country</router-link>
-
+          <div class="h-10">
+          <img class="w-full h-full" src="@/assets/fav.png" alt="" />
+        </div>
           <router-link to="/worldwide">worldwide</router-link>
         </div>
         <div
