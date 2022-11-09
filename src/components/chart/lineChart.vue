@@ -1,14 +1,16 @@
 <template>
   <div>
     <!-- <p>All times</p> -->
-    <a-select
-      
-      v-model:value="range" size="large" class="w-32 flex justify-start"
-    >
-      <a-select-option value="-30">This month</a-select-option>
-      <a-select-option value="-365">This year</a-select-option>
-      <a-select-option value="0">All time</a-select-option>
-    </a-select>
+    <div class="flex justify-start mb-4">
+      <div class="flexCen space-x-4">
+        <h4 class="font-semibold text-base">Date Range:</h4>
+        <a-select v-model:value="range" size="large" class="w-32">
+          <a-select-option value="-30">This month</a-select-option>
+          <a-select-option value="-365">This year</a-select-option>
+          <a-select-option value="0">All time</a-select-option>
+        </a-select>
+      </div>
+    </div>
     <highcharts :options="chartOptions" ref="chart"></highcharts>
   </div>
 </template>
@@ -21,7 +23,6 @@ import exportingInit from "highcharts/modules/exporting";
 exportingInit(Highcharts);
 
 export default {
-
   components: {},
   name: "splineArea",
   props: {
@@ -42,7 +43,7 @@ export default {
           zoomType: "x",
           // margin: [0,10,0,10],
           // spacing: [0, 0, 0, 0],
-          backgroundColor: "rgba(0,0,0,0)"
+          backgroundColor: "rgba(0,0,0,0)",
         },
         series: [
           {
@@ -84,7 +85,7 @@ export default {
             data: [],
             lineWidth: 3,
             color: "#9a0dd5",
-            dashStyle: "shortdot"
+            dashStyle: "shortdot",
           },
         ],
 
@@ -106,9 +107,9 @@ export default {
           },
           gridLineWidth: 2,
           // crosshair: true,
-         type: 'logarithmic',  
-        //  minorTickInterval: "auto",   
-            },
+          type: "logarithmic",
+          //  minorTickInterval: "auto",
+        },
         xAxis: {
           categories: [],
           accessibility: {
@@ -148,21 +149,27 @@ export default {
           // pointStart: 2010,
         },
       },
-    range: -365,
+      range: -365,
     };
   },
 
   methods: {
     addDataToLineChart() {
       this.chartOptions.series[0].data = this.caseArrayValues.slice(this.range);
-      this.chartOptions.series[1].data = this.deathArrayValues.slice(this.range);
-      this.chartOptions.series[2].data = this.recoverArrayValues.slice(this.range);
+      this.chartOptions.series[1].data = this.deathArrayValues.slice(
+        this.range
+      );
+      this.chartOptions.series[2].data = this.recoverArrayValues.slice(
+        this.range
+      );
       // this.chartOptions.series[3].data = this.vaccineArrayValues;
-     
-      
+
       // console.log(" newVaccineArrayValues ",newVaccineArrayValues)
-      if(this.newVaccineArrayValues){
-      this.chartOptions.series[3].data = this.vaccineArrayValues.slice(this.range);}
+      if (this.newVaccineArrayValues) {
+        this.chartOptions.series[3].data = this.vaccineArrayValues.slice(
+          this.range
+        );
+      }
 
       this.chartOptions.xAxis.categories = this.dates;
     },
@@ -170,11 +177,9 @@ export default {
   computed: {},
   created() {
     // await this.addDataToLineChart();
-
   },
   updated() {
     this.addDataToLineChart();
-
   },
 };
 </script>

@@ -1,14 +1,16 @@
 <template>
   <div>
     <!-- START-Template -->
-<a-select
-      
-      v-model:value="range" size="large" class="w-32 flex justify-start"
-    >
-      <a-select-option value="-30">This month</a-select-option>
-      <a-select-option value="-365">This year</a-select-option>
-      <a-select-option value="0">All time</a-select-option>
-    </a-select>
+ <div class="flex justify-start mb-4">
+      <div class="flexCen space-x-4">
+        <h4 class="font-semibold text-base">Date Range:</h4>
+        <a-select v-model:value="range" size="large" class="w-32">
+          <a-select-option value="-30">This month</a-select-option>
+          <a-select-option value="-365">This year</a-select-option>
+          <a-select-option value="0">All time</a-select-option>
+        </a-select>
+      </div>
+    </div>
     <highcharts :options="chartOptions" ref="chart"></highcharts>
 
     <!-- END-Template -->
