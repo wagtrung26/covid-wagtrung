@@ -648,7 +648,7 @@ export default {
         console.log(" error yourCountry", error);
       }
     },
-    countryClick(countryCode) {
+    countryClick(countryCode="VN") {
       this.loading = true;
       this.$Progress.start();
       let country = this.allCountries.find((i) => i.code == countryCode);
