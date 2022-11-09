@@ -1,7 +1,14 @@
 <template>
   <div>
     <!-- START-Template -->
-
+<a-select
+      
+      v-model:value="range" size="large" class="w-32 flex justify-start"
+    >
+      <a-select-option value="-30">This month</a-select-option>
+      <a-select-option value="-365">This year</a-select-option>
+      <a-select-option value="0">All time</a-select-option>
+    </a-select>
     <highcharts :options="chartOptions" ref="chart"></highcharts>
 
     <!-- END-Template -->
@@ -118,13 +125,14 @@ export default {
           // },
         ],
       },
+      range: 0,
     };
   },
   methods: {
     sample() {
-      this.chartOptions.series[0].data = this.dailyActiveArrayValues.slice(0);
-      this.chartOptions.series[1].data = this.dailyRecoverArrayValues.slice(0);
-      this.chartOptions.series[2].data = this.dailyDeathArrayValues.slice(0);
+      this.chartOptions.series[0].data = this.dailyActiveArrayValues.slice(this.range);
+      this.chartOptions.series[1].data = this.dailyRecoverArrayValues.slice(this.range);
+      this.chartOptions.series[2].data = this.dailyDeathArrayValues.slice(this.range);
       // this.chartOptions.series[3].data = this.dailyVaccineArrayValues.slice(-31);
 
       this.chartOptions.xAxis.categories = this.dates.slice(1);

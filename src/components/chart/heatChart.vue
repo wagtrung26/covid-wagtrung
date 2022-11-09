@@ -1,9 +1,9 @@
 <template>
  <a-select
-      ref="select"
+      
       v-model:value="range" size="large" class="w-32 flex justify-start"
     >
-      <a-select-option value="-30">30 days</a-select-option>
+      <a-select-option value="-70">Haft year</a-select-option>
       <a-select-option value="-365">Last year</a-select-option>
       <a-select-option value="0">All time</a-select-option>
     </a-select>
@@ -26,7 +26,7 @@ export default {
   },
   data() {
     return {
-        range: -30,
+        range: -70,
         chartOptions: {
             chart: {
         type: 'heatmap',
@@ -49,7 +49,7 @@ export default {
     },
 
     yAxis: {
-        categories: ['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday','Saturday',],
+        categories: ['SUN','MON', 'TUE', 'WED', 'THU', 'FRI','SAT',],
         title: null,
         reversed: true
     },
@@ -68,9 +68,16 @@ export default {
 
     colorAxis: {
         min: 0,
-        // max: 10000,
+        // max: 1000,
         minColor: '#a3d8ff',
-        maxColor: '#0b8dec'
+        maxColor: '#0b8dec',
+        // stops: [
+        //     [0, '#22d54d'],
+        //     [0.5, '#15bc97'],
+        //     [1, '#0085b6']
+        // ],
+        startOnTick: false,
+        endOnTick: false,
     },
   credits: {
           enabled: false,

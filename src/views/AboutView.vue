@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-30">
+  <div class="mx-30 mt-8">
     <!-- START-Template -->
     <!-- <p>{{ allCountriesVuex }}</p> -->
     <h1>Worldwide</h1>

@@ -45,7 +45,7 @@ export default {
           startAngle: -145,
           endAngle: 145,
           background: {
-            backgroundColor: "#e2e8f0",
+            backgroundColor: "#FFFFFF",
             innerRadius: "60%",
             outerRadius: "100%",
             shape: "arc",

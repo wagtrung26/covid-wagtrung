@@ -18,7 +18,18 @@ export default createStore({
       state.count += x
     },
     ALL_COUNTRIES(state,x){
-      state.allCountries = x
+      let rawArrayCountries = x;
+      let filteredArrayCountries = rawArrayCountries.map((countryItem) => {
+          return {
+            name: countryItem.country,
+            code: countryItem.countryInfo.iso2,
+            flag: countryItem.countryInfo.flag,
+            ...countryItem,
+          };
+        });
+
+        state.allCountries  = filteredArrayCountries;
+      
       console.log("  ALL_COUNTRIES ")
     },
     USER_COUNTRY(state,x){

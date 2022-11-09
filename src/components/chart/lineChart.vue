@@ -1,6 +1,14 @@
 <template>
   <div>
     <!-- <p>All times</p> -->
+    <a-select
+      
+      v-model:value="range" size="large" class="w-32 flex justify-start"
+    >
+      <a-select-option value="-30">This month</a-select-option>
+      <a-select-option value="-365">This year</a-select-option>
+      <a-select-option value="0">All time</a-select-option>
+    </a-select>
     <highcharts :options="chartOptions" ref="chart"></highcharts>
   </div>
 </template>
@@ -97,9 +105,10 @@ export default {
             text: "",
           },
           gridLineWidth: 2,
-          crosshair: true,
+          // crosshair: true,
          type: 'logarithmic',  
-         minorTickInterval: "auto",      },
+        //  minorTickInterval: "auto",   
+            },
         xAxis: {
           categories: [],
           accessibility: {
@@ -139,36 +148,21 @@ export default {
           // pointStart: 2010,
         },
       },
-      responsive: {
-        rules: [
-          {
-            condition: {
-              maxWidth: 500,
-            },
-            chartOptions: {
-              legend: {
-                enabled: false,
-              },
-            },
-          },
-        ],
-      },
-      credits: {
-        enabled: false,
-      },
+    range: -365,
     };
   },
 
   methods: {
     addDataToLineChart() {
-      this.chartOptions.series[0].data = this.caseArrayValues;
-      this.chartOptions.series[1].data = this.deathArrayValues;
-      this.chartOptions.series[2].data = this.recoverArrayValues;
+      this.chartOptions.series[0].data = this.caseArrayValues.slice(this.range);
+      this.chartOptions.series[1].data = this.deathArrayValues.slice(this.range);
+      this.chartOptions.series[2].data = this.recoverArrayValues.slice(this.range);
       // this.chartOptions.series[3].data = this.vaccineArrayValues;
      
       
       // console.log(" newVaccineArrayValues ",newVaccineArrayValues)
-      this.chartOptions.series[3].data = this.vaccineArrayValues;
+      if(this.newVaccineArrayValues){
+      this.chartOptions.series[3].data = this.vaccineArrayValues.slice(this.range);}
 
       this.chartOptions.xAxis.categories = this.dates;
     },
