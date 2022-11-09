@@ -1,8 +1,12 @@
 <template>
-  <div class="mx-30 mt-8">
+<div class="pt-20">
+  <div class="mx-auto bg-white p-8 container rounded-2xl shadow-2xl">
     <!-- START-Template -->
     <!-- <p>{{ allCountriesVuex }}</p> -->
-    <h1>Worldwide</h1>
+    <h1 class="text-8xl text-slate-900 mx-auto font-semibold max-w-[60%] truncate my-8">
+        Worldwide
+      </h1>
+
     <stat
       :world="world"
       :cases="dCases"
@@ -71,6 +75,7 @@
     <!-- <a-button @click="handle">click</a-button> -->
 
     <!-- END-Template -->
+  </div>
   </div>
 </template>
 
