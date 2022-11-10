@@ -11,7 +11,8 @@ export default createStore({
     filterCountries:[]
   },
   getters: {
-    count: state => state.count
+    allCountries: state => state.allCountries,
+    userCountry: state => state.userCountry
   },
   mutations: {
     increase(state,x){
@@ -67,7 +68,8 @@ export default createStore({
         commit('ALL_COUNTRIES', res.data)
       })
       .then(() => {
-        commit('F_COUNTRIES', type)
+        if(type){
+        commit('F_COUNTRIES', type)}
       })
     },
 

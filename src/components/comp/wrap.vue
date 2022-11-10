@@ -1,8 +1,8 @@
 <template>
   <div
-    class="container bg-white shadow-2xl shadow-slate-300/50 p-12 rounded-3xl"
+    class="container bg-white shadow-2xl shadow-slate-300/50 p-12 rounded-2xl dark:bg-slate-800 dark:shadow-none"
   >
-    <div class="flex flex-wrap flex-start space-x-10 mb-16">
+    <div class="flex flex-wrap flex-start space-x-10 mb-16 ">
       <div class="w-max">
         <span class="w-full inline-flex items-baseline" v-if="subTop">
           <span class="relative flex h-4 w-4 mr-2">
@@ -20,7 +20,7 @@
           </p>
         </span>
         <h1
-          class="leading-relaxed text-left text-3xl font-semibold tracking-tight text-slate-900 mb-4 sm:text-6xl"
+          class="leading-relaxed text-left text-3xl font-semibold tracking-tight text-slate-900 mb-4 sm:text-6xl dark:text-white"
         >
           {{ title }}
         </h1>

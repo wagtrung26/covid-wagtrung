@@ -165,13 +165,11 @@ export default {
       // this.chartOptions.series[3].data = this.vaccineArrayValues;
 
       // console.log(" newVaccineArrayValues ",newVaccineArrayValues)
-      if (this.newVaccineArrayValues) {
-        this.chartOptions.series[3].data = this.vaccineArrayValues.slice(
-          this.range
-        );
+      if (this.vaccineArrayValues) {
+        this.chartOptions.series[3].data = this.vaccineArrayValues.slice(this.range);
       }
 
-      this.chartOptions.xAxis.categories = this.dates;
+      this.chartOptions.xAxis.categories = this.dates.slice(this.range);
     },
   },
   computed: {},

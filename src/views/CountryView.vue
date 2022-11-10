@@ -53,13 +53,13 @@
 
     <!-- ON LOAD MODAL - DETECT USER COUNTRY -->
 
-    <modal title="Your Country" v-if="visible && yourCountry.request">
+    <modal title="Your Country" v-if="userCountry.countryName && visible  ">
       <div class="flexCen flex-col mt-10">
         <div class="h-32 w-32 relative">
           <img class="animate-spin" src="@/assets/fav.png" alt="" />
           <span
-          class="animate-ping absolute inset-0 h-full w-full rounded-full border-4 border-emerald-200/70 opacity-75"
-        ></span>
+            class="animate-ping absolute inset-0 h-full w-full rounded-full border-4 border-emerald-200/70 opacity-75"
+          ></span>
         </div>
         <div class="flexCen mt-6">
           <img
@@ -71,14 +71,14 @@
           <h1
             class="text-6xl font-semibold text-slate-900 leading-snug tracking-tight truncate"
           >
-            {{ yourCountry.countryName }}
+            {{ userCountry.countryName }}
           </h1>
         </div>
 
         <p
           class="text-2xl uppercase font-semibold text-slate-500 tracking-wide mb-4"
         >
-          IP: {{ yourCountry.request }} - {{ yourCountry.continentName }}
+          IP: {{ userCountry.request }} - {{ userCountry.continentName }}
         </p>
       </div>
     </modal>
@@ -109,7 +109,7 @@
         subTop="soligauge, Column-line, Stack"
       >
         <!-- DAILY card yesterday-->
-        <div class="-mt-8 bg-slate-50 p-10 rounded-2xl mb-8">
+        <div class="-mt-8 bg-slate-50 p-10 rounded-2xl mb-8 dark:bg-slate-800/90">
           <div class="flex flex-wrap space-x-8 mb-8">
             <!-- card -->
             <card
@@ -168,7 +168,7 @@
 
           <!-- daily colums + stack -->
           <div
-            class="w-full bg-white shadow-2xl shadow-slate-200/70 px-8 py-2 rounded-2xl mb-8"
+            class="w-full bg-white shadow-2xl shadow-slate-200/70 px-8 py-2 rounded-2xl dark:bg-slate-700/30 dark:shadow-none mb-8"
           >
             <h3
               class="text-left my-6 pl-4 border-l-8 border-blue-500 text-xl font-semibold tracking-tight text-slate-900"
@@ -185,7 +185,7 @@
           </div>
 
           <div
-            class="w-full bg-white shadow-2xl shadow-slate-200/70 px-8 py-2 rounded-2xl mb-8"
+            class="w-full bg-white shadow-2xl shadow-slate-200/70 px-8 py-2 rounded-2xl mb-8 dark:bg-slate-700/30 dark:shadow-none"
           >
             <h3
               class="text-left my-6 pl-4 border-l-8 border-blue-500 text-xl font-semibold tracking-tight text-slate-900"
@@ -202,7 +202,7 @@
             />
           </div>
           <div
-            class="w-full bg-white shadow-2xl shadow-slate-200/70 px-8 py-2 rounded-2xl"
+            class="w-full bg-white shadow-2xl shadow-slate-200/70 px-8 py-2 rounded-2xl dark:bg-slate-700/30 dark:shadow-none"
           >
             <h3
               class="text-left my-6 pl-4 border-l-8 border-blue-500 text-xl font-semibold tracking-tight text-slate-900"
@@ -250,7 +250,7 @@
               :dailyCaseArrayValues="dailyCaseArrayValues"
               :dailyDeathArrayValues="dailyDeathArrayValues"
               :dailyVaccineArrayValues="dailyVaccineArrayValues"
-              :dates="dates"
+              :dates="dates.slice(1)"
             />
           </div>
         </div>
@@ -324,11 +324,16 @@
 
             <div class="w-full" v-else>
               <div class="flex items-center flex-start mb-5">
+                <p
+                  class="text-2xl leading-none font-semibold text-white bg-violet-600 py-2 px-4 rounded-lg mr-4"
+                >
+                  {{ index + 1 }}
+                </p>
                 <span class="text-2xl leading-none font-semibold text-slate-900"
                   >Up to Now
                 </span>
               </div>
-              <div class="flex space-x-8">
+              <div class="w-full flex space-x-8 ">
                 <mixLineChart
                   class="w-1/2"
                   :y="
@@ -501,6 +506,7 @@ import numeral from "numeral";
 import axios from "axios";
 import selectCountry from "@/components/selectCountry.vue";
 import heatChart from "@/components/chart/heatChart.vue";
+// import { mapGetters } from "vuex";
 
 export default {
   name: "CountryView",
@@ -525,12 +531,12 @@ export default {
 
   data() {
     return {
-      searchOn: null,
+      searchOn: false,
       countryTopemit: "",
       key: "1",
       loading: null,
       allCountries: [],
-      yourCountry: {},
+      userCountry: {},
       viewCountry: {},
       caseArrayValues: [],
       deathArrayValues: [],
@@ -642,14 +648,16 @@ export default {
     async getUserCountry() {
       // 2. get user country based on browser IP, at the beginning state
       try {
-        this.yourCountry = await api.yourCountry();
-        // console.log("2 this.yourCountry  ", this.yourCountry);
+        this.userCountry = await api.userCountry();
+        // console.log("2 this.userCountry  ", this.userCountry);
       } catch (error) {
-        console.log(" error yourCountry", error);
+        console.log(" error userCountry", error);
       }
     },
-    countryClick(countryCode="VN") {
+    countryClick(countryCode = "VN") {
       this.loading = true;
+      this.$Progress.start();
+
       this.$Progress.start();
       let country = this.allCountries.find((i) => i.code == countryCode);
       this.viewCountry = country;
@@ -661,6 +669,8 @@ export default {
       this.activeArrayValues = [];
 
       this.dates = [];
+      this.$Progress.finish();
+
       api
         .getForCountry(this.viewCountry.code, this.viewCountry.continent)
         .then(
@@ -749,6 +759,20 @@ export default {
       });
       this.continentTotal = contiC.data;
     },
+    async firstLoad() {
+      this.visible = true;
+      this.loading = true;
+         
+      
+        await this.getAllCountries();
+        await this.getUserCountry();
+      
+      setTimeout(() => {
+        this.visible = false;
+      }, 1000);
+      let code = this.userCountry.countryCode;
+      this.countryClick(code);
+    },
   },
   // watch:{
   //   key(){
@@ -756,28 +780,15 @@ export default {
   //   }
   // },
 
-  computed: {},
+  computed: {
+    // ...mapGetters(["allCountries", "userCountry"]),
+  },
 
   created() {
-    // Asyncronous 1.then 2.async-await
-    this.getAllCountries().then(() => {
-      this.getUserCountry().then(() => {
-        let code = this.yourCountry.countryCode;
-        this.visible = true;
-        setTimeout(() => {
-          this.visible = false;
-        }, 1000);
-        this.countryClick(code);
-      });
-    });
+    this.firstLoad();
   },
 
-  beforeUpdate() {
-    this.$Progress.start();
-  },
-  updated() {
-    this.$Progress.finish();
-  },
+  updated() {},
 };
 </script>
 

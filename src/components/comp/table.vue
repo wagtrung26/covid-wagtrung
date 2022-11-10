@@ -9,7 +9,7 @@
       :pagination="{ pageSize: 20 }"
       @change="onChange"
     >
-      <template #img="{ text, record }">
+      <template v-slot:img="{ text, record }">
         <div class="flexCen justify-start space-x-4">
           <div class="bg-cover bg-no-repeat bg-center w-20 h-14 rounded border border-slate-100" :style="`background-image: url(${record.flag})`"></div>
           <div class="c">
@@ -18,7 +18,7 @@
           </div>
         </div>
       </template>
-        <template #cases ="{ text }">
+        <template v-slot:cases ="{ text }">
         <p> {{numeralFunc(text)}} </p>
       </template>
     </a-table>

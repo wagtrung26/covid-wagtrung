@@ -1,31 +1,27 @@
 <template>
   <modal title="Select a country" @closeModal="closeModal">
     <div class="searchSelectCountry">
-    
       <div class="">
-        <div class="flex flex-wrap w-full bg-white items-end sticky z-10 top-0 ">
-            <input
-          class=" flex-1 bg-white shadow-lg px-5 py-4 w-full text-xl"
-          type="text"
-          v-model="vModelCountry"
-          placeholder="Type a country's name"
-        />
-              <a-select
-        ref="select"
-        v-model:value="type"
-        size="large"
-        class="w-3/12"
-      >
-        <a-select-option value="cases">Cases</a-select-option>
-        <a-select-option value="deaths">Deaths</a-select-option>
-        <a-select-option value="recovered">Recovered</a-select-option>
-        <a-select-option value="todayCases">Today Cases</a-select-option>
-        <a-select-option value="todayDeaths">Today Deaths</a-select-option>
-      </a-select>
+        <div class="flex flex-wrap w-full bg-white items-end sticky z-10 top-0">
+          <input
+            class="flex-1 bg-white shadow-lg px-5 py-4 w-full text-xl"
+            type="text"
+            v-model="vModelCountry"
+            placeholder="Type a country's name"
+          />
+          <a-select
+            ref="select"
+            v-model:value="type"
+            size="large"
+            class="w-3/12"
+          >
+            <a-select-option value="cases">Cases</a-select-option>
+            <a-select-option value="deaths">Deaths</a-select-option>
+            <a-select-option value="recovered">Recovered</a-select-option>
+            <a-select-option value="todayCases">Today Cases</a-select-option>
+            <a-select-option value="todayDeaths">Today Deaths</a-select-option>
+          </a-select>
         </div>
-        
-
-
 
         <div class="listCountriesSelect" v-if="allCountries">
           <ul
@@ -88,7 +84,8 @@ export default {
     return {
       vModelCountry: "",
       type: "cases",
-      clicked: false,
+      // clicked: false,
+      code: null,
       //   seachOn: false,
     };
   },
@@ -106,8 +103,9 @@ export default {
       this.$emit("searchOff");
     },
     countryClickComp(country) {
-      this.$emit("countryClickComp", country.code);
-      this.closeModal();
+      this.code = country.code;
+      // this.$emit("countryClickComp", code);
+      // this.clicked =true
       //   this.vModelCountry = "";
     },
   },
@@ -129,11 +127,13 @@ export default {
     // ...mapGetters(["count"]),
     // Computed
   },
-  //   watch:{
-  //     type(){
-  //         this.filteredAllCountries()
-  //     }
-  //   },
+    watch:{
+      code(){
+       this.closeModal();
+      this.$emit("countryClickComp", this.code);
+
+      }
+    },
   created() {},
   mounted() {},
   updated() {},

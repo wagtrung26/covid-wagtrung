@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex-1 flex shadow-2xl shadow-slate-500/20 bg-white p-8 rounded-2xl items-center justify-center"
+    class="flex-1 flex shadow-2xl shadow-slate-500/20 bg-white dark:bg-slate-700/30 dark:shadow-none p-8 rounded-2xl items-center justify-center"
   >
     <div class="w-fit mr-4">
       <a-progress
@@ -16,16 +16,16 @@
       </template>
       </a-progress>
     </div>
-    <div class="flex-1">
+    <div class="flex-1  prose prose-slate dark:prose-invert ">
       <p class="text-left text-sm text-slate-500 mb-3">{{ subTop }}</p>
       <h2
-        class="text-left text-5xl font-semibold tracking-tight text-slate-900 mb-2"
+        class="text-left text-5xl font-semibold tracking-tight text-slate-900 dark:text-white mb-2"
       >
         {{ titleC }}
       </h2>
       <div
       v-if="subBot"
-        class="bg-slate-200/30 p-1 px-2 text-slate-600 text-xs rounded-2xl tracking-wider font-normal w-fit"
+        class="bg-slate-200/30 p-1 px-2 text-slate-600 dark:text-slate-800 text-xs rounded-2xl tracking-wider font-normal w-fit"
       >
         <span v-if="subBot>0">+ </span>
         {{ subBot }}

@@ -5,7 +5,8 @@ const routes = [
   {
     path: '/',
     name: 'Country',
-    component: Country
+    component: Country,
+ 
   },
   {
     path: '/worldwide',

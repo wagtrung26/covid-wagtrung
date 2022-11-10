@@ -151,7 +151,7 @@ export default {
       this.chartOptions.series[1].data = this.dailyDeathArrayValues.slice(this.range);
       this.chartOptions.series[0].data = this.dailyVaccineArrayValues.slice(this.range);
 
-      this.chartOptions.xAxis.categories = this.dates.slice(1);
+      this.chartOptions.xAxis.categories = this.dates.slice(this.range);
     },
   },
   computed: {},

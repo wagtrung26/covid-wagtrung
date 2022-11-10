@@ -4,6 +4,8 @@
     <div
       class="w-full bg-slate-200 dark:bg-slate-900 dark:text-white dark:text-"
     >
+
+    
       <nav
         class="fixed top-0 w-full h-16 flex items-center justify-center backdrop-blur-lg z-20"
       >
@@ -51,7 +53,7 @@
         </div>
       </nav>
 
-      <router-view class="" />
+      <router-view />
       <vue-progress-bar ></vue-progress-bar>
 
 
@@ -60,7 +62,6 @@
 </template>
 
 <script>
-// import { mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
   components: {},
@@ -83,17 +84,14 @@ export default {
     sample() {},
   },
   computed: {
-    // VUEX-State
-    // ...mapGetters(["count"]),
     // Computed
-    cSample() {
-      return 0;
-    },
+
   },
-  created() {
+  beforeCreate() {
+      // this.$store.dispatch("getAllCountries")
+      //  this.$store.dispatch("getUserCountry")
   },
-  mounted() {
-  },
+  
   updated() {
       
 
