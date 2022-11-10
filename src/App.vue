@@ -171,7 +171,56 @@ nav a {
 nav a.router-link-exact-active {
   color: #42b983;
 }
-
+.textXl {
+  font-size: 4rem;
+}
+.textX {
+  font-size: 2rem;
+}
+.mx-30 {
+  margin-left: 30px;
+  margin-right: 30px;
+}
+.my-30 {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+.my-0 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.mr {
+  margin: 0 0 0px 20px;
+}
+.MR-30 {
+  margin-left: 30px;
+}
+.mb {
+  margin: 0 0 20px 0px;
+}
+.mbL {
+  margin-bottom: 40px;
+}
+.m0 {
+  margin: 0px;
+}
+.p0 {
+  padding: 0px;
+}
+.mb0 {
+  margin-bottom: 0 !important;
+}
+.pl {
+  padding-left: 40px;
+}
+.textLeft {
+  text-align: left;
+}
+.chart {
+  /* box-shadow: 0px 3px 20px rgb(124, 124, 124); */
+  /* margin: 30px 0px 0; */
+  position: relative;
+}
 .btnGroup {
   position: absolute;
   top: 20px;
@@ -201,6 +250,45 @@ nav a.router-link-exact-active {
   color: #fff;
   /* border: 2px solid #333; */
 }
+.flex {
+  display: flex;
+}
+.flex0 {
+  flex: 1;
+}
+.flex1 {
+  flex: 1;
+}
+.flex3 {
+  flex: 3;
+}
+.flex9 {
+  flex: 9;
+}
+.flex5 {
+  flex: 5;
+}
+.flex7 {
+  flex: 7;
+}
+.containerF {
+  width: 100%;
+}
+
+.flexC {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* .rec h1{
+  color: rgb(23, 214, 109)
+}
+.death h1{
+  color: rgb(214, 23, 45)
+}
+.case h1{
+  color: rgb(0, 147, 255)
+} */
 .rec,
 .death,
 .case {
