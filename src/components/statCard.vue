@@ -36,7 +36,7 @@
   <!-- border-8	border-white	 [clip-path:circle()] -->
 <!-- Stat -->
   <div
-    class="flex justify-center items-center flex-wrap mx-auto bg-white max-w-screen-lg shadow-2xl rounded-3xl p-8 space-x-8"
+    class="flex justify-center items-center flex-wrap mx-auto bg-white max-w-screen-lg shadow-2xl shadow-slate-400/60 rounded-3xl p-8 space-x-8"
   >
     <div class="px-8 flexCen flex-col">
       <p

@@ -4,7 +4,8 @@
 
   <div class="w-full">
     <div
-      class="relative w-full h-96 bg-gradient-to-tr from-indigo-900 via-slate-800 to-blue-600 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-700 z-0"
+      class="relative w-full h-[30rem] bg-gradient-to-b via-indigo-900 from-slate-900 to-blue-600 dark:bg-gradient-to-tr dark:from-slate-900 dark:via-slate-900 dark:to-indigo-700 z-0 "
+      style="clip-path:ellipse(85% 100% at 50% 0%)"
       v-show="!loading"
     ></div>
 
@@ -93,7 +94,7 @@
 
     <div class="container space-y-14 mx-auto" v-show="!loading">
       <!-- 1 STAT HIGHLIGHT -->
-      <div class="relative -mt-64 z-10 mb-12">
+      <div class="relative -mt-80 z-10 mb-12">
         <statCard
           :viewCountry="viewCountry"
           :dailyCaseArrayValues="dailyCaseArrayValues"

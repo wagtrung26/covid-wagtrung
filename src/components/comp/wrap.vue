@@ -1,6 +1,6 @@
 <template>
   <div
-    class="container bg-white shadow-2xl shadow-slate-300/50 p-12 rounded-2xl dark:bg-slate-800 dark:shadow-none"
+    class="container bg-white shadow-2xl shadow-slate-400/60 p-12 rounded-2xl dark:bg-slate-800 dark:shadow-none"
   >
     <div class="flex flex-wrap flex-start space-x-10 mb-16 ">
       <div class="w-max">
