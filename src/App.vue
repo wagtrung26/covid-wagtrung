@@ -3,20 +3,12 @@
     <div
       class="w-full bg-slate-200 dark:bg-slate-900 dark:text-white dark:text-"
     >
-      <nav
-      id="nav"
-        class="fixed m-0 top-0 w-full h-fit py-8 z-20"
-      >
-        
+      <nav id="nav" class="fixed m-0 top-0 w-full h-fit py-8 z-20">
         <div class="flexCen w-full h-full m-auto text-lg text-medium space-x-2">
           <router-link to="/">Country</router-link>
 
           <div class="h-16 relative" id="logo" @click="visible = true">
-            <img
-              class="w-full h-full"
-              src="@/assets/fav.png"
-              alt=""
-            />
+            <img class="w-full h-full" src="@/assets/fav.png" alt="" />
             <span
               class="animate-ping absolute inset-0 h-full w-full rounded-full border-2 border-emerald-400/20"
             ></span>
@@ -57,10 +49,14 @@
           </a-switch>
         </div>
 
-        <div class="progress-container backdrop-blur-xl absolute top-0 h-[5px] w-full ">
-          <div class="progress-bar h-full bg-gradient-to-r from-sky-500 via-green-500 to-lime-500" id="myBar"></div>
+        <div
+          class="progress-container backdrop-blur-xl absolute top-0 h-[5px] w-full"
+        >
+          <div
+            class="progress-bar h-full bg-gradient-to-r from-sky-500 via-green-500 to-lime-500"
+            id="myBar"
+          ></div>
         </div>
-
       </nav>
       <a-drawer
         title="About this Web Application"
@@ -73,6 +69,7 @@
         <h2>Covid-19 Data Visualization and Vaccination Efficiency</h2>
         <p>Author: <span class="font-semibold">WagTrung</span></p>
         <p>ID: <span class="font-semibold">ITITIU17087</span></p>
+        <a-button href="https://disease.sh/docs/#/COVID-19%3A%20Worldometers/get_v3_covid_19_all">Data API</a-button>
       </a-drawer>
 
       <router-view />
@@ -129,36 +126,32 @@ export default {
       var scrolled = (winScroll / height) * 100;
       document.getElementById("myBar").style.width = scrolled + "%";
 
-      if (document.body.scrollTop > 400 || document.documentElement.scrollTop > 400) {
-    document.getElementById("nav").style.background = "#ffffffa1";
-    document.getElementById("logo").style.height = "40px";
-    document.getElementById("nav").style.padding = "16px 0";
-    document.getElementById("nav").style.boxShadow = "3px 0px 27px #748ba84d";
-    document.getElementById("nav").style.backdropFilter = "blur(24px)";
-    document.getElementById("nav").style.position = "sticky";
-   
-  } else {
-    document.getElementById("nav").style.background = "none";
-    document.getElementById("logo").style.height = "64px";
-    document.getElementById("nav").style.padding = "32px 0";
+      if (
+        document.body.scrollTop > 400 ||
+        document.documentElement.scrollTop > 400
+      ) {
+        document.getElementById("nav").style.background = "#ffffffa1";
+        document.getElementById("logo").style.height = "40px";
+        document.getElementById("nav").style.padding = "16px 0";
+        document.getElementById("nav").style.boxShadow =
+          "3px 0px 27px #748ba84d";
+        document.getElementById("nav").style.backdropFilter = "blur(24px)";
+        document.getElementById("nav").style.position = "sticky";
+      } else {
+        document.getElementById("nav").style.background = "none";
+        document.getElementById("logo").style.height = "64px";
+        document.getElementById("nav").style.padding = "32px 0";
 
-    document.getElementById("nav").style.boxShadow = "none";
-    document.getElementById("nav").style.backdropFilter = "blur(0)";
-    document.getElementById("nav").style.position = "absolute";
-
-
-
-
-
- 
-  }
+        document.getElementById("nav").style.boxShadow = "none";
+        document.getElementById("nav").style.backdropFilter = "blur(0)";
+        document.getElementById("nav").style.position = "absolute";
+      }
     }
   },
 };
 </script>
 
 <style>
-
 .progress-bar {
   width: 0%;
 }
@@ -200,7 +193,6 @@ nav a {
 nav a.router-link-exact-active {
   color: #42b983;
   /* background-color: rgba(185, 185, 185, 0.116) */
-
 }
 .textXl {
   font-size: 4rem;
