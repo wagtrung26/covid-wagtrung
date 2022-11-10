@@ -2,7 +2,7 @@
 <template>
   <!-- <p>{{ this.viewCountry }}</p> -->
 
-  <div class="w-full">
+  <div class="w-full mainApp">
     <div
       class="relative w-full h-[30rem] bg-gradient-to-b via-indigo-900 from-slate-900 to-blue-600 dark:bg-gradient-to-tr dark:from-slate-900 dark:via-slate-900 dark:to-indigo-700 z-0"
       style="clip-path: ellipse(85% 100% at 50% 0%)"
@@ -671,7 +671,7 @@ export default {
     async getUserCountry() {
       // 2. get user country based on browser IP, at the beginning state
       try {
-        this.userCountry = await api.userCountry();
+        this.userCountry = await api.yourCountry();
         // console.log("2 this.userCountry  ", this.userCountry);
       } catch (error) {
         console.log(" error userCountry", error);
@@ -795,6 +795,7 @@ export default {
       let code = this.userCountry.countryCode;
       this.countryClick(code);
     },
+    
   },
   // watch:{
   //   key(){
@@ -810,7 +811,9 @@ export default {
     this.firstLoad();
   },
 
-  updated() {},
+  mounted() {
+
+  },
 };
 </script>
 

@@ -1,26 +1,28 @@
 <template>
-  <div :class="{ dark: dark }">
+  <div class="mainApp" :class="{ dark: dark }">
     <div
       class="w-full bg-slate-200 dark:bg-slate-900 dark:text-white dark:text-"
     >
       <nav
-        class="fixed top-0 w-full h-16 flex items-center justify-center backdrop-blur-lg z-20"
+        class="fixed m-0 p-0 top-0 w-full h-16 backdrop-blur-xl z-20"
       >
-        <div class="flexCen flex-1 text-lg text-medium space-x-8">
+        
+        <div class="flexCen w-full h-full m-auto text-lg text-medium space-x-8">
           <router-link to="/">Country</router-link>
 
           <div class="h-10 relative" @click="visible = true">
             <img
-              class="animate-spin w-full h-full"
+              class="w-full h-full"
               src="@/assets/fav.png"
               alt=""
             />
             <span
-              class="animate-ping absolute inset-0 h-full w-full rounded-full border-4 border-emerald-400/20"
+              class="animate-ping absolute inset-0 h-full w-full rounded-full border-2 border-emerald-400/20"
             ></span>
           </div>
           <router-link to="/worldwide">worldwide</router-link>
         </div>
+
         <div
           class="absolute right-8 top-4 bg-slate-300/50 rounded-full p-2 hover:bg-blue-500"
         >
@@ -53,6 +55,11 @@
             </template>
           </a-switch>
         </div>
+
+        <div class="progress-container backdrop-blur-xl absolute top-0 h-[5px] w-full ">
+          <div class="progress-bar h-full bg-gradient-to-r from-sky-500 via-green-500 to-lime-500" id="myBar"></div>
+        </div>
+
       </nav>
       <a-drawer
         title="About this Web Application"
@@ -69,15 +76,13 @@
 
       <router-view />
       <vue-progress-bar></vue-progress-bar>
-
-     
     </div>
   </div>
-   <div id="components-back-top-demo-custom">
-        <a-back-top>
-          <div class="ant-back-top-inner">UP</div>
-        </a-back-top>
-      </div>
+  <div id="components-back-top-demo-custom">
+    <a-back-top>
+      <div class="ant-back-top-inner">UP</div>
+    </a-back-top>
+  </div>
 </template>
 
 <script>
@@ -109,11 +114,29 @@ export default {
     //  this.$store.dispatch("getUserCountry")
   },
 
-  updated() {},
+  mounted() {
+    window.onscroll = function () {
+      myFunction();
+    };
+
+    function myFunction() {
+      var winScroll =
+        document.body.scrollTop || document.documentElement.scrollTop;
+      var height =
+        document.documentElement.scrollHeight -
+        document.documentElement.clientHeight;
+      var scrolled = (winScroll / height) * 100;
+      document.getElementById("myBar").style.width = scrolled + "%";
+    }
+  },
 };
 </script>
 
 <style>
+
+.progress-bar {
+  width: 0%;
+}
 #components-back-top-demo-custom .ant-back-top {
   bottom: 80px;
 }
@@ -148,56 +171,7 @@ nav a {
 nav a.router-link-exact-active {
   color: #42b983;
 }
-.textXl {
-  font-size: 4rem;
-}
-.textX {
-  font-size: 2rem;
-}
-.mx-30 {
-  margin-left: 30px;
-  margin-right: 30px;
-}
-.my-30 {
-  margin-top: 30px;
-  margin-bottom: 30px;
-}
-.my-0 {
-  margin-top: 0px;
-  margin-bottom: 0px;
-}
-.mr {
-  margin: 0 0 0px 20px;
-}
-.MR-30 {
-  margin-left: 30px;
-}
-.mb {
-  margin: 0 0 20px 0px;
-}
-.mbL {
-  margin-bottom: 40px;
-}
-.m0 {
-  margin: 0px;
-}
-.p0 {
-  padding: 0px;
-}
-.mb0 {
-  margin-bottom: 0 !important;
-}
-.pl {
-  padding-left: 40px;
-}
-.textLeft {
-  text-align: left;
-}
-.chart {
-  /* box-shadow: 0px 3px 20px rgb(124, 124, 124); */
-  /* margin: 30px 0px 0; */
-  position: relative;
-}
+
 .btnGroup {
   position: absolute;
   top: 20px;
@@ -227,45 +201,6 @@ nav a.router-link-exact-active {
   color: #fff;
   /* border: 2px solid #333; */
 }
-.flex {
-  display: flex;
-}
-.flex0 {
-  flex: 1;
-}
-.flex1 {
-  flex: 1;
-}
-.flex3 {
-  flex: 3;
-}
-.flex9 {
-  flex: 9;
-}
-.flex5 {
-  flex: 5;
-}
-.flex7 {
-  flex: 7;
-}
-.containerF {
-  width: 100%;
-}
-
-.flexC {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-/* .rec h1{
-  color: rgb(23, 214, 109)
-}
-.death h1{
-  color: rgb(214, 23, 45)
-}
-.case h1{
-  color: rgb(0, 147, 255)
-} */
 .rec,
 .death,
 .case {
