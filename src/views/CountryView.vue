@@ -4,8 +4,8 @@
 
   <div class="w-full">
     <div
-      class="relative w-full h-[30rem] bg-gradient-to-b via-indigo-900 from-slate-900 to-blue-600 dark:bg-gradient-to-tr dark:from-slate-900 dark:via-slate-900 dark:to-indigo-700 z-0 "
-      style="clip-path:ellipse(85% 100% at 50% 0%)"
+      class="relative w-full h-[30rem] bg-gradient-to-b via-indigo-900 from-slate-900 to-blue-600 dark:bg-gradient-to-tr dark:from-slate-900 dark:via-slate-900 dark:to-indigo-700 z-0"
+      style="clip-path: ellipse(85% 100% at 50% 0%)"
       v-show="!loading"
     ></div>
 
@@ -54,7 +54,7 @@
 
     <!-- ON LOAD MODAL - DETECT USER COUNTRY -->
 
-    <modal title="Your Country" v-if="userCountry.countryName && visible  ">
+    <modal title="Your Country" v-if="userCountry.countryName && visible">
       <div class="flexCen flex-col mt-10">
         <div class="h-32 w-32 relative">
           <img class="animate-spin" src="@/assets/fav.png" alt="" />
@@ -110,7 +110,9 @@
         subTop="soligauge, Column-line, Stack"
       >
         <!-- DAILY card yesterday-->
-        <div class="-mt-8 bg-slate-50 p-10 rounded-2xl mb-8 dark:bg-slate-800/90">
+        <div
+          class="-mt-8 bg-slate-50 p-10 rounded-2xl mb-8 dark:bg-slate-800/90"
+        >
           <div class="flex flex-wrap space-x-8 mb-8">
             <!-- card -->
             <card
@@ -286,12 +288,32 @@
                   class="text-2xl leading-none font-semibold text-slate-900"
                 >
                   Full Vaccination at:
-                  {{
-                    this.dates[
-                      this.vaccineArrayValues.indexOf(this.v[index + 1])
-                    ]
-                  }}</span
-                >
+                  <a-popover title="Number of Used Vaccines">
+                    <template #content>
+                      <p>
+                        {{
+                        this.dates[
+                          this.vaccineArrayValues.indexOf(this.v[index + 1])
+                        ]
+                      }} <strong>
+                        {{numF(
+                          this.vaccineArrayValues[
+                            this.vaccineArrayValues.indexOf(this.v[index + 1])
+                          ])
+                        }}
+                        </strong>
+                      </p>
+                    </template>
+
+                    <span class="bg-slate-300/50 py-2 px-4 text-xl rounded-xl cursor-pointer">
+                      {{
+                        this.dates[
+                          this.vaccineArrayValues.indexOf(this.v[index + 1])
+                        ]
+                      }}
+                    </span>
+                  </a-popover>
+                </span>
               </div>
               <div class="flex space-x-8">
                 <mixLineChart
@@ -334,7 +356,7 @@
                   >Up to Now
                 </span>
               </div>
-              <div class="w-full flex space-x-8 ">
+              <div class="w-full flex space-x-8">
                 <mixLineChart
                   class="w-1/2"
                   :y="
@@ -763,11 +785,10 @@ export default {
     async firstLoad() {
       this.visible = true;
       this.loading = true;
-         
-      
-        await this.getAllCountries();
-        await this.getUserCountry();
-      
+
+      await this.getAllCountries();
+      await this.getUserCountry();
+
       setTimeout(() => {
         this.visible = false;
       }, 1000);

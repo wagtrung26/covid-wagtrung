@@ -1,22 +1,24 @@
 <template>
-
   <div :class="{ dark: dark }">
     <div
       class="w-full bg-slate-200 dark:bg-slate-900 dark:text-white dark:text-"
     >
-
-    
       <nav
         class="fixed top-0 w-full h-16 flex items-center justify-center backdrop-blur-lg z-20"
       >
-
-        
-
         <div class="flexCen flex-1 text-lg text-medium space-x-8">
           <router-link to="/">Country</router-link>
-          <div class="h-10">
-          <img class="w-full h-full" src="@/assets/fav.png" alt="" />
-        </div>
+
+          <div class="h-10 relative" @click="visible = true">
+            <img
+              class="animate-spin w-full h-full"
+              src="@/assets/fav.png"
+              alt=""
+            />
+            <span
+              class="animate-ping absolute inset-0 h-full w-full rounded-full border-4 border-emerald-400/20"
+            ></span>
+          </div>
           <router-link to="/worldwide">worldwide</router-link>
         </div>
         <div
@@ -52,17 +54,33 @@
           </a-switch>
         </div>
       </nav>
+      <a-drawer
+        title="About this Web Application"
+        placement="right"
+        :closable="false"
+        v-model:visible="visible"
+        :after-visible-change="afterVisibleChange"
+      >
+        <p></p>
+        <h2>Covid-19 Data Visualization and Vaccination Efficiency</h2>
+        <p>Author: <span class="font-semibold">WagTrung</span></p>
+        <p>ID: <span class="font-semibold">ITITIU17087</span></p>
+      </a-drawer>
 
       <router-view />
-      <vue-progress-bar ></vue-progress-bar>
+      <vue-progress-bar></vue-progress-bar>
 
-
+     
     </div>
   </div>
+   <div id="components-back-top-demo-custom">
+        <a-back-top>
+          <div class="ant-back-top-inner">UP</div>
+        </a-back-top>
+      </div>
 </template>
 
 <script>
-
 export default {
   components: {},
   name: "App",
@@ -73,7 +91,7 @@ export default {
     // },
   },
   data() {
-    return { dark: false };
+    return { dark: false, visible: false };
   },
   methods: {
     // VUEX-Method
@@ -85,21 +103,30 @@ export default {
   },
   computed: {
     // Computed
-
   },
   beforeCreate() {
-      // this.$store.dispatch("getAllCountries")
-      //  this.$store.dispatch("getUserCountry")
+    // this.$store.dispatch("getAllCountries")
+    //  this.$store.dispatch("getUserCountry")
   },
-  
-  updated() {
-      
 
-  },
+  updated() {},
 };
 </script>
 
 <style>
+#components-back-top-demo-custom .ant-back-top {
+  bottom: 80px;
+}
+#components-back-top-demo-custom .ant-back-top-inner {
+  height: 80px;
+  width: 80px;
+  line-height: 80px;
+  border-radius: 50px;
+  background-color: #1088e9;
+  color: #fff;
+  text-align: center;
+  font-size: 20px;
+}
 #app {
   /* font-family: Avenir, Helvetica, Arial, sans-serif; */
   font-family: Poppins;
