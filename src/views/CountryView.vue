@@ -4,7 +4,7 @@
 
   <div class="w-full mainApp">
     <div
-      class="relative w-full h-[30rem] bg-gradient-to-b via-indigo-900 from-slate-900 to-blue-600 dark:bg-gradient-to-tr dark:from-slate-900 dark:via-slate-900 dark:to-indigo-700 z-0"
+      class="relative bg-fixed w-full h-[30rem] bg-gradient-to-b via-indigo-900 from-slate-900 to-blue-600 dark:bg-gradient-to-tr dark:from-slate-900 dark:via-slate-900 dark:to-indigo-700 z-0"
       style="clip-path: ellipse(85% 100% at 50% 0%)"
       v-show="!loading"
     ></div>

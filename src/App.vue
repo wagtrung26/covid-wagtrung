@@ -4,13 +4,14 @@
       class="w-full bg-slate-200 dark:bg-slate-900 dark:text-white dark:text-"
     >
       <nav
-        class="fixed m-0 p-0 top-0 w-full h-16 backdrop-blur-xl z-20"
+      id="nav"
+        class="fixed m-0 top-0 w-full h-fit py-8 z-20"
       >
         
         <div class="flexCen w-full h-full m-auto text-lg text-medium space-x-2">
           <router-link to="/">Country</router-link>
 
-          <div class="h-10 relative" @click="visible = true">
+          <div class="h-16 relative" id="logo" @click="visible = true">
             <img
               class="w-full h-full"
               src="@/assets/fav.png"
@@ -127,6 +128,30 @@ export default {
         document.documentElement.clientHeight;
       var scrolled = (winScroll / height) * 100;
       document.getElementById("myBar").style.width = scrolled + "%";
+
+      if (document.body.scrollTop > 400 || document.documentElement.scrollTop > 400) {
+    document.getElementById("nav").style.background = "#ffffffa1";
+    document.getElementById("logo").style.height = "40px";
+    document.getElementById("nav").style.padding = "16px 0";
+    document.getElementById("nav").style.boxShadow = "3px 0px 27px #748ba84d";
+    document.getElementById("nav").style.backdropFilter = "blur(24px)";
+    document.getElementById("nav").style.position = "sticky";
+   
+  } else {
+    document.getElementById("nav").style.background = "none";
+    document.getElementById("logo").style.height = "64px";
+    document.getElementById("nav").style.padding = "32px 0";
+
+    document.getElementById("nav").style.boxShadow = "none";
+    document.getElementById("nav").style.backdropFilter = "blur(0)";
+    document.getElementById("nav").style.position = "absolute";
+
+
+
+
+
+ 
+  }
     }
   },
 };
@@ -145,7 +170,7 @@ export default {
   width: 80px;
   line-height: 80px;
   border-radius: 50px;
-  background-color: #1088e9;
+  background-color: #11a665;
   color: #fff;
   text-align: center;
   font-size: 20px;
@@ -156,7 +181,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #3c3f85;
   /* overflow: hidden; */
 }
 nav {
@@ -165,6 +190,8 @@ nav {
 
 nav a {
   font-weight: 600;
+  /* text-transform: uppercase; */
+  /* letter-spacing: 1px; */
   color: #465769;
   padding: 8px;
   border-radius: 12px;
