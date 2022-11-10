@@ -7,7 +7,7 @@
         class="fixed m-0 p-0 top-0 w-full h-16 backdrop-blur-xl z-20"
       >
         
-        <div class="flexCen w-full h-full m-auto text-lg text-medium space-x-8">
+        <div class="flexCen w-full h-full m-auto text-lg text-medium space-x-2">
           <router-link to="/">Country</router-link>
 
           <div class="h-10 relative" @click="visible = true">
@@ -160,16 +160,20 @@ export default {
   /* overflow: hidden; */
 }
 nav {
-  padding: 30px;
+  /* padding: 30px; */
 }
 
 nav a {
-  font-weight: bold;
-  color: #2c3e50;
+  font-weight: 600;
+  color: #465769;
+  padding: 8px;
+  border-radius: 12px;
 }
 
 nav a.router-link-exact-active {
   color: #42b983;
+  /* background-color: rgba(185, 185, 185, 0.116) */
+
 }
 .textXl {
   font-size: 4rem;

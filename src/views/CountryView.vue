@@ -110,8 +110,9 @@
         subTop="soligauge, Column-line, Stack"
       >
         <!-- DAILY card yesterday-->
+        <!-- -mt-8 bg-slate-50 p-10 rounded-2xl mb-8 dark:bg-slate-800/90 -->
         <div
-          class="-mt-8 bg-slate-50 p-10 rounded-2xl mb-8 dark:bg-slate-800/90"
+          class=""
         >
           <div class="flex flex-wrap space-x-8 mb-8">
             <!-- card -->
@@ -205,7 +206,7 @@
             />
           </div>
           <div
-            class="w-full bg-white shadow-2xl shadow-slate-200/70 px-8 py-2 rounded-2xl dark:bg-slate-700/30 dark:shadow-none"
+            class="w-full bg-white shadow-2xl shadow-slate-200/70 px-8 py-2 mb-8 rounded-2xl dark:bg-slate-700/30 dark:shadow-none"
           >
             <h3
               class="text-left my-6 pl-4 border-l-8 border-blue-500 text-xl font-semibold tracking-tight text-slate-900"
