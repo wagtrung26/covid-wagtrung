@@ -111,9 +111,7 @@
       >
         <!-- DAILY card yesterday-->
         <!-- -mt-8 bg-slate-50 p-10 rounded-2xl mb-8 dark:bg-slate-800/90 -->
-        <div
-          class=""
-        >
+        <div class="">
           <div class="flex flex-wrap space-x-8 mb-8">
             <!-- card -->
             <card
@@ -208,11 +206,35 @@
           <div
             class="w-full bg-white shadow-2xl shadow-slate-200/70 px-8 py-2 mb-8 rounded-2xl dark:bg-slate-700/30 dark:shadow-none"
           >
-            <h3
-              class="text-left my-6 pl-4 border-l-8 border-blue-500 text-xl font-semibold tracking-tight text-slate-900"
-            >
-              Weekly Cases
-            </h3>
+            <div class="text-left flex flex-start items-center space-x-3">
+              <span class="bg-blue-500 rounded-xl p-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  class="w-6 h-6 stroke-white"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+                  />
+                </svg>
+              </span>
+              <a-tooltip placement="right">
+                <template #title
+                  >Daily Covid-Cases data in weekday format</template
+                >
+                <p
+                  class="text-left my-6 text-2xl font-semibold tracking-tight text-slate-900"
+                >
+                  Weekly Cases
+                </p>
+              </a-tooltip>
+            </div>
+
             <heatChart :y="heatY" :x="heatX" />
           </div>
         </div>
@@ -293,20 +315,27 @@
                     <template #content>
                       <p>
                         {{
-                        this.dates[
-                          this.vaccineArrayValues.indexOf(this.v[index + 1])
-                        ]
-                      }} <strong>
-                        {{numF(
-                          this.vaccineArrayValues[
+                          this.dates[
                             this.vaccineArrayValues.indexOf(this.v[index + 1])
-                          ])
+                          ]
                         }}
+                        <strong>
+                          {{
+                            numF(
+                              this.vaccineArrayValues[
+                                this.vaccineArrayValues.indexOf(
+                                  this.v[index + 1]
+                                )
+                              ]
+                            )
+                          }}
                         </strong>
                       </p>
                     </template>
 
-                    <span class="bg-slate-300/50 py-2 px-4 text-xl rounded-xl cursor-pointer">
+                    <span
+                      class="bg-slate-300/50 py-2 px-4 text-xl rounded-xl cursor-pointer"
+                    >
                       {{
                         this.dates[
                           this.vaccineArrayValues.indexOf(this.v[index + 1])
@@ -715,10 +744,12 @@ export default {
       //xAsis
       const moment = require("moment");
       let rawDates = Object.keys(listTimeline.deaths);
+      let modifyDate = [];
       rawDates.forEach((i) => {
         let k = moment(i).format("DD MMM YYYY");
-        this.dates.push(k);
+        modifyDate.push(k);
       });
+      this.dates = modifyDate;
 
       //yAxis
       this.caseArrayValues = Object.values(listTimeline.cases);
@@ -726,14 +757,17 @@ export default {
       this.deathArrayValues = Object.values(listTimeline.deaths);
       //create ACTIVE TOTAL
       this.activeArrayValues = [];
+      let modifyActiveArrayValues = [];
       this.caseArrayValues.forEach((i, index) => {
         let active =
           i - this.deathArrayValues[index] - this.deathArrayValues[index];
-        this.activeArrayValues.push(active);
+        modifyActiveArrayValues.push(active);
       });
+      this.activeArrayValues = modifyActiveArrayValues;
       this.dailyActiveArrayValues = this.dailyArrayValues(
         this.activeArrayValues
       );
+
       //DAILY CASE HISTORY - total[last] - total[last-1]
       this.dailyCaseArrayValues = this.dailyArrayValues(this.caseArrayValues);
       this.dailyDeathArrayValues = this.dailyArrayValues(this.deathArrayValues);
@@ -743,22 +777,26 @@ export default {
       // heatChart
       this.heatY = [];
       this.heatX = [];
+      let _heatY = [];
+      let _heatX = [];
       let dailyDate = this.dates.slice(1);
 
       let a = 0;
       dailyDate.forEach((i, index) => {
         let x = moment(i).day();
-        this.heatY.push([a, x, this.dailyCaseArrayValues[index]]);
+        _heatY.push([a, x, this.dailyCaseArrayValues[index]]);
 
         if ((a > 0 && x > 0 && x % 6 == 0) || (a == 0 && x % 6 == 0)) {
           let h = `W-${a}, to ${moment(i).format("DD/MM/YY")}`;
-          this.heatX.push(h);
+          _heatX.push(h);
           a++;
         }
         if (index == dailyDate.length - 1) {
-          this.heatX.push(`W-${a}, to ${moment(i).format("DD/MM/YY")}`);
+          _heatX.push(`W-${a}, to ${moment(i).format("DD/MM/YY")}`);
         }
       });
+      this.heatY = _heatY;
+      this.heatX = _heatX;
       // console.log(" this.X ",this.heatX)
 
       // VACCINE -------
@@ -776,11 +814,13 @@ export default {
 
       // CONTINENT ------
       this.continentArray = [];
+      let _continentArray = [];
       this.allCountries.forEach((i) => {
         if (i.continent == this.viewCountry.continent) {
-          this.continentArray.push(i);
+          _continentArray.push(i);
         }
       });
+      this.continentArray = _continentArray;
       this.continentTotal = contiC.data;
     },
     async firstLoad() {
@@ -790,13 +830,9 @@ export default {
       await this.getAllCountries();
       await this.getUserCountry();
 
-      setTimeout(() => {
-        this.visible = false;
-      }, 1000);
       let code = this.userCountry.countryCode;
       this.countryClick(code);
     },
-    
   },
   // watch:{
   //   key(){
@@ -812,9 +848,7 @@ export default {
     this.firstLoad();
   },
 
-  mounted() {
-
-  },
+  mounted() {},
 };
 </script>
 

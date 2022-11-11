@@ -7,12 +7,12 @@
     <!-- sto - setTimeOut -->
     <!--  cl - console.log -->
     <div class="pbar">
-      <apexchart
+      <!-- <apexchart
         width="300"
         height="500"
         :options="options"
         :series="sample()"
-      ></apexchart>
+      ></apexchart> -->
     </div>
 
 <!-- <p> {{continentTotal}} </p> -->

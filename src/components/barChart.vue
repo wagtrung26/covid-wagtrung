@@ -213,7 +213,6 @@ export default {
   async created() {},
   updated() {
     this.addDataToBarChart();
-    // console.log(" 6.addDataToBarChart ");
   },
 };
 </script>

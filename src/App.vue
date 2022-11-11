@@ -168,6 +168,7 @@ export default {
   text-align: center;
   font-size: 20px;
 }
+
 #app {
   /* font-family: Avenir, Helvetica, Arial, sans-serif; */
   font-family: Poppins;
