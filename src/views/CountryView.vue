@@ -113,66 +113,71 @@
         <!-- -mt-8 bg-slate-50 p-10 rounded-2xl mb-8 dark:bg-slate-800/90 -->
         <div class="">
           <div
-            class="flex flex-wrap sm:space-x-8 sm:space-y-0 space-x-0 space-y-6 p-8 sm:p-0 mb-4"
+            class="w-full  bg-white shadow-2xl shadow-slate-200/70 sm:p-8 sm:-mt-4 mb-8 pb-8  rounded-2xl dark:bg-slate-700/30 dark:shadow-none"
           >
-            <!-- card -->
-            <card
-              :percent="
-                subBot(
-                  dailyCaseArrayValues[dailyCaseArrayValues.length - 1],
-                  dailyCaseArrayValues[dailyCaseArrayValues.length - 2]
-                ).per
-              "
-              subTop="Cases yesterday"
-              :subBot="
-                subBot(
-                  dailyCaseArrayValues[dailyCaseArrayValues.length - 1],
-                  dailyCaseArrayValues[dailyCaseArrayValues.length - 2]
-                ).val
-              "
-              :title="dailyCaseArrayValues[dailyCaseArrayValues.length - 1]"
-            />
+            
+            <div
+              class="flex flex-wrap sm:space-x-8 sm:space-y-0 space-x-0 space-y-6 px-8 sm:p-0"
+            >
+              <!-- card -->
+              <card
+                :percent="
+                  subBot(
+                    dailyCaseArrayValues[dailyCaseArrayValues.length - 1],
+                    dailyCaseArrayValues[dailyCaseArrayValues.length - 2]
+                  ).per
+                "
+                subTop="Cases yesterday"
+                :subBot="
+                  subBot(
+                    dailyCaseArrayValues[dailyCaseArrayValues.length - 1],
+                    dailyCaseArrayValues[dailyCaseArrayValues.length - 2]
+                  ).val
+                "
+                :title="dailyCaseArrayValues[dailyCaseArrayValues.length - 1]"
+              />
 
-            <card
-              :percent="
-                subBot(
-                  dailyDeathArrayValues[dailyDeathArrayValues.length - 1],
-                  dailyDeathArrayValues[dailyDeathArrayValues.length - 2]
-                ).per
-              "
-              subTop="Deaths yesterday"
-              :subBot="
-                subBot(
-                  dailyDeathArrayValues[dailyDeathArrayValues.length - 1],
-                  dailyDeathArrayValues[dailyDeathArrayValues.length - 2]
-                ).val
-              "
-              :title="dailyDeathArrayValues[dailyDeathArrayValues.length - 1]"
-            />
+              <card
+                :percent="
+                  subBot(
+                    dailyDeathArrayValues[dailyDeathArrayValues.length - 1],
+                    dailyDeathArrayValues[dailyDeathArrayValues.length - 2]
+                  ).per
+                "
+                subTop="Deaths yesterday"
+                :subBot="
+                  subBot(
+                    dailyDeathArrayValues[dailyDeathArrayValues.length - 1],
+                    dailyDeathArrayValues[dailyDeathArrayValues.length - 2]
+                  ).val
+                "
+                :title="dailyDeathArrayValues[dailyDeathArrayValues.length - 1]"
+              />
 
-            <card
-              :percent="
-                subBot(
-                  dailyRecoverArrayValues[dailyRecoverArrayValues.length - 1],
-                  dailyRecoverArrayValues[dailyRecoverArrayValues.length - 2]
-                ).per
-              "
-              subTop="Recovers yesterday"
-              :subBot="
-                subBot(
-                  dailyRecoverArrayValues[dailyRecoverArrayValues.length - 1],
-                  dailyRecoverArrayValues[dailyRecoverArrayValues.length - 2]
-                ).val
-              "
-              :title="
-                dailyRecoverArrayValues[dailyRecoverArrayValues.length - 1]
-              "
-            />
+              <card
+                :percent="
+                  subBot(
+                    dailyRecoverArrayValues[dailyRecoverArrayValues.length - 1],
+                    dailyRecoverArrayValues[dailyRecoverArrayValues.length - 2]
+                  ).per
+                "
+                subTop="Recovers yesterday"
+                :subBot="
+                  subBot(
+                    dailyRecoverArrayValues[dailyRecoverArrayValues.length - 1],
+                    dailyRecoverArrayValues[dailyRecoverArrayValues.length - 2]
+                  ).val
+                "
+                :title="
+                  dailyRecoverArrayValues[dailyRecoverArrayValues.length - 1]
+                "
+              />
+            </div>
           </div>
 
           <!-- daily mixLineChart-->
           <div
-            class="w-full bg-white shadow-2xl shadow-slate-200/70 p-8 mb-8 rounded-2xl dark:bg-slate-700/30 dark:shadow-none"
+            class="w-full pb-2 bg-white shadow-2xl shadow-slate-200/70 p-8 mb-8 rounded-2xl dark:bg-slate-700/30 dark:shadow-none"
           >
             <div class="flex flex-start items-center space-x-3">
               <span class="bg-blue-500 rounded-xl p-2">
@@ -207,7 +212,7 @@
           </div>
           <!--daily stackChart -->
           <div
-            class="w-full bg-white shadow-2xl shadow-slate-200/70 p-8 mb-8 rounded-2xl dark:bg-slate-700/30 dark:shadow-none"
+            class="w-full pb-2 bg-white shadow-2xl shadow-slate-200/70 p-8 mb-8 rounded-2xl dark:bg-slate-700/30 dark:shadow-none"
           >
             <div class="flex flex-start items-center space-x-3">
               <span class="bg-blue-500 rounded-xl p-2">
@@ -248,7 +253,7 @@
           </div>
           <!-- daily weekday heatChart -->
           <div
-            class="w-full bg-white shadow-2xl shadow-slate-200/70 p-8 mb-8 rounded-2xl dark:bg-slate-700/30 dark:shadow-none"
+            class="w-full pb-2 bg-white shadow-2xl shadow-slate-200/70 p-8 mb-8 rounded-2xl dark:bg-slate-700/30 dark:shadow-none"
           >
             <div class="flex flex-start items-center space-x-3">
               <span class="bg-blue-500 rounded-xl p-2">

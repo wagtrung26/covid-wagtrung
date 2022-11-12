@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-start my-4">
+  <div class="flex justify-start my-4 mb-4">
     <div
       class="sm:flexCen sm:items-end sm:justify-start sm:space-x-8 sm:mt-2 mt-4 sm:space-y-0 space-y-6 flex-wrap w-full"
     >
@@ -44,7 +44,7 @@ export default {
   components: {},
   name: "lineChart",
   props: {
-    y:Array,
+    y: Array,
     dates: Array,
   },
   data() {
@@ -146,6 +146,38 @@ export default {
           },
           // pointStart: 2010,
         },
+        responsive: {
+          rules: [
+            {
+              condition: {
+                maxWidth: 500,
+              },
+              chartOptions: {
+                legend: {
+                  align: "center",
+                  verticalAlign: "bottom",
+                  layout: "horizontal",
+                },
+                yAxis: {
+                  labels: {
+                    align: "left",
+                    x: 0,
+                    y: 0,
+                  },
+                  title: {
+                    text: null,
+                  },
+                },
+                subtitle: {
+                  text: null,
+                },
+                credits: {
+                  enabled: false,
+                },
+              },
+            },
+          ],
+        },
       },
     };
   },
@@ -153,8 +185,12 @@ export default {
   methods: {
     sample() {
       this.chartOptions.series[0].data = this.y.slice(parseInt(this.range));
-      this.chartOptions.series[1].data = this.avg(this.y).slice(parseInt(this.range));
-      this.chartOptions.xAxis.categories = this.dates.slice(parseInt(this.range));
+      this.chartOptions.series[1].data = this.avg(this.y).slice(
+        parseInt(this.range)
+      );
+      this.chartOptions.xAxis.categories = this.dates.slice(
+        parseInt(this.range)
+      );
     },
     avg(arr) {
       const _ = require("lodash");

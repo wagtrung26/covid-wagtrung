@@ -61,6 +61,38 @@ export default {
           plotBorderWidth: 0,
           backgroundColor: "rgba(0,0,0,0)"
         },
+         responsive: {
+          rules: [
+            {
+              condition: {
+                maxWidth: 500,
+              },
+              chartOptions: {
+                legend: {
+                  align: "center",
+                  verticalAlign: "bottom",
+                  layout: "horizontal",
+                },
+                yAxis: {
+                  labels: {
+                    align: "left",
+                    x: 0,
+                    y: 0,
+                  },
+                  title: {
+                    text: null,
+                  },
+                },
+                subtitle: {
+                  text: null,
+                },
+                credits: {
+                  enabled: false,
+                },
+              },
+            },
+          ],
+        },
 
         title: {
           text: "",
@@ -138,24 +170,7 @@ export default {
           },
         ],
 
-        responsive: {
-          rules: [
-            {
-              condition: {
-                maxWidth: 500,
-              },
-              chartOptions: {
-                yAxis: {
-                  labels: {
-                    formatter: function () {
-                      return this.value.charAt(0);
-                    },
-                  },
-                },
-              },
-            },
-          ],
-        },
+      
       },
     };
   },
