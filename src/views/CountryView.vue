@@ -113,7 +113,7 @@
         <!-- -mt-8 bg-slate-50 p-10 rounded-2xl mb-8 dark:bg-slate-800/90 -->
         <div class="">
           <div
-            class="flex flex-wrap sm:space-x-8 sm:space-y-0 space-x-0 space-y-4 mb-8"
+            class="flex flex-wrap sm:space-x-8 sm:space-y-0 space-x-0 space-y-6 p-8 sm:p-0 mb-4"
           >
             <!-- card -->
             <card

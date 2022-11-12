@@ -1,34 +1,39 @@
 <template>
   <div
-    class="flex-1 flex shadow-2xl shadow-slate-500/20 bg-white dark:bg-slate-700/30 dark:shadow-none p-8 rounded-2xl items-center justify-center"
+    class="flex-1 flex border-2 border-slate-300/50 dark:border-0 bg-white dark:bg-slate-700/30 dark:shadow-none p-6 rounded-2xl items-center justify-center"
   >
-    <div class="w-fit mr-4">
+    <div class="w-fit mr-4" v-if="percent >= 0">
       <a-progress
         type="circle"
         :status="type"
         :percent="`${percent}`"
         :width="110"
         :strokeWidth="8"
-        v-if="percent >= 0"
       >
-       <template #format="percent">
-        <span> <span v-if="subBot>0">+</span> <span v-if="subBot<0">-</span>{{ percent }}%</span>
-      </template>
+        <template #format="percent">
+          <span>
+            <span v-if="subBot > 0">+</span> <span v-if="subBot < 0">-</span
+            >{{ percent }}%</span
+          >
+        </template>
       </a-progress>
     </div>
-    <div class="flex-1  prose prose-slate dark:prose-invert ">
-      <p class="text-left text-sm text-slate-500 mb-3">{{ subTop }}</p>
+    <div class="flex-1 prose prose-slate dark:prose-invert">
+      <p
+        class="text-left leading-snug font-semibold tracking-wider text-slate-500/70 text-xs uppercase mb-2"
+      >
+        {{ subTop }}
+      </p>
       <h2
-        class="text-left text-5xl font-semibold tracking-tight text-slate-900 dark:text-white mb-2"
+        class="text-left text-5xl font-semibold tracking-normal text-slate-900 dark:text-white mb-1"
       >
         {{ titleC }}
       </h2>
       <div
-      v-if="subBot"
-        class="bg-slate-200/30 p-1 px-2 text-slate-600 dark:text-slate-800 text-xs rounded-2xl tracking-wider font-normal w-fit"
+        v-if="subBot"
+        class="bg-slate-200/50 p-2 px-3 text-slate-600 font-semibold dark:text-slate-400 dark:bg-slate-700/50 text-xs rounded-lg tracking-tight w-fit"
       >
-        <span v-if="subBot>0">+ </span>
-        {{ subBot }}
+        <span v-if="subBot > 0">+</span>{{ subBot }}
       </div>
     </div>
   </div>
@@ -52,11 +57,11 @@ export default {
     },
     subBot: {
       //   type: Number,
-    //   default: 100,
+      //   default: 100,
     },
     percent: {
       type: Number,
-    //   default: 60,
+      //   default: 60,
     },
   },
   data() {
@@ -74,16 +79,15 @@ export default {
     // VUEX-State
     // ...mapGetters(["count"]),
     // Computed
-    titleC(){
-      if(isNaN(this.title)){
+    titleC() {
+      if (isNaN(this.title)) {
         return this.title;
-      }
-      else{
+      } else {
         return numeral(this.title).format("0,0");
       }
     },
     type() {
-      return this.subBot<0 ? "exception": "";
+      return this.subBot < 0 ? "exception" : "";
     },
   },
   created() {},
