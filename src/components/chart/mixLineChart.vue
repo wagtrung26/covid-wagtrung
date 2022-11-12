@@ -212,6 +212,9 @@ export default {
       this.sample();
     },
   },
+  mounted(){
+    this.sample();
+  }
 
 
 };

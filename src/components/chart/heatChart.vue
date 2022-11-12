@@ -55,7 +55,7 @@ export default {
           type: "heatmap",
           zoomBySingleTouch: true,
           zoomType: "x",
-          height: 400,
+          height: 450,
           // paddingTop: 40,
           // marginBottom: 80,
           plotBorderWidth: 0,

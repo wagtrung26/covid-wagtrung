@@ -54,7 +54,7 @@ export default {
       aPush: [],
       chartOptions: {
         chart: {
-          height: 400,
+          height: 450,
           zoomBySingleTouch: true,
           zoomType: "x",
           // spacing: [50, 0, 0, 0],

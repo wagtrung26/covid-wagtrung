@@ -42,7 +42,7 @@ export default {
       chartOptions: {
         chart: {
           type: "area",
-          height: 400,
+          height: 450,
           zoomBySingleTouch: true,
           zoomType: "x",
           // spacing: [0, 0, 0, 0],
