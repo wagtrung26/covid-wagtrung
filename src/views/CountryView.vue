@@ -112,12 +112,44 @@
         <!-- DAILY card yesterday-->
         <!-- -mt-8 bg-slate-50 p-10 rounded-2xl mb-8 dark:bg-slate-800/90 -->
         <div class="">
+          
+
+          <!-- daily mixLineChart-->
           <div
-            class="w-full  bg-white shadow-2xl shadow-slate-200/70 sm:p-8 sm:-mt-4 mb-8 pb-8 px-4 rounded-2xl dark:bg-slate-700/30 dark:shadow-none"
+            class="w-full pb-2 bg-white shadow-2xl shadow-slate-200/70 p-8 mb-8 rounded-2xl dark:bg-slate-700/30 dark:shadow-none"
           >
+            <div class="flex flex-start items-center space-x-3">
+              <span class="bg-blue-500 rounded-xl p-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  class="w-6 h-6 stroke-white"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+                  />
+                </svg>
+              </span>
+              <a-tooltip placement="right">
+                <template #title
+                  >Daily Covid-Cases data in weekday format</template
+                >
+                <p
+                  class="text-left text-2xl font-semibold tracking-tight text-slate-900 dark:text-white"
+                >
+                  Daily Cases and Weekly average
+                </p>
+              </a-tooltip>
+            </div>
+        
             
             <div
-              class="flexCen w-full flex-wrap sm:space-x-8 sm:space-y-0 space-x-0 space-y-6 sm:p-0"
+              class="flexCen items-end my-6 w-full flex-wrap sm:space-x-8 sm:space-y-0 space-x-0 space-y-6 sm:pb-2 "
             >
               <!-- card -->
               <card
@@ -173,40 +205,7 @@
                 "
               />
             </div>
-          </div>
-
-          <!-- daily mixLineChart-->
-          <div
-            class="w-full pb-2 bg-white shadow-2xl shadow-slate-200/70 p-8 mb-8 rounded-2xl dark:bg-slate-700/30 dark:shadow-none"
-          >
-            <div class="flex flex-start items-center space-x-3">
-              <span class="bg-blue-500 rounded-xl p-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="2"
-                  stroke="currentColor"
-                  class="w-6 h-6 stroke-white"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
-                  />
-                </svg>
-              </span>
-              <a-tooltip placement="right">
-                <template #title
-                  >Daily Covid-Cases data in weekday format</template
-                >
-                <p
-                  class="text-left text-2xl font-semibold tracking-tight text-slate-900 dark:text-white"
-                >
-                  Daily Cases and Weekly average
-                </p>
-              </a-tooltip>
-            </div>
+         
 
             <dailyChart :y="dailyY" @type="dailyType" :dates="dates.slice(1)" />
           </div>

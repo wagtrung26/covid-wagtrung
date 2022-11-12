@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-start my-4 mb-4">
+  <div class="flex justify-start mb-6">
     <div
       class="sm:flexCen sm:items-end sm:justify-start sm:space-x-8 sm:mt-2 mt-4 sm:space-y-0 space-y-6 flex-wrap w-full"
     >
