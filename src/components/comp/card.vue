@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex-1 flex border-2 border-slate-300/30 dark:border-0 bg-white dark:bg-slate-700/30 dark:shadow-none p-6 rounded-2xl items-center justify-center"
+    class="sm:flex-1 w-full flex border-2 border-slate-300/30 dark:border-0 bg-white dark:bg-slate-700/30 dark:shadow-none p-6 rounded-2xl items-center justify-center"
   >
     <div class="w-fit mr-4" v-if="percent >= 0">
       <a-progress

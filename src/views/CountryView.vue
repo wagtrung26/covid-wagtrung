@@ -113,11 +113,11 @@
         <!-- -mt-8 bg-slate-50 p-10 rounded-2xl mb-8 dark:bg-slate-800/90 -->
         <div class="">
           <div
-            class="w-full  bg-white shadow-2xl shadow-slate-200/70 sm:p-8 sm:-mt-4 mb-8 pb-8  rounded-2xl dark:bg-slate-700/30 dark:shadow-none"
+            class="w-full  bg-white shadow-2xl shadow-slate-200/70 sm:p-8 sm:-mt-4 mb-8 pb-8 px-4 rounded-2xl dark:bg-slate-700/30 dark:shadow-none"
           >
             
             <div
-              class="flex flex-wrap sm:space-x-8 sm:space-y-0 space-x-0 space-y-6 px-8 sm:p-0"
+              class="flexCen w-full flex-wrap sm:space-x-8 sm:space-y-0 space-x-0 space-y-6 sm:p-0"
             >
               <!-- card -->
               <card
