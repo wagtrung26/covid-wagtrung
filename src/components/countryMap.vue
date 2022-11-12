@@ -184,13 +184,18 @@ export default {
     },
   
   },
+  watch: {
+
+    viewCountry() {
+          this.napus(this.viewCountry.code.toLowerCase());
+    },
+  },
   computed: {},
   mounted() {
     //  this.sample();
     // console.log(" Map a Country ");
   },
   updated() {
-    this.napus(this.viewCountry.code.toLowerCase());
   },
 };
 </script>

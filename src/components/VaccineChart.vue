@@ -1,14 +1,23 @@
 <template>
   <div>
     <!-- START-Template -->
-     <div class="flex justify-start mb-4">
-      <div class="flexCen space-x-4">
-        <h4 class="font-semibold text-base">Date Range:</h4>
-        <a-select v-model:value="range" size="large" class="">
-          <a-select-option value="-30">This month</a-select-option>
-          <a-select-option value="-365">This year</a-select-option>
-          <a-select-option value="0">All time</a-select-option>
-        </a-select>
+     <div class="flex justify-start my-4">
+      <div
+        class="sm:flexCen sm:items-end sm:justify-start sm:space-x-8 sm:mt-2 mt-4 sm:space-y-0 space-y-6 flex-wrap w-full"
+      >
+        <div class="">
+          <h4
+            class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-3"
+          >
+            Date Range
+          </h4>
+          <a-select v-model:value="range" size="large" class="sm:w-48 w-full">
+            <a-select-option value="-35">This month</a-select-option>
+            <a-select-option value="-70">Haft year</a-select-option>
+            <a-select-option value="-365">This year</a-select-option>
+            <a-select-option value="0">All time</a-select-option>
+          </a-select>
+        </div>
       </div>
     </div>
     <highcharts :options="chartOptions" ref="chart"></highcharts>
@@ -34,7 +43,7 @@ export default {
       chartOptions: {
         chart: {
           type: "areaspline",
-          height: 500,
+          height: 400,
           zoomBySingleTouch: true,
           zoomType: "x",
           // spacing: [0, 40, 0, 40],
@@ -85,11 +94,9 @@ export default {
         ],
         legend: {
           layout: "horizontal",
-          align: "right",
-          verticalAlign: "top",
-          floating: true,
-          x: -40,
-          y: 0,
+          align: "center",
+          verticalAlign: "bottom",
+          floating: false,
           // borderWidth: 1,
         },
         tooltip: {
@@ -139,22 +146,61 @@ export default {
             
           },
         ],
+         responsive: {
+          rules: [
+            {
+              condition: {
+                maxWidth: 500,
+              },
+              chartOptions: {
+                legend: {
+                  align: "center",
+                  verticalAlign: "bottom",
+                  layout: "horizontal",
+                },
+                yAxis: {
+                  labels: {
+                    align: "left",
+                    x: 0,
+                    y: 0,
+                  },
+                  title: {
+                    text: null,
+                  },
+                },
+                subtitle: {
+                  text: null,
+                },
+                credits: {
+                  enabled: false,
+                },
+              },
+            },
+          ],
+        },
       },
-      range: -365,
+      range: '-365',
     };
   },
   methods: {
     sample() {
       //   this.chartOptions.series[0].data = this.dailyCaseArrayValues.slice(-31);
       //   this.chartOptions.series[1].data =this.dailyRecoverArrayValues.slice(-31);
-      this.chartOptions.series[2].data = this.dailyCaseArrayValues.slice(this.range);
-      this.chartOptions.series[1].data = this.dailyDeathArrayValues.slice(this.range);
-      this.chartOptions.series[0].data = this.dailyVaccineArrayValues.slice(this.range);
-
-      this.chartOptions.xAxis.categories = this.dates.slice(this.range);
+      this.chartOptions.series[2].data = this.dailyCaseArrayValues.slice(parseInt(this.range));
+      this.chartOptions.series[1].data = this.dailyDeathArrayValues.slice(parseInt(this.range));
+      this.chartOptions.series[0].data = this.dailyVaccineArrayValues.slice(parseInt(this.range));
+      this.chartOptions.xAxis.categories = this.dates.slice(parseInt(this.range));
     },
   },
   computed: {},
+  watch: {
+    dailyVaccineArrayValues() {
+      this.sample();
+    },
+    range() {
+      this.sample();
+    },
+  },
   created() {},
   updated() {
     this.sample();

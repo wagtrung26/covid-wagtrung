@@ -167,7 +167,7 @@ export default {
           ],
         },
       },
-      range: "-365",
+      range: "0",
     };
   },
   methods: {

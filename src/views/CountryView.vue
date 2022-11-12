@@ -109,198 +109,198 @@
         :subBot="`Everyday Cases in ${this.viewCountry.name}`"
         subTop="soligauge, Column-line, Stack"
       >
-        <!-- DAILY card yesterday-->
-        <!-- -mt-8 bg-slate-50 p-10 rounded-2xl mb-8 dark:bg-slate-800/90 -->
-        <div class="">
-          
+        <!-- daily Card Yesterday-->
+        <div
+          class="flexCen items-stretch w-full flex-wrap sm:space-x-8 sm:space-y-0 space-x-0 space-y-6 mb-10"
+        >
+          <!-- card -->
+          <card
+            :percent="
+              subBot(
+                dailyCaseArrayValues[dailyCaseArrayValues.length - 1],
+                dailyCaseArrayValues[dailyCaseArrayValues.length - 2]
+              ).per
+            "
+            subTop="Cases yesterday"
+            :subBot="
+              subBot(
+                dailyCaseArrayValues[dailyCaseArrayValues.length - 1],
+                dailyCaseArrayValues[dailyCaseArrayValues.length - 2]
+              ).val
+            "
+            :title="dailyCaseArrayValues[dailyCaseArrayValues.length - 1]"
+          />
 
-          <!-- daily mixLineChart-->
-          <div
-            class="w-full pb-2 bg-white shadow-2xl shadow-slate-200/70 p-8 mb-8 rounded-2xl dark:bg-slate-700/30 dark:shadow-none"
-          >
-            <div class="flex flex-start items-center space-x-3">
-              <span class="bg-blue-500 rounded-xl p-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="2"
-                  stroke="currentColor"
-                  class="w-6 h-6 stroke-white"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
-                  />
-                </svg>
-              </span>
-              <a-tooltip placement="right">
-                <template #title
-                  >Daily Covid-Cases data in weekday format</template
-                >
-                <p
-                  class="text-left text-2xl font-semibold tracking-tight text-slate-900 dark:text-white"
-                >
-                  Daily Cases and Weekly average
-                </p>
-              </a-tooltip>
-            </div>
-        
-            
-            <div
-              class="flexCen items-end my-6 w-full flex-wrap sm:space-x-8 sm:space-y-0 space-x-0 space-y-6 sm:pb-2 "
-            >
-              <!-- card -->
-              <card
-                :percent="
-                  subBot(
-                    dailyCaseArrayValues[dailyCaseArrayValues.length - 1],
-                    dailyCaseArrayValues[dailyCaseArrayValues.length - 2]
-                  ).per
-                "
-                subTop="Cases yesterday"
-                :subBot="
-                  subBot(
-                    dailyCaseArrayValues[dailyCaseArrayValues.length - 1],
-                    dailyCaseArrayValues[dailyCaseArrayValues.length - 2]
-                  ).val
-                "
-                :title="dailyCaseArrayValues[dailyCaseArrayValues.length - 1]"
-              />
+          <card
+            :percent="
+              subBot(
+                dailyDeathArrayValues[dailyDeathArrayValues.length - 1],
+                dailyDeathArrayValues[dailyDeathArrayValues.length - 2]
+              ).per
+            "
+            subTop="Deaths yesterday"
+            :subBot="
+              subBot(
+                dailyDeathArrayValues[dailyDeathArrayValues.length - 1],
+                dailyDeathArrayValues[dailyDeathArrayValues.length - 2]
+              ).val
+            "
+            :title="dailyDeathArrayValues[dailyDeathArrayValues.length - 1]"
+          />
 
-              <card
-                :percent="
-                  subBot(
-                    dailyDeathArrayValues[dailyDeathArrayValues.length - 1],
-                    dailyDeathArrayValues[dailyDeathArrayValues.length - 2]
-                  ).per
-                "
-                subTop="Deaths yesterday"
-                :subBot="
-                  subBot(
-                    dailyDeathArrayValues[dailyDeathArrayValues.length - 1],
-                    dailyDeathArrayValues[dailyDeathArrayValues.length - 2]
-                  ).val
-                "
-                :title="dailyDeathArrayValues[dailyDeathArrayValues.length - 1]"
-              />
-
-              <card
-                :percent="
-                  subBot(
-                    dailyRecoverArrayValues[dailyRecoverArrayValues.length - 1],
-                    dailyRecoverArrayValues[dailyRecoverArrayValues.length - 2]
-                  ).per
-                "
-                subTop="Recovers yesterday"
-                :subBot="
-                  subBot(
-                    dailyRecoverArrayValues[dailyRecoverArrayValues.length - 1],
-                    dailyRecoverArrayValues[dailyRecoverArrayValues.length - 2]
-                  ).val
-                "
-                :title="
-                  dailyRecoverArrayValues[dailyRecoverArrayValues.length - 1]
-                "
-              />
-            </div>
-         
-
-            <dailyChart :y="dailyY" @type="dailyType" :dates="dates.slice(1)" />
-          </div>
-          <!--daily stackChart -->
-          <div
-            class="w-full pb-2 bg-white shadow-2xl shadow-slate-200/70 p-8 mb-8 rounded-2xl dark:bg-slate-700/30 dark:shadow-none"
-          >
-            <div class="flex flex-start items-center space-x-3">
-              <span class="bg-blue-500 rounded-xl p-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="2"
-                  stroke="currentColor"
-                  class="w-6 h-6 stroke-white"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"
-                  />
-                </svg>
-              </span>
-              <a-tooltip placement="right">
-                <template #title
-                  >The percentage of Covid Factors in daily cases</template
-                >
-                <p
-                  class="text-left text-2xl font-semibold tracking-tight text-slate-900 dark:text-white"
-                >
-                  Distribution Factors
-                </p>
-              </a-tooltip>
-            </div>
-
-            <stackChart
-              ref="stack"
-              :dailyActiveArrayValues="dailyActiveArrayValues"
-              :dailyRecoverArrayValues="dailyRecoverArrayValues"
-              :dailyDeathArrayValues="dailyDeathArrayValues"
-              :dates="dates.slice(1)"
-            />
-          </div>
-          <!-- daily weekday heatChart -->
-          <div
-            class="w-full pb-2 bg-white shadow-2xl shadow-slate-200/70 p-8 mb-8 rounded-2xl dark:bg-slate-700/30 dark:shadow-none"
-          >
-            <div class="flex flex-start items-center space-x-3">
-              <span class="bg-blue-500 rounded-xl p-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="2"
-                  stroke="currentColor"
-                  class="w-6 h-6 stroke-white"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
-                  />
-                </svg>
-              </span>
-              <a-tooltip placement="right">
-                <template #title
-                  >Daily Covid-Cases data in weekday format</template
-                >
-                <p
-                  class="text-left text-2xl font-semibold tracking-tight text-slate-900 dark:text-white"
-                >
-                  Weekly Cases
-                </p>
-              </a-tooltip>
-            </div>
-
-            <heatChart :y="heatY" :x="heatX" @type="heatType" />
-          </div>
+          <card
+            :percent="
+              subBot(
+                dailyRecoverArrayValues[dailyRecoverArrayValues.length - 1],
+                dailyRecoverArrayValues[dailyRecoverArrayValues.length - 2]
+              ).per
+            "
+            subTop="Recovers yesterday"
+            :subBot="
+              subBot(
+                dailyRecoverArrayValues[dailyRecoverArrayValues.length - 1],
+                dailyRecoverArrayValues[dailyRecoverArrayValues.length - 2]
+              ).val
+            "
+            :title="dailyRecoverArrayValues[dailyRecoverArrayValues.length - 1]"
+          />
         </div>
 
-        <!-- Daily Map + Highlight -->
         <div class="">
-          <div class="flex space-x-8">
-            <div class="w-5/12 h-full bg-slate-50 px-8 py-2 rounded-2xl">
-              <countryMap :viewCountry="viewCountry" />
+          <div class="flex sm:flex-row flex-col">
+            <!-- Daily Map + Highlight -->
+            <div class="sm:w-4/12 w-full h-full p-4 pt-0 pb-8">
+              <countryMap class="mb-6" :viewCountry="viewCountry" />
+              <div
+                class="w-full pt-8 sm:pr-8 border-t border-slate-200 dark:border-slate-700"
+              >
+                <dailyHighlight
+                  :dailyCaseArrayValues="dailyCaseArrayValues"
+                  :dailyRecoverArrayValues="dailyRecoverArrayValues"
+                  :dailyDeathArrayValues="dailyDeathArrayValues"
+                  :viewCountry="viewCountry"
+                  :dates="dates"
+                />
+              </div>
             </div>
-            <div class="w-7/12 flex-1">
-              <dailyHighlight
-                :dailyCaseArrayValues="dailyCaseArrayValues"
-                :dailyRecoverArrayValues="dailyRecoverArrayValues"
-                :dailyDeathArrayValues="dailyDeathArrayValues"
-                :viewCountry="viewCountry"
-                :dates="dates"
-              />
+            <div class="sm:w-8/12 w-full flex-1">
+              <div
+                class="w-full bg-white shadow-2xl shadow-slate-200/70 p-4 px-6 sm:pt-0 rounded-2xl dark:bg-slate-700/30 dark:shadow-none"
+              >
+                <!-- daily mixLineChart-->
+                <div
+                  class="pb-6 border-b border-slate-200 dark:border-slate-700"
+                >
+                  <div class="flex flex-start items-center space-x-3 mb-8">
+                    <span class="bg-blue-500 rounded-xl p-2">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="2"
+                        stroke="currentColor"
+                        class="w-6 h-6 stroke-white"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+                        />
+                      </svg>
+                    </span>
+                    <a-tooltip placement="right">
+                      <template #title
+                        >Daily Covid-Cases data in weekday format</template
+                      >
+                      <p
+                        class="text-left text-3xl font-semibold tracking-tight text-slate-900 dark:text-white"
+                      >
+                        Daily Cases & Weekly average
+                      </p>
+                    </a-tooltip>
+                  </div>
+                  <dailyChart
+                    :y="dailyY"
+                    @type="dailyType"
+                    :dates="dates.slice(1)"
+                  />
+                </div>
+                <!-- daily weekday heatChart -->
+                <div
+                  class="mt-8 pb-6 border-b border-slate-200 dark:border-slate-700"
+                >
+                  <div class="flex flex-start items-center space-x-3 mb-8">
+                    <span class="bg-blue-500 rounded-xl p-2">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="2"
+                        stroke="currentColor"
+                        class="w-6 h-6 stroke-white"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+                        />
+                      </svg>
+                    </span>
+                    <a-tooltip placement="right">
+                      <template #title
+                        >Daily Covid-Cases data in weekday format</template
+                      >
+                      <p
+                        class="text-left text-3xl font-semibold tracking-tight text-slate-900 dark:text-white"
+                      >
+                        Weekly Cases
+                      </p>
+                    </a-tooltip>
+                  </div>
+
+                  <heatChart :y="heatY" :x="heatX" @type="heatType" />
+                </div>
+                <!--daily stackChart -->
+                <div class="mt-8">
+                  <div class="flex flex-start items-center space-x-3 mb-8">
+                    <span class="bg-blue-500 rounded-xl p-2">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="2"
+                        stroke="currentColor"
+                        class="w-6 h-6 stroke-white"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"
+                        />
+                      </svg>
+                    </span>
+                    <a-tooltip placement="right">
+                      <template #title
+                        >The percentage of Covid Factors in daily
+                        cases</template
+                      >
+                      <p
+                        class="text-left text-3xl font-semibold tracking-tight text-slate-900 dark:text-white"
+                      >
+                        Distribution Factors
+                      </p>
+                    </a-tooltip>
+                  </div>
+
+                  <stackChart
+                    ref="stack"
+                    :dailyActiveArrayValues="dailyActiveArrayValues"
+                    :dailyRecoverArrayValues="dailyRecoverArrayValues"
+                    :dailyDeathArrayValues="dailyDeathArrayValues"
+                    :dates="dates.slice(1)"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -312,20 +312,24 @@
         :subBot="`Daily Vaccines in ${this.viewCountry.name}`"
         subTop="Area, Spline"
       >
-        <div class="flex flex-wrap space-x-8">
-          <div class="w-3/12">
+        <div
+          class="flex flex-wrap sm:space-x-8 sm:space-y-0 space-x-0 space-y-8"
+        >
+          <div class="sm:w-4/12 w-full">
             <vachighlight
               :dailyVaccineArrayValues="dailyVaccineArrayValues"
               :dates="dates"
             />
           </div>
-          <div class="w-9/12 flex-1">
-            <vaccine-chart
-              :dailyCaseArrayValues="dailyCaseArrayValues"
-              :dailyDeathArrayValues="dailyDeathArrayValues"
-              :dailyVaccineArrayValues="dailyVaccineArrayValues"
-              :dates="dates.slice(1)"
-            />
+          <div class="sm:w-8/12 w-full flex-1">
+            
+              <vaccine-chart
+                :dailyCaseArrayValues="dailyCaseArrayValues"
+                :dailyDeathArrayValues="dailyDeathArrayValues"
+                :dailyVaccineArrayValues="dailyVaccineArrayValues"
+                :dates="dates.slice(1)"
+              />
+          
           </div>
         </div>
 
