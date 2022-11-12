@@ -1,14 +1,23 @@
 <template>
   <div>
     <!-- <p>All times</p> -->
-    <div class="flex justify-start mb-4">
-      <div class="flexCen space-x-4">
-        <h4 class="font-semibold text-base">Date Range:</h4>
-        <a-select v-model:value="range" size="large" class="">
-          <a-select-option value="-30">This month</a-select-option>
-          <a-select-option value="-365">This year</a-select-option>
-          <a-select-option value="0">All time</a-select-option>
-        </a-select>
+     <div class="flex justify-start mb-6">
+      <div
+        class="sm:flexCen sm:items-end sm:justify-start sm:space-x-8 sm:mt-2 mt-4 sm:space-y-0 space-y-6 flex-wrap w-full"
+      >
+        <div class="">
+          <h4
+            class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-3"
+          >
+            Date Range
+          </h4>
+          <a-select v-model:value="range" size="large" class="sm:w-48 w-full">
+            <a-select-option value="-35">This month</a-select-option>
+            <a-select-option value="-70">Haft year</a-select-option>
+            <a-select-option value="-365">This year</a-select-option>
+            <a-select-option value="0">All time</a-select-option>
+          </a-select>
+        </div>
       </div>
     </div>
     <highcharts :options="chartOptions" ref="chart"></highcharts>
@@ -38,7 +47,7 @@ export default {
       chartOptions: {
         chart: {
           type: "areaspline",
-          height: 500,
+          height: 450,
           zoomBySingleTouch: true,
           zoomType: "x",
           // margin: [0,10,0,10],
@@ -90,7 +99,7 @@ export default {
         ],
 
         title: {
-          text: "Total Stat",
+          text: "",
           align: "left",
           margin: 24,
         },
@@ -148,13 +157,45 @@ export default {
           },
           // pointStart: 2010,
         },
+           responsive: {
+          rules: [
+            {
+              condition: {
+                maxWidth: 500,
+              },
+              chartOptions: {
+                legend: {
+                  align: "center",
+                  verticalAlign: "bottom",
+                  layout: "horizontal",
+                },
+                yAxis: {
+                  labels: {
+                    align: "left",
+                    x: 0,
+                    y: 0,
+                  },
+                  title: {
+                    text: null,
+                  },
+                },
+                subtitle: {
+                  text: null,
+                },
+                credits: {
+                  enabled: false,
+                },
+              },
+            },
+          ],
+        },
       },
-      range: -365,
+      range: '-365',
     };
   },
 
   methods: {
-    addDataToLineChart() {
+    sample() {
       this.chartOptions.series[0].data = this.caseArrayValues.slice(this.range);
       this.chartOptions.series[1].data = this.deathArrayValues.slice(
         this.range
@@ -173,13 +214,16 @@ export default {
     },
   },
   computed: {},
-  created() {
-    // await this.addDataToLineChart();
+   watch: {
+    caseArrayValues() {
+      this.sample();
+    },
+    range() {
+      this.sample();
+    },
   },
-  updated() {
-    this.addDataToLineChart();
-    console.log(" linechart pdated ")
-  },
+
+
 };
 </script>
 

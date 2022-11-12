@@ -202,9 +202,7 @@ export default {
     },
   },
   created() {},
-  updated() {
-    this.sample();
-  },
+ 
 };
 </script>
 

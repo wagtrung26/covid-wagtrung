@@ -478,9 +478,9 @@
         :subBot="` ${this.viewCountry.name}'s cases from the beginning up to now`"
         subTop="Tracking Timeline, Map"
       >
-        <div class="flex flex-wrap space-x-8">
+        <div class="flex flex-wrap sm:flex-wrap sm:space-x-8 sm:space-y-0 space-y-8">
           <div
-            class="w-3/12 h-full bg-white p-4 border-2 border-slate-50 rounded-2xl shadow-2xl shadow-slate-400/20"
+            class="sm:w-4/12 w-full h-full bg-white p-4 border-2 border-slate-50 rounded-2xl shadow-2xl shadow-slate-400/20"
           >
             <div v-show="selectedType != 'death'">
               <h3
@@ -518,7 +518,7 @@
             </div>
           </div>
 
-          <div class="w-9/12 flex-1">
+          <div class="sm:w-8/12 w-full flex-1">
             <lineChart
               :caseArrayValues="caseArrayValues"
               :deathArrayValues="deathArrayValues"
