@@ -11,7 +11,6 @@
     "@aacassandra/vue3-progressbar": "^1.0.3",
     "@highcharts/map-collection": "^2.0.1",
     "ant-design-vue": "^3.2.13",
-    "apexcharts": "^3.35.5",
     "autoprefixer": "^10",
     "axios": "^0.27.2",
     "core-js": "^3.8.3",

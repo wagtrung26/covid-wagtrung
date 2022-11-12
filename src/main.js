@@ -7,24 +7,24 @@ import store from './store'
 // import Vue from 'vue'
 import HighchartsVue from 'highcharts-vue'
 import VueApexCharts from "vue3-apexcharts"
-import VueProgressBar from "@aacassandra/vue3-progressbar";
+// import VueProgressBar from "@aacassandra/vue3-progressbar";
 //ant
 import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
 import './assets/tailwind.css'
 
-const options = {
-    color: "#17d66d",
-    failedColor: "#874b4b",
-    thickness: "10px",
-    transition: {
-      speed: "0.8s",
-      opacity: "0.6s",
-      termination: 300,
-    },  autoRevert: true,
-    inverse: false,
+// const options = {
+//     color: "#17d66d",
+//     failedColor: "#874b4b",
+//     thickness: "10px",
+//     transition: {
+//       speed: "0.8s",
+//       opacity: "0.6s",
+//       termination: 300,
+//     },  autoRevert: true,
+//     inverse: false,
   
-  };
+//   };
 // Vue.config.silent = true;
 const app = createApp(App);
 app.use(store)
@@ -32,5 +32,5 @@ app.use(store)
 .use(HighchartsVue)
 .use(VueApexCharts)
 .use(Antd)
-.use(VueProgressBar, options)
+// .use(VueProgressBar, options)
 .mount('#app')

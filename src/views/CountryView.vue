@@ -112,7 +112,9 @@
         <!-- DAILY card yesterday-->
         <!-- -mt-8 bg-slate-50 p-10 rounded-2xl mb-8 dark:bg-slate-800/90 -->
         <div class="">
-          <div class="flex flex-wrap space-x-8 mb-8">
+          <div
+            class="flex flex-wrap sm:space-x-8 sm:space-y-0 space-x-0 space-y-4 mb-8"
+          >
             <!-- card -->
             <card
               :percent="
@@ -168,7 +170,7 @@
             />
           </div>
 
-          <!-- daily daily mix-->
+          <!-- daily mixLineChart-->
           <div
             class="w-full bg-white shadow-2xl shadow-slate-200/70 p-8 mb-8 rounded-2xl dark:bg-slate-700/30 dark:shadow-none"
           >
@@ -203,7 +205,7 @@
 
             <dailyChart :y="dailyY" @type="dailyType" :dates="dates.slice(1)" />
           </div>
-          <!--daily stack -->
+          <!--daily stackChart -->
           <div
             class="w-full bg-white shadow-2xl shadow-slate-200/70 p-8 mb-8 rounded-2xl dark:bg-slate-700/30 dark:shadow-none"
           >
@@ -244,7 +246,7 @@
               :dates="dates.slice(1)"
             />
           </div>
-          <!-- daily weekday  -->
+          <!-- daily weekday heatChart -->
           <div
             class="w-full bg-white shadow-2xl shadow-slate-200/70 p-8 mb-8 rounded-2xl dark:bg-slate-700/30 dark:shadow-none"
           >
@@ -753,9 +755,6 @@ export default {
     },
     countryClick(countryCode = "VN") {
       this.loading = true;
-      this.$Progress.start();
-
-      this.$Progress.start();
       let country = this.allCountries.find((i) => i.code == countryCode);
       this.viewCountry = country;
 
@@ -766,20 +765,18 @@ export default {
       this.activeArrayValues = [];
 
       this.dates = [];
-      this.$Progress.finish();
 
       api
         .getForCountry(this.viewCountry.code, this.viewCountry.continent)
         .then(
           axios.spread((hisC, vacC, contiC) => {
-            this.$Progress.set(80);
             // hisC - historyTimeline / vacC = vaccineTimeline / contiC - continentTotal
             this.handleGetForCountry(hisC, vacC, contiC);
           })
         )
         .then(() => {
           this.loading = false;
-          this.$Progress.finish();
+          this.visible = false;
         });
     },
     heatType(type = "cases") {
@@ -852,7 +849,6 @@ export default {
       this.caseArrayValues = Object.values(listTimeline.cases);
       this.recoverArrayValues = Object.values(listTimeline.recovered);
       this.deathArrayValues = Object.values(listTimeline.deaths);
-      //create ACTIVE TOTAL
       this.activeArrayValues = [];
       let modifyActiveArrayValues = [];
       this.caseArrayValues.forEach((i, index) => {
