@@ -1,14 +1,13 @@
 <template>
-  <div class="flex justify-start mb-4">
-    <div class="flexCen items-end space-x-8 my-3">
-      
-      <div class="c">
+  <div class="flex justify-start my-4">
+    <div class="sm:flexCen sm:items-end sm:justify-start sm:space-x-8 sm:mt-2 mt-4 sm:space-y-0 space-y-6 flex-wrap w-full">
+      <div class="">
         <h4
           class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-3"
         >
           Date Range
         </h4>
-        <a-select v-model:value="range" size="large" class="w-48">
+        <a-select v-model:value="range" size="large" class="sm:w-48 w-full">
           <a-select-option value="-35">This month</a-select-option>
           <a-select-option value="-70">Haft year</a-select-option>
           <a-select-option value="-365">This year</a-select-option>
@@ -21,11 +20,10 @@
         >
           Case Type
         </h4>
-        <a-select v-model:value="range" size="large" class="w-48">
-          <a-select-option value="-35">This month</a-select-option>
-          <a-select-option value="-70">Haft year</a-select-option>
-          <a-select-option value="-365">This year</a-select-option>
-          <a-select-option value="0">All time</a-select-option>
+        <a-select v-model:value="type" size="large" class="sm:w-48 w-full">
+          <a-select-option value="cases">Daily Cases</a-select-option>
+          <a-select-option value="deaths">Daily Deaths</a-select-option>
+          <a-select-option value="vaccine">Used Vaccines</a-select-option>
         </a-select>
       </div>
     </div>
@@ -50,16 +48,18 @@ export default {
   data() {
     return {
       range: "-70",
+      type: "cases",
       load: false,
       chartOptions: {
         chart: {
           type: "heatmap",
           zoomBySingleTouch: true,
           zoomType: "x",
-          height: 500,
-          // marginTop: 40,
+          height: 400,
+          // paddingTop: 40,
           // marginBottom: 80,
           plotBorderWidth: 0,
+          backgroundColor: "rgba(0,0,0,0)"
         },
 
         title: {
@@ -129,7 +129,7 @@ export default {
         series: [
           {
             name: "cases",
-            borderWidth: 1,
+            // borderWidth: 1,
             data: [],
             dataLabels: {
               enabled: true,
@@ -167,8 +167,7 @@ export default {
     // Method
     sample() {
       this.chartOptions.series[0].data = this.y.slice(parseInt(this.range));
-      this.chartOptions.xAxis.categories = this.x;
-      console.log(" watch Heat-Chart ");
+      this.chartOptions.xAxis.categories = this.x.slice(parseInt(this.range));
     },
   },
   computed: {
@@ -182,6 +181,24 @@ export default {
     },
     range() {
       this.sample();
+    },
+    type() {
+      this.$emit("type", this.type);
+      if (this.type == "deaths") {
+        this.chartOptions.colorAxis.minColor = "#f79ba6";
+        this.chartOptions.colorAxis.maxColor = "#d6172d";
+      } else if (this.type == "vaccine") {
+        {
+          this.chartOptions.colorAxis.minColor = "#d79eee";
+          this.chartOptions.colorAxis.maxColor = "#9200cf";
+        }
+      } else {
+        {
+          this.chartOptions.colorAxis.minColor = "#a3d8ff";
+          this.chartOptions.colorAxis.maxColor = "#0b8dec";
+        }
+      }
+      // console.log(" emit type Heat chart ",this.type)
     },
   },
 };

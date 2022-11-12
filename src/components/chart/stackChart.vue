@@ -1,14 +1,23 @@
 <template>
   <div>
     <!-- START-Template -->
- <div class="flex justify-start mb-4">
-      <div class="flexCen space-x-4">
-        <h4 class="font-semibold text-base">Date Range:</h4>
-        <a-select v-model:value="range" size="large" class="">
-          <a-select-option value="-30">This month</a-select-option>
-          <a-select-option value="-365">This year</a-select-option>
-          <a-select-option value="0">All time</a-select-option>
-        </a-select>
+    <div class="flex justify-start my-4">
+      <div
+        class="sm:flexCen sm:items-end sm:justify-start sm:space-x-8 sm:mt-2 mt-4 sm:space-y-0 space-y-6 flex-wrap w-full"
+      >
+        <div class="">
+          <h4
+            class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-3"
+          >
+            Date Range
+          </h4>
+          <a-select v-model:value="range" size="large" class="sm:w-48 w-full">
+            <a-select-option value="-35">This month</a-select-option>
+            <a-select-option value="-70">Haft year</a-select-option>
+            <a-select-option value="-365">This year</a-select-option>
+            <a-select-option value="0">All time</a-select-option>
+          </a-select>
+        </div>
       </div>
     </div>
     <highcharts :options="chartOptions" ref="chart"></highcharts>
@@ -26,7 +35,6 @@ export default {
     dailyActiveArrayValues: Array,
     dailyRecoverArrayValues: Array,
     dailyDeathArrayValues: Array,
-    dailyVaccineArrayValues: Array,
     dates: Array,
   },
   data() {
@@ -34,11 +42,11 @@ export default {
       chartOptions: {
         chart: {
           type: "area",
-          height: 500,
+          height: 400,
           zoomBySingleTouch: true,
           zoomType: "x",
           // spacing: [0, 0, 0, 0],
-          backgroundColor: "rgba(0,0,0,0)"
+          backgroundColor: "rgba(0,0,0,0)",
         },
         title: {
           text: "",
@@ -74,11 +82,11 @@ export default {
         },
         legend: {
           layout: "horizontal",
-          align: "right",
-          verticalAlign: "top",
-          floating: true,
-          x: -40,
-          y: 0,
+          align: "center",
+          verticalAlign: "bottom",
+          floating: false,
+          // x: -40,
+          // y: 0,
           // borderWidth: 1,
         },
         tooltip: {
@@ -127,24 +135,27 @@ export default {
           // },
         ],
       },
-      range: 0,
+      range: "-365",
     };
   },
   methods: {
     sample() {
-      this.chartOptions.series[0].data = this.dailyActiveArrayValues.slice(this.range);
-      this.chartOptions.series[1].data = this.dailyRecoverArrayValues.slice(this.range);
-      this.chartOptions.series[2].data = this.dailyDeathArrayValues.slice(this.range);
-      // this.chartOptions.series[3].data = this.dailyVaccineArrayValues.slice(-31);
+      this.chartOptions.series[0].data = this.dailyActiveArrayValues.slice(parseInt(this.range))
+      this.chartOptions.series[1].data = this.dailyRecoverArrayValues.slice(parseInt(this.range))
+      this.chartOptions.series[2].data = this.dailyDeathArrayValues.slice(parseInt(this.range))
 
-      this.chartOptions.xAxis.categories = this.dates.slice(1);
+      this.chartOptions.xAxis.categories = this.dates.slice(parseInt(this.range));
+    },
+  },
+  watch: {
+    dailyActiveArrayValues() {
+      this.sample();
+    },
+    range() {
+      this.sample();
     },
   },
   computed: {},
-  created() {},
-  updated() {
-    this.sample();
-  },
 };
 </script>
 

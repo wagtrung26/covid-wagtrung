@@ -168,45 +168,11 @@
             />
           </div>
 
-          <!-- daily colums + stack -->
+          <!-- daily daily mix-->
           <div
-            class="w-full bg-white shadow-2xl shadow-slate-200/70 px-8 py-2 rounded-2xl dark:bg-slate-700/30 dark:shadow-none mb-8"
+            class="w-full bg-white shadow-2xl shadow-slate-200/70 p-8 mb-8 rounded-2xl dark:bg-slate-700/30 dark:shadow-none"
           >
-            <h3
-              class="text-left my-6 pl-4 border-l-8 border-blue-500 text-xl font-semibold tracking-tight text-slate-900"
-            >
-              Everyday Cases and Weekly Average
-            </h3>
-            <dailyChart
-              :dailyCaseArrayValues="dailyCaseArrayValues"
-              :dailyActiveArrayValues="dailyActiveArrayValues"
-              :dailyRecoverArrayValues="dailyRecoverArrayValues"
-              :dailyDeathArrayValues="dailyDeathArrayValues"
-              :dates="dates"
-            />
-          </div>
-
-          <div
-            class="w-full bg-white shadow-2xl shadow-slate-200/70 px-8 py-2 rounded-2xl mb-8 dark:bg-slate-700/30 dark:shadow-none"
-          >
-            <h3
-              class="text-left my-6 pl-4 border-l-8 border-blue-500 text-xl font-semibold tracking-tight text-slate-900"
-            >
-              Distribution Factors
-            </h3>
-            <stackChart
-              ref="stack"
-              :dailyActiveArrayValues="dailyActiveArrayValues"
-              :dailyRecoverArrayValues="dailyRecoverArrayValues"
-              :dailyDeathArrayValues="dailyDeathArrayValues"
-              :dailyVaccineArrayValues="dailyVaccineArrayValues"
-              :dates="dates"
-            />
-          </div>
-          <div
-            class="w-full bg-white shadow-2xl shadow-slate-200/70 px-8 py-2 mb-8 rounded-2xl dark:bg-slate-700/30 dark:shadow-none"
-          >
-            <div class="text-left flex flex-start items-center space-x-3">
+            <div class="flex flex-start items-center space-x-3">
               <span class="bg-blue-500 rounded-xl p-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -228,14 +194,90 @@
                   >Daily Covid-Cases data in weekday format</template
                 >
                 <p
-                  class="text-left my-6 text-2xl font-semibold tracking-tight text-slate-900"
+                  class="text-left text-2xl font-semibold tracking-tight text-slate-900 dark:text-white"
+                >
+                  Daily Cases and Weekly average
+                </p>
+              </a-tooltip>
+            </div>
+
+            <dailyChart :y="dailyY" @type="dailyType" :dates="dates.slice(1)" />
+          </div>
+          <!--daily stack -->
+          <div
+            class="w-full bg-white shadow-2xl shadow-slate-200/70 p-8 mb-8 rounded-2xl dark:bg-slate-700/30 dark:shadow-none"
+          >
+            <div class="flex flex-start items-center space-x-3">
+              <span class="bg-blue-500 rounded-xl p-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  class="w-6 h-6 stroke-white"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"
+                  />
+                </svg>
+              </span>
+              <a-tooltip placement="right">
+                <template #title
+                  >The percentage of Covid Factors in daily cases</template
+                >
+                <p
+                  class="text-left text-2xl font-semibold tracking-tight text-slate-900 dark:text-white"
+                >
+                  Distribution Factors
+                </p>
+              </a-tooltip>
+            </div>
+
+            <stackChart
+              ref="stack"
+              :dailyActiveArrayValues="dailyActiveArrayValues"
+              :dailyRecoverArrayValues="dailyRecoverArrayValues"
+              :dailyDeathArrayValues="dailyDeathArrayValues"
+              :dates="dates.slice(1)"
+            />
+          </div>
+          <!-- daily weekday  -->
+          <div
+            class="w-full bg-white shadow-2xl shadow-slate-200/70 p-8 mb-8 rounded-2xl dark:bg-slate-700/30 dark:shadow-none"
+          >
+            <div class="flex flex-start items-center space-x-3">
+              <span class="bg-blue-500 rounded-xl p-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  class="w-6 h-6 stroke-white"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+                  />
+                </svg>
+              </span>
+              <a-tooltip placement="right">
+                <template #title
+                  >Daily Covid-Cases data in weekday format</template
+                >
+                <p
+                  class="text-left text-2xl font-semibold tracking-tight text-slate-900 dark:text-white"
                 >
                   Weekly Cases
                 </p>
               </a-tooltip>
             </div>
 
-            <heatChart :y="heatY" :x="heatX" />
+            <heatChart :y="heatY" :x="heatX" @type="heatType" />
           </div>
         </div>
 
@@ -560,6 +602,7 @@ import axios from "axios";
 import selectCountry from "@/components/selectCountry.vue";
 import heatChart from "@/components/chart/heatChart.vue";
 // import { mapGetters } from "vuex";
+const moment = require("moment");
 
 export default {
   name: "CountryView",
@@ -614,6 +657,7 @@ export default {
       v: [],
       heatY: [],
       heatX: [],
+      dailyY: [],
     };
   },
 
@@ -738,11 +782,64 @@ export default {
           this.$Progress.finish();
         });
     },
+    heatType(type = "cases") {
+      // Reset
+      this.heatY = [];
+      this.heatX = [];
+      let _heatY = [];
+      let _heatX = [];
+
+      let dailyDate = this.dates.slice(1);
+      let a = 0;
+      dailyDate.forEach((i, index) => {
+        let x = moment(i).day();
+        // Y
+        if (type == "cases") {
+          _heatY.push([a, x, this.dailyCaseArrayValues[index]]);
+        } else if (type == "vaccine") {
+          _heatY.push([a, x, this.dailyVaccineArrayValues[index]]);
+        } else {
+          // type = deaths
+          _heatY.push([a, x, this.dailyDeathArrayValues[index]]);
+        }
+
+        // X
+        if ((a > 0 && x > 0 && x % 6 == 0) || (a == 0 && x % 6 == 0)) {
+          let h = `W-${a}, to ${moment(i).format("DD/MM/YY")}`;
+          _heatX.push(h);
+          a++;
+        }
+        if (index == dailyDate.length - 1) {
+          _heatX.push(`W-${a}, to ${moment(i).format("DD/MM/YY")}`);
+        }
+      });
+      // Assign to new
+      this.heatY = _heatY;
+      this.heatX = _heatX;
+    },
+    dailyType(type = "cases") {
+      this.dailyCaseArrayValues = this.dailyArrayValues(this.caseArrayValues);
+      this.dailyDeathArrayValues = this.dailyArrayValues(this.deathArrayValues);
+      this.dailyRecoverArrayValues = this.dailyArrayValues(
+        this.recoverArrayValues
+      );
+      this.dailyActiveArrayValues = this.dailyArrayValues(
+        this.activeArrayValues
+      );
+      if (type == "cases") {
+        this.dailyY = this.dailyCaseArrayValues;
+      } else if (type == "deaths") {
+        this.dailyY = this.dailyDeathArrayValues;
+      } else if (type == "recover") {
+        this.dailyY = this.dailyRecoverArrayValues;
+      } else {
+        this.dailyY = this.dailyActiveArrayValues;
+      }
+    },
     handleGetForCountry(hisC, vacC, contiC) {
       //TOTAL HISTORY ------------
       let listTimeline = hisC.data.timeline;
       //xAsis
-      const moment = require("moment");
       let rawDates = Object.keys(listTimeline.deaths);
       let modifyDate = [];
       rawDates.forEach((i) => {
@@ -764,40 +861,9 @@ export default {
         modifyActiveArrayValues.push(active);
       });
       this.activeArrayValues = modifyActiveArrayValues;
-      this.dailyActiveArrayValues = this.dailyArrayValues(
-        this.activeArrayValues
-      );
 
       //DAILY CASE HISTORY - total[last] - total[last-1]
-      this.dailyCaseArrayValues = this.dailyArrayValues(this.caseArrayValues);
-      this.dailyDeathArrayValues = this.dailyArrayValues(this.deathArrayValues);
-      this.dailyRecoverArrayValues = this.dailyArrayValues(
-        this.recoverArrayValues
-      );
-      // heatChart
-      this.heatY = [];
-      this.heatX = [];
-      let _heatY = [];
-      let _heatX = [];
-      let dailyDate = this.dates.slice(1);
-
-      let a = 0;
-      dailyDate.forEach((i, index) => {
-        let x = moment(i).day();
-        _heatY.push([a, x, this.dailyCaseArrayValues[index]]);
-
-        if ((a > 0 && x > 0 && x % 6 == 0) || (a == 0 && x % 6 == 0)) {
-          let h = `W-${a}, to ${moment(i).format("DD/MM/YY")}`;
-          _heatX.push(h);
-          a++;
-        }
-        if (index == dailyDate.length - 1) {
-          _heatX.push(`W-${a}, to ${moment(i).format("DD/MM/YY")}`);
-        }
-      });
-      this.heatY = _heatY;
-      this.heatX = _heatX;
-      // console.log(" this.X ",this.heatX)
+      this.dailyType();
 
       // VACCINE -------
       let listTimelineVacC = vacC.data.timeline;
@@ -811,6 +877,9 @@ export default {
         newVaccineArrayValues
       );
       this.vacEffi();
+
+      // heatChart
+      this.heatType();
 
       // CONTINENT ------
       this.continentArray = [];

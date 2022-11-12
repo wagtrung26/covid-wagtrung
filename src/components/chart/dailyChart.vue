@@ -1,69 +1,37 @@
 <template>
-  <div class="chart">
-    <div class="btnGroup">
-      <button
-        class="btn"
-        @click="rangeClick(-30)"
-        :class="{ active: this.selectedRange == -30 }"
-      >
-        last month
-      </button>
-      <button
-        class="btn"
-        @click="rangeClick(-7)"
-        :class="{ active: this.selectedRange == -7 }"
-      >
-        last week
-      </button>
-      <button
-        class="btn"
-        @click="rangeClick(-365)"
-        :class="{ active: this.selectedRange == -365 }"
-      >
-        last year
-      </button>
-      <button
-        class="btn"
-        @click="rangeClick(1)"
-        :class="{ active: this.selectedRange == 1 }"
-      >
-        All time
-      </button>
+  <div class="flex justify-start my-4">
+    <div
+      class="sm:flexCen sm:items-end sm:justify-start sm:space-x-8 sm:mt-2 mt-4 sm:space-y-0 space-y-6 flex-wrap w-full"
+    >
+      <div class="">
+        <h4
+          class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-3"
+        >
+          Date Range
+        </h4>
+        <a-select v-model:value="range" size="large" class="sm:w-48 w-full">
+          <a-select-option value="-30">This month</a-select-option>
+          <a-select-option value="-70">Haft year</a-select-option>
+          <a-select-option value="-365">This year</a-select-option>
+          <a-select-option value="0">All time</a-select-option>
+        </a-select>
+      </div>
+      <div class="c">
+        <h4
+          class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-3"
+        >
+          Case Type
+        </h4>
+        <a-select v-model:value="type" size="large" class="sm:w-48 w-full">
+          <a-select-option value="cases">Daily Cases</a-select-option>
+          <a-select-option value="deaths">Daily Deaths</a-select-option>
+          <a-select-option value="recover">Used Recovered</a-select-option>
+          <a-select-option value="active">Daily Active</a-select-option>
+        </a-select>
+      </div>
     </div>
-
-    <div class="btnGroup2">
-      <button
-        class="btn"
-        @click="typeClick('case')"
-        :class="{ active: this.selectedType == 'case' }"
-      >
-        New Cases
-      </button>
-      <button
-        class="btn"
-        @click="typeClick('active')"
-        :class="{ active: this.selectedType == 'active' }"
-      >
-        Active Cases
-      </button>
-      <button
-        class="btn"
-        @click="typeClick('death')"
-        :class="{ active: this.selectedType == 'death' }"
-      >
-        New Deaths
-      </button>
-      <button
-        class="btn"
-        @click="typeClick('recover')"
-        :class="{ active: this.selectedType == 'recover' }"
-      >
-        New Recovered
-      </button>
-    </div>
-
-    <highcharts class="hc" :options="chartOptions" ref="chart"></highcharts>
   </div>
+  <highcharts class="hc" :options="chartOptions" ref="chart"></highcharts>
 </template>
 
 <script>
@@ -73,29 +41,25 @@ import exportingInit from "highcharts/modules/exporting";
 exportingInit(Highcharts);
 
 export default {
-  components: {
-  },
+  components: {},
   name: "lineChart",
   props: {
-    dailyCaseArrayValues: Array,
-    dailyActiveArrayValues: Array,
-    dailyRecoverArrayValues: Array,
-    dailyDeathArrayValues: Array,
+    y:Array,
     dates: Array,
   },
   data() {
     return {
-      selectedType: "case",
-      selectedRange: -30,
+      type: "cases",
+      range: "-30",
       aPush: [],
       chartOptions: {
         chart: {
-          height: 500,
+          height: 400,
           zoomBySingleTouch: true,
           zoomType: "x",
           // spacing: [50, 0, 0, 0],
-          spacingTop:60,
-          backgroundColor: "rgba(0,0,0,0)"
+          // spacingTop: 60,
+          backgroundColor: "rgba(0,0,0,0)",
           //   inverted: true,
         },
         series: [
@@ -149,10 +113,10 @@ export default {
         },
         xAxis: {
           categories: [],
-      //     type: 'datetime',
-      // labels: {
-      //   format: '{value:%d-%m-%Y}',
-      // }
+          //     type: 'datetime',
+          // labels: {
+          //   format: '{value:%d-%m-%Y}',
+          // }
         },
         legend: {
           enabled: false,
@@ -179,58 +143,18 @@ export default {
             borderRadius: 2,
             groupPadding: 0,
             // pointPadding: 0,
-            
-        }
+          },
           // pointStart: 2010,
         },
-      },
-      responsive: {
-        rules: [
-          {
-            condition: {
-              maxWidth: 500,
-            },
-            chartOptions: {
-              legend: {
-                enabled: false,
-              },
-            },
-          },
-        ],
       },
     };
   },
 
   methods: {
-    rangeClick(x) {
-      this.selectedRange = x;
-      let k = [];
-      if (this.selectedType == "active") {
-        k = this.dailyActiveArrayValues;
-        this.chartOptions.series[0].color = "#ffa700";
-        this.chartOptions.series[0].name = "Daily Active Cases";
-      } else if (this.selectedType == "death") {
-        k = this.dailyDeathArrayValues;
-        this.chartOptions.series[0].color = "#d6172d";
-        this.chartOptions.series[0].name = "Daily Death Cases";
-      } else if (this.selectedType == "recover") {
-        k = this.dailyRecoverArrayValues;
-        this.chartOptions.series[0].name = "Daily Recovered Cases";
-        this.chartOptions.series[0].color = "#17d66d";
-      } else {
-        k = this.dailyCaseArrayValues;
-        this.chartOptions.series[0].name = "Daily Total Cases";
-        this.chartOptions.series[0].color = "#0093ff";
-      }
-
-      this.chartOptions.series[0].data = k.slice(this.selectedRange);
-      this.chartOptions.series[1].data = this.avg(k).slice(this.selectedRange);
-    
-        this.chartOptions.xAxis.categories = this.dates.slice(
-          this.selectedRange
-        );
-
-
+    sample() {
+      this.chartOptions.series[0].data = this.y.slice(parseInt(this.range));
+      this.chartOptions.series[1].data = this.avg(this.y).slice(parseInt(this.range));
+      this.chartOptions.xAxis.categories = this.dates.slice(parseInt(this.range));
     },
     avg(arr) {
       const _ = require("lodash");
@@ -245,17 +169,32 @@ export default {
       });
       return this.aPush;
     },
-
-    typeClick(type = "case") {
-      this.selectedType = type;
-      // this.$emit("type", this.selectedType );
-      this.rangeClick(this.selectedRange);
-    },
   },
-  computed: {},
-  async created() {},
-  updated() {
-    this.rangeClick(this.selectedRange);
+
+  watch: {
+    y() {
+      this.sample();
+    },
+    range() {
+      this.sample();
+    },
+    type() {
+      this.$emit("type", this.type);
+      if (this.type == "active") {
+        this.chartOptions.series[0].color = "#ffa700";
+        this.chartOptions.series[0].name = "Daily Active Cases";
+      } else if (this.type == "deaths") {
+        this.chartOptions.series[0].color = "#d6172d";
+        this.chartOptions.series[0].name = "Daily Death Cases";
+      } else if (this.type == "recover") {
+        this.chartOptions.series[0].name = "Daily Recovered Cases";
+        this.chartOptions.series[0].color = "#17d66d";
+      } else {
+        this.chartOptions.series[0].name = "Daily Total Cases";
+        this.chartOptions.series[0].color = "#0093ff";
+      }
+      // console.log(" emit type Heat chart ",this.type)
+    },
   },
 };
 </script>
