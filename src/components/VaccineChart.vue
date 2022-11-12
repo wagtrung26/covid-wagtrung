@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- START-Template -->
-     <div class="flex justify-start my-4">
+     <div class="flex justify-start mb-6">
       <div
         class="sm:flexCen sm:items-end sm:justify-start sm:space-x-8 sm:mt-2 mt-4 sm:space-y-0 space-y-6 flex-wrap w-full"
       >
@@ -43,7 +43,7 @@ export default {
       chartOptions: {
         chart: {
           type: "areaspline",
-          height: 400,
+          height: 450,
           zoomBySingleTouch: true,
           zoomType: "x",
           // spacing: [0, 40, 0, 40],

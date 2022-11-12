@@ -322,14 +322,12 @@
             />
           </div>
           <div class="sm:w-8/12 w-full flex-1">
-            
-              <vaccine-chart
-                :dailyCaseArrayValues="dailyCaseArrayValues"
-                :dailyDeathArrayValues="dailyDeathArrayValues"
-                :dailyVaccineArrayValues="dailyVaccineArrayValues"
-                :dates="dates.slice(1)"
-              />
-          
+            <vaccine-chart
+              :dailyCaseArrayValues="dailyCaseArrayValues"
+              :dailyDeathArrayValues="dailyDeathArrayValues"
+              :dailyVaccineArrayValues="dailyVaccineArrayValues"
+              :dates="dates.slice(1)"
+            />
           </div>
         </div>
 
@@ -353,6 +351,7 @@
         <div class="w-full p-8 bg-slate-50 space-y-8 rounded-2xl">
           <div v-for="(item, index) in v" :key="index">
             <div class="w-full" v-if="index < this.v.length - 1">
+              <!-- text -->
               <div class="flex items-center flex-start mb-5">
                 <p
                   class="text-2xl leading-none font-semibold text-white bg-violet-600 py-2 px-4 rounded-lg mr-4"
@@ -397,9 +396,10 @@
                   </a-popover>
                 </span>
               </div>
-              <div class="flex space-x-8">
+              <!-- layout -->
+              <div class="flex w-full sm:flex-nowrap flex-wrap sm:space-x-8 sm:space-y-0 space-y-4 sm:mb-12">
                 <mixLineChart
-                  class="w-1/2"
+                  class="sm:w-1/2 w-full"
                   :y="sliceDeath(index)"
                   :x="
                     this.dates.slice(
@@ -409,7 +409,7 @@
                   "
                 />
                 <mixLineChart
-                  class="w-1/2"
+                  class="sm:w-1/2 w-full"
                   :y="
                     this.dailyCaseArrayValues.slice(
                       this.vaccineArrayValues.indexOf(this.v[index]),
@@ -438,9 +438,9 @@
                   >Up to Now
                 </span>
               </div>
-              <div class="w-full flex space-x-8">
+              <div class="flex w-full sm:flex-nowrap flex-wrap sm:space-x-8 sm:space-y-0 space-y-4">
                 <mixLineChart
-                  class="w-1/2"
+                  class="sm:w-1/2 w-full"
                   :y="
                     this.dailyDeathArrayValues.slice(
                       this.vaccineArrayValues.indexOf(this.v[index])
@@ -453,7 +453,7 @@
                   "
                 />
                 <mixLineChart
-                  class="w-1/2"
+                  class="sm:w-1/2 w-full"
                   :y="
                     this.dailyCaseArrayValues.slice(
                       this.vaccineArrayValues.indexOf(this.v[index])
