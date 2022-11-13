@@ -43,6 +43,8 @@ exportingInit(Highcharts);
 export default {
   components: {},
   name: "lineChart",
+    emits: ["type"],
+
   props: {
     y: Array,
     dates: Array,
@@ -135,7 +137,9 @@ export default {
           borderWidth: 1,
         },
         plotOptions: {
-          series: {},
+           series: {
+			animation: false
+		},
           areaspline: {
             fillOpacity: 0.2,
           },

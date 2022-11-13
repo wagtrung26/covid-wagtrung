@@ -72,6 +72,7 @@ import numeral from "numeral";
 export default {
   components: { modal },
   name: "selectCountry",
+    emits: ["searchOff","countryClickComp"],
   props: {
     allCountries: Array,
     viewCountry: Object,

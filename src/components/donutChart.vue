@@ -57,6 +57,9 @@ export default {
           //     'Population density (people per square km): <b>{point.z}</b><br/>'
         },
         plotOptions: {
+            series: {
+			animation: false
+		},
      
          pie: {
            shadow: false,

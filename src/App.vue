@@ -63,7 +63,7 @@
         placement="right"
         :closable="false"
         v-model:visible="visible"
-        :after-visible-change="afterVisibleChange"
+       
       >
         <p></p>
         <h2>Covid-19 Data Visualization and Vaccination Efficiency</h2>
@@ -73,7 +73,7 @@
       </a-drawer>
 
       <router-view />
-      <vue-progress-bar></vue-progress-bar>
+      <!-- <vue-progress-bar></vue-progress-bar> -->
     </div>
   </div>
   <div id="components-back-top-demo-custom">

@@ -43,6 +43,7 @@ import tableC from "@/components/comp/table.vue";
 export default {
   components: { barChart, donutChart, tableC },
   name: "countiesInContinent",
+    emits: ["countryTopB"],
   props: {
     continentArray: Array,
     viewCountry: Object,

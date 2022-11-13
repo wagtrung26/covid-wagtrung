@@ -6,7 +6,7 @@
       <a-progress
         type="circle"
         :status="type"
-        :percent="`${percent}`"
+        :percent="percentC"
         :width="110"
         :strokeWidth="8"
       >
@@ -56,11 +56,11 @@ export default {
       default: "subTop",
     },
     subBot: {
-      //   type: Number,
+    type: [String, Number, null],
       //   default: 100,
     },
     percent: {
-      type: Number,
+      type: [String, Number],
       //   default: 60,
     },
   },
@@ -87,7 +87,10 @@ export default {
       }
     },
     type() {
-      return this.subBot < 0 ? "exception" : "";
+      return this.subBot < 0 ? "exception" : "active";
+    },
+     percentC() {
+      return parseInt(this.percent)
     },
   },
   created() {},

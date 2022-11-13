@@ -86,6 +86,9 @@ export default {
         },
 
         plotOptions: {
+            series: {
+			animation: false
+		},
           solidgauge: {
             dataLabels: {
               y: 5,

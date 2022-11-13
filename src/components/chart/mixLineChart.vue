@@ -126,6 +126,9 @@ export default {
         },
         plotOptions: {
           series: {
+          
+			animation: false
+		,
             label: {
               connectorAllowed: false,
             },

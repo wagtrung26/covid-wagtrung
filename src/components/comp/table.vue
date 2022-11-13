@@ -7,7 +7,6 @@
       :data-source="data"
       :scroll="{ y: 500 }"
       :pagination="{ pageSize: 20 }"
-      @change="onChange"
     >
       <template v-slot:img="{ text, record }">
         <div class="flexCen justify-start space-x-4">
@@ -114,10 +113,16 @@ export default {
     //   };
     // },
   },
+  watch: {
+    continentArray(){
+    this.data = this.continentArray;
+
+    }
+
+  },
   computed: {},
   created() {},
   updated() {
-    this.data = this.continentArray;
     // this.columns[0].render =  () => {
     //  return (
     //   <div>

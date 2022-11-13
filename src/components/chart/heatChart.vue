@@ -37,6 +37,7 @@
 export default {
   components: {},
   name: "heatC",
+   emits: ["type"],
   props: {
     y: Array,
     x: Array,

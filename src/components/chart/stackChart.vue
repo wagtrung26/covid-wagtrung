@@ -98,6 +98,9 @@ export default {
         plotOptions: {
           series: {
             lineWidth: 5,
+            
+			animation: false
+		
 
             // pointStart: 1990,
           },

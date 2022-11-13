@@ -78,10 +78,15 @@ export default {
         this.dates.slice(1)[this.dailyVaccineArrayValues.indexOf(this.topVac)];
     },
   },
+  watch:{
+    dailyVaccineArrayValues(){
+    this.topCaseC();
+
+    }
+  },
   computed: {},
   created() {},
   updated() {
-    this.topCaseC();
   },
 };
 </script>

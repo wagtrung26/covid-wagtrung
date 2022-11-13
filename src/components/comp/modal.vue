@@ -53,6 +53,7 @@
 export default {
   components: {},
   name: "modalC",
+   emits: ["closeModal"],
   props: {
     title: {
       type: String,

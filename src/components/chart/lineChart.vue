@@ -126,12 +126,12 @@ export default {
           },
         },
         legend: {
+           enabled: true,
           layout: "horizontal",
-          align: "right",
-          verticalAlign: "top",
-          floating: true,
-          x: -40,
-          y: 0,
+          align: "center",
+          verticalAlign: "bottom",
+          
+          itemMarginTop: 20
           // borderWidth: 1,
         },
         tooltip: {
@@ -145,6 +145,9 @@ export default {
         },
         plotOptions: {
           series: {
+           
+			animation: false,
+		
             label: {
               connectorAllowed: false,
             },

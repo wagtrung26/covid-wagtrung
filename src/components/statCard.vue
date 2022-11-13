@@ -47,11 +47,13 @@
       <h1
         class="text-left text-3xl font-semibold tracking-tight text-slate-900 mb-4 sm:text-5xl"
       >
-        <count-up
+        <!-- <count-up
           :start-val="0"
           :end-val="viewCountry.cases"
           :duration="3"
-        ></count-up>
+        ></count-up> -->
+      {{ numF(viewCountry.cases) }}
+
       </h1>
       <p class="text-xl text-gray-500 mb-4">
         + {{ numeralFunc(viewCountry.todayCases) }}
@@ -67,11 +69,12 @@
       <h1
         class="text-left text-3xl font-semibold tracking-tight text-slate-900 mb-4 sm:text-5xl"
       >
-        <count-up
+      {{ numF(viewCountry.recovered) }}
+        <!-- <count-up
           :start-val="0"
           :end-val="viewCountry.recovered"
           :duration="3"
-        ></count-up>
+        ></count-up> -->
       </h1>
       <p class="text-xl text-gray-500 mb-4">
         + {{ numeralFunc(viewCountry.todayRecovered) }}
@@ -87,11 +90,13 @@
       <h1
         class="text-left text-3xl font-semibold tracking-tight text-slate-900 mb-4 sm:text-5xl"
       >
-        <count-up
+        <!-- <count-up
           :start-val="0"
           :end-val="viewCountry.deaths"
           :duration="3"
-        ></count-up>
+        ></count-up> -->
+      {{ numF(viewCountry.deaths) }}
+
       </h1>
       <p class="text-xl text-gray-500 mb-4">
         + {{ numeralFunc(viewCountry.todayDeaths) }}
@@ -105,12 +110,13 @@
 
 <script>
 import numeral from "numeral";
-import CountUp from "vue-countup-v3";
+// import CountUp from "vue-countup-v3";
 import sparklineChart from "./sparklineChart.vue";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "statCard",
+  emits: ["searchOn"],
   props: {
     viewCountry: Object,
     dailyCaseArrayValues: Array,
@@ -118,7 +124,7 @@ export default {
     dailyDeathArrayValues: Array,
   },
   components: {
-    CountUp,
+    // CountUp,
     sparklineChart,
  
   },

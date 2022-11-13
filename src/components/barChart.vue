@@ -46,6 +46,7 @@ exportingInit(Highcharts);
 export default {
   components: {},
   name: "barChart",
+    emits: ["countryTopA"],
   props: {
     continentArray: Array,
     viewCountry: Object,
@@ -65,7 +66,8 @@ export default {
           // width: 800,
           zoomType: "x",
           // spacing: [0, 30, 0, 0],
-          backgroundColor: "rgba(0,0,0,0)"
+          backgroundColor: "rgba(0,0,0,0)",
+         
  
         },
         title: {
@@ -120,6 +122,9 @@ export default {
           borderWidth: 1,
         },
         plotOptions: {
+           series: {
+			animation: false
+		},
           column: {
             dataLabels: {
               enabled: true,
@@ -153,7 +158,7 @@ export default {
     };
   },
   methods: {
-    addDataToBarChart() {
+    sample() {
       const _ = require("lodash");
 
       let pushCase = [];
@@ -210,9 +215,10 @@ export default {
     },
   },
   computed: {},
-  async created() {},
-  updated() {
-    this.addDataToBarChart();
+  watch: {
+    continentArray() {
+      this.sample();
+    },
   },
 };
 </script>
