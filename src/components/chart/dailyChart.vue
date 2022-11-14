@@ -182,6 +182,9 @@ export default {
             },
           ],
         },
+        accessibility: {
+    enabled: false
+  }
       },
     };
   },

@@ -84,7 +84,9 @@ export default {
             y: 16,
           },
         },
-
+  accessibility: {
+    enabled: false
+  },
         plotOptions: {
             series: {
 			animation: false

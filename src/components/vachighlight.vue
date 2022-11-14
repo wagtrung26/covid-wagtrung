@@ -85,7 +85,9 @@ export default {
     }
   },
   computed: {},
-  created() {},
+  created() {
+    this.topCaseC() 
+  },
   updated() {
   },
 };

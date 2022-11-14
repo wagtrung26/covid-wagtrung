@@ -103,6 +103,15 @@
           @searchOn="searchOn = true"
         />
       </div>
+
+      <!-- 0 Regression -->
+      <wrap
+        
+        title="Smart Prediction "
+        :subTop="`The trend of cases in ${this.viewCountry.name}`"
+      >
+        <scatterMixChart :rawY="dailyCaseArrayValues" />
+      </wrap>
       <!--2 DAILY -->
       <wrap
         title="Daily Statistic"
@@ -397,7 +406,9 @@
                 </span>
               </div>
               <!-- layout -->
-              <div class="flex w-full sm:flex-nowrap flex-wrap sm:space-x-8 sm:space-y-0 space-y-4 sm:mb-12">
+              <div
+                class="flex w-full sm:flex-nowrap flex-wrap sm:space-x-8 sm:space-y-0 space-y-4 sm:mb-12"
+              >
                 <mixLineChart
                   class="sm:w-1/2 w-full"
                   :y="sliceDeath(index)"
@@ -438,7 +449,9 @@
                   >Up to Now
                 </span>
               </div>
-              <div class="flex w-full sm:flex-nowrap flex-wrap sm:space-x-8 sm:space-y-0 space-y-4">
+              <div
+                class="flex w-full sm:flex-nowrap flex-wrap sm:space-x-8 sm:space-y-0 space-y-4"
+              >
                 <mixLineChart
                   class="sm:w-1/2 w-full"
                   :y="
@@ -478,7 +491,9 @@
         :subBot="` ${this.viewCountry.name}'s cases from the beginning up to now`"
         subTop="Tracking Timeline, Map"
       >
-        <div class="flex flex-wrap sm:flex-wrap sm:space-x-8 sm:space-y-0 space-y-8">
+        <div
+          class="flex flex-wrap sm:flex-wrap sm:space-x-8 sm:space-y-0 space-y-8"
+        >
           <div
             class="sm:w-4/12 w-full h-full bg-white p-4 border-2 border-slate-50 rounded-2xl shadow-2xl shadow-slate-400/20"
           >
@@ -611,12 +626,14 @@ import numeral from "numeral";
 import axios from "axios";
 import selectCountry from "@/components/selectCountry.vue";
 import heatChart from "@/components/chart/heatChart.vue";
+import scatterMixChart from "@/components/machineLearning/scatterMixChart.vue";
 // import { mapGetters } from "vuex";
 const moment = require("moment");
 
 export default {
   name: "CountryView",
   components: {
+    scatterMixChart,
     heatChart,
     selectCountry,
     wrap,

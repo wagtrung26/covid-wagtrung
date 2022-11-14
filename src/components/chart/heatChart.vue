@@ -98,6 +98,7 @@ export default {
         title: {
           text: "",
         },
+      
 
         xAxis: {
           categories: [],
@@ -110,17 +111,9 @@ export default {
           reversed: true,
         },
 
-        accessibility: {
-          point: {
-            // descriptionFormatter: function (point) {
-            //     var ix = point.index + 1,
-            //         xName = getPointCategoryName(point, 'x'),
-            //         yName = getPointCategoryName(point, 'y'),
-            //         val = point.value;
-            //     return ix + '. ' + xName + ' sales ' + yName + ', ' + val + '.';
-            // }
-          },
-        },
+         accessibility: {
+    enabled: false
+  },
 
         colorAxis: {
           min: 0,

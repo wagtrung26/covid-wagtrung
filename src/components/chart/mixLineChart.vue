@@ -124,6 +124,9 @@ export default {
           borderRadius: 10,
           borderWidth: 1,
         },
+          accessibility: {
+    enabled: false
+  },
         plotOptions: {
           series: {
           

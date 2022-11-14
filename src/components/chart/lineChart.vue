@@ -160,6 +160,9 @@ export default {
           },
           // pointStart: 2010,
         },
+          accessibility: {
+    enabled: false
+  },
            responsive: {
           rules: [
             {

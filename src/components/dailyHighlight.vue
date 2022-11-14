@@ -158,14 +158,7 @@ export default {
           this.dailyDeathArrayValues.indexOf(this.startDeath)
         ];
 
-      // this.startVac = this.dailyVaccineArrayValues.find((x) => x > 0);
-      // this.statVacDate =
-      //   this.dates.slice(1)[
-      //     this.dailyVaccineArrayValues.indexOf(this.startVac)
-      //   ];
-      // this.topVac = Math.max(...this.dailyVaccineArrayValues);
-      // this.topVacDate =
-      //   this.dates[this.dailyVaccineArrayValues.indexOf(this.topVac)];
+      
     },
   },
   computed: {},

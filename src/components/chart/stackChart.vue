@@ -60,12 +60,12 @@ export default {
         subtitle: {
           text: "",
         },
-        accessibility: {
-          point: {
-            valueDescriptionFormat:
-              "{index}. {point.category}, {point.y:,.1f} billions, {point.percentage:.1f}%.",
-          },
-        },
+        // accessibility: {
+        //   point: {
+        //     valueDescriptionFormat:
+        //       "{index}. {point.category}, {point.y:,.1f} billions, {point.percentage:.1f}%.",
+        //   },
+        // },
         xAxis: {
           categories: [],
           accessibility: {
@@ -95,6 +95,9 @@ export default {
           // split: true,
           shared: true,
         },
+          accessibility: {
+    enabled: false
+  },
         plotOptions: {
           series: {
             lineWidth: 5,
