@@ -106,11 +106,10 @@
 
       <!-- 0 Regression -->
       <wrap
-        
         title="Smart Prediction "
         :subTop="`The trend of cases in ${this.viewCountry.name}`"
       >
-        <scatterMixChart :rawY="dailyCaseArrayValues" />
+        <scatterMixChart :rawY="scatterY" @caseType="caseType" />
       </wrap>
       <!--2 DAILY -->
       <wrap
@@ -685,6 +684,7 @@ export default {
       heatY: [],
       heatX: [],
       dailyY: [],
+      scatterY: [],
     };
   },
 
@@ -840,6 +840,7 @@ export default {
       this.heatX = _heatX;
     },
     dailyType(type = "cases") {
+      // daily Mix avg
       this.dailyCaseArrayValues = this.dailyArrayValues(this.caseArrayValues);
       this.dailyDeathArrayValues = this.dailyArrayValues(this.deathArrayValues);
       this.dailyRecoverArrayValues = this.dailyArrayValues(
@@ -856,6 +857,14 @@ export default {
         this.dailyY = this.dailyRecoverArrayValues;
       } else {
         this.dailyY = this.dailyActiveArrayValues;
+      }
+    },
+    caseType(type = "cases") {
+      // regression
+      if (type == "cases") {
+        this.scatterY = this.dailyCaseArrayValues;
+      } else {
+        this.scatterY = this.dailyDeathArrayValues;
       }
     },
     handleGetForCountry(hisC, vacC, contiC) {
@@ -885,6 +894,7 @@ export default {
 
       //DAILY CASE HISTORY - total[last] - total[last-1]
       this.dailyType();
+      this.caseType();
 
       // VACCINE -------
       let listTimelineVacC = vacC.data.timeline;

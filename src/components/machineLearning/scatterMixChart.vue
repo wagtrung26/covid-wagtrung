@@ -1,13 +1,63 @@
 <template>
   <div>
-    <button @click="load">Load</button>
-    <highcharts :options="chartOptions" v-if="show"></highcharts>
-    <a-skeleton v-if="clicked"
-            active
-            shape="round"
-            :paragraph="{ rows: 3 }"
-            style="width: 100%"
-          />
+    <!-- <button @click="load">Load</button> -->
+    <div class="flex justify-start mb-6">
+      <div
+        class="sm:flexCen sm:items-end sm:justify-start sm:space-x-8 sm:mt-2 mt-4 sm:space-y-0 space-y-6 flex-wrap w-full"
+      >
+        <!-- YAXIS -->
+        <div class="">
+          <h4
+            class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-3"
+          >
+            yAxis type
+          </h4>
+          <a-select v-model:value="yType" size="large" class="sm:w-48 w-full">
+            <a-select-option value="logarithmic">Logarithmic</a-select-option>
+            <a-select-option value="linear">Linear</a-select-option>
+          </a-select>
+        </div>
+        <!-- CASE TYPE -->
+        <div class="">
+          <h4
+            class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-3"
+          >
+            Cases type
+          </h4>
+          <a-select
+            v-model:value="caseType"
+            size="large"
+            class="sm:w-48 w-full"
+          >
+            <a-select-option value="cases">Cases</a-select-option>
+            <a-select-option value="deaths">Deaths</a-select-option>
+          </a-select>
+        </div>
+        <!-- checkbox regression -->
+        <a-checkbox-group v-model:value="checkRegression">
+          <a-row>
+            <a-col :span="8">
+              <a-checkbox value="raw">Daily Raw data</a-checkbox>
+            </a-col>
+               <a-col :span="8">
+              <a-checkbox value="pol">Polynomial</a-checkbox>
+            </a-col>
+            <a-col :span="8">
+              <a-checkbox value="lin">Linear </a-checkbox>
+            </a-col>
+         
+          </a-row>
+        </a-checkbox-group>
+      </div>
+    </div>
+    <highcharts :options="chartOptions"></highcharts>
+    <!-- <a-skeleton
+      v-if="clicked"
+      active
+      shape="round"
+      :paragraph="{ rows: 3 }"
+      style="width: 100%"
+    /> -->
 
     <!-- END-Template -->
   </div>
@@ -19,16 +69,22 @@ import regression from "regression";
 export default {
   components: {},
   name: "scatterMix",
+  emits: ["caseType"],
   props: {
-    rawY: Array
+    rawY: Array,
   },
   data() {
     return {
-      show:false,
-      clicked:false,
+      show: false,
+      clicked: false,
+      yType: "linear",
+      checkRegression: ['raw', 'pol'],
+      caseType: "cases",
       chartOptions: {
         chart: {
           type: "spline",
+          zoomBySingleTouch: true,
+          zoomType: "y",
         },
         title: {
           text: "",
@@ -43,8 +99,8 @@ export default {
             text: null,
           },
           // max: 100,
-          // min: 0,
-          type: 'logarithmic', 
+          min: 1,
+          // type: 'logarithmic',
         },
 
         xAxis: {
@@ -82,7 +138,7 @@ export default {
             marker: {
               enabled: true,
             },
-            pointStart: Date.UTC(2022,7,6),
+            pointStart: Date.UTC(2020, 0, 23),
 
             pointInterval: 24 * 3600 * 1000, // one day
           },
@@ -126,7 +182,9 @@ export default {
         series: [
           {
             name: "Linear regression",
-            color: "#0000FF",
+            visible: false,
+            color: "#ff7600",
+            lineWidth: 3,
             data: [],
             marker: {
               enabled: false,
@@ -134,7 +192,8 @@ export default {
           },
           {
             name: "Polynomial regression",
-            color: "#FF0000",
+            color: "#ff008f",
+            lineWidth: 3,
             data: [],
             marker: {
               enabled: false,
@@ -145,9 +204,10 @@ export default {
             data: [],
             type: "spline",
             lineWidth: 0,
+            color: "#0093ff",
             marker: {
               enabled: "true",
-              radius: 4,
+              radius: 2,
               symbol: "circle",
               states: {
                 hover: {
@@ -166,18 +226,18 @@ export default {
     };
   },
   methods: {
-    load(){
-      this.clicked=true;
-      this.show=true;
+    load() {
+      this.clicked = true;
+      this.show = true;
       this.sample();
     },
     sample() {
-      let dataRaw = this.rawY
+      let dataRaw = this.rawY;
       let data = [];
-      dataRaw.forEach((i, index)=>{
-        let spot = [index,i]
-        data.push(spot)
-      })
+      dataRaw.forEach((i, index) => {
+        let spot = [index, i];
+        data.push(spot);
+      });
 
       let resultLinear = regression.polynomial(data, {
         order: 1,
@@ -198,8 +258,7 @@ export default {
       this.chartOptions.series[0].data = dataLinear;
       this.chartOptions.series[1].data = dataPolynomial;
       this.chartOptions.series[2].data = dataRaw;
-      this.clicked=false;
-
+      this.clicked = false;
     },
   },
   computed: {},
@@ -207,9 +266,22 @@ export default {
     rawY() {
       this.sample();
     },
-    // range() {
-    //   this.sample();
-    // },
+    yType() {
+      this.chartOptions.yAxis.type = this.yType;
+    },
+    caseType() {
+      this.$emit("caseType", this.caseType);
+      if (this.caseType == "cases") {
+        this.chartOptions.series[2].color = "#0093ff";
+        this.chartOptions.series[2].name = "Daily Cases";
+      } else {
+        this.chartOptions.series[2].color = "#d6172d";
+        this.chartOptions.series[2].name = "Daily Deaths";
+      }
+    },
+    checkRegression(){
+      
+    }
   },
   created() {
     // this.sample();
