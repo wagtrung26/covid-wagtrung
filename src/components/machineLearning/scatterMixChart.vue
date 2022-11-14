@@ -172,7 +172,7 @@ export default {
       this.sample();
     },
     sample() {
-      let dataRaw = this.rawY.slice(-100)
+      let dataRaw = this.rawY
       let data = [];
       dataRaw.forEach((i, index)=>{
         let spot = [index,i]
