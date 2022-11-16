@@ -314,6 +314,15 @@ export default {
       this.sample();
     },
     sample() {
+       this.$emit("caseType", this.caseType);
+        if (this.caseType == "cases") {
+        this.chartOptions.series[0].color = "#0093ff";
+        this.chartOptions.series[0].name = "Daily Cases";
+      } else {
+        this.chartOptions.series[0].color = "#d6172d";
+        this.chartOptions.series[0].name = "Daily Deaths";
+      }
+
       let dataRaw = this.rawY.slice(-this.numberRaw);
       let data = [];
       dataRaw.forEach((i, index) => {
@@ -334,10 +343,10 @@ export default {
 
       this.polyString = resultPolynomial.string;
       this.polyR2 = resultPolynomial.r2;
-      console.log(
-        " something ",
-        resultPolynomial.predict(resultPolynomial.points.length + 30)
-      );
+      // console.log(
+      //   " something ",
+      //   resultPolynomial.predict(resultPolynomial.points.length + 30)
+      // );
 
       let k = resultPolynomial.points.length + this.predictVal;
 
@@ -385,13 +394,6 @@ export default {
     },
     caseType() {
       this.$emit("caseType", this.caseType);
-      if (this.caseType == "cases") {
-        this.chartOptions.series[0].color = "#0093ff";
-        this.chartOptions.series[0].name = "Daily Cases";
-      } else {
-        this.chartOptions.series[0].color = "#d6172d";
-        this.chartOptions.series[0].name = "Daily Deaths";
-      }
     },
     checkRegression() {
       let k = ["raw", "pol", "lin"];
