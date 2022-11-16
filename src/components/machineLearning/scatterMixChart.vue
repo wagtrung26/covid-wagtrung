@@ -3,7 +3,7 @@
     <!-- <button @click="load">Load</button> -->
     <div class="flex justify-start mb-6">
       <div
-        class="sm:flexCen sm:items-start sm:justify-start sm:space-x-8 sm:space-y-8 sm:mt-2 mt-4 flex-wrap w-full"
+        class="sm:flexCen sm:items-start sm:justify-start sm:space-x-8 sm:mt-2 mt-4 flex-wrap w-full"
       >
         <!-- YAXIS -->
         <div class="">
@@ -50,68 +50,67 @@
             </div>
           </a-checkbox-group>
         </div>
-        
 
-<!-- Polynomial Order -->
-        <div class="c">
-          <h4
-            class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-5"
-          >
-            Polynomial Order
-          </h4>
-          <a-slider
-            v-model:value="orderPoly"
-            :max="10"
-            :min="2"
-            :tooltip-visible="true"
-          />
-        </div>
+        <!-- Polynomial Order -->
+        <!-- :tooltip-visible="true" -->
+        <div class="flex w-full justify-between space-x-8 m-0 mt-8">
+          <div class="w-full">
+            <h4
+              class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-5"
+            >
+              Number of raw data
+            </h4>
+            <a-slider
+              v-model:value="numberRaw"
+              :max="this.rawY.length"
+              :min="50"
+              
+            />
+          </div>
+          <div class="w-full">
+            <h4
+              class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-5"
+            >
+              Polynomial Order
+            </h4>
+            <a-slider v-model:value="orderPoly" :max="10" :min="2" />
+          </div>
 
-        <div class="c">
-          <h4
-            class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-5"
-          >
-            Polynominal Precision 
-          </h4>
-          <a-slider
-            v-model:value="precPoly"
-            :max="300"
-            :min="0"
-            :tooltip-visible="true"
-          />
-        </div>
-
-        <div class="c">
-          <h4
-            class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-5"
-          >
-            Number of raw data
-          </h4>
-          <a-slider
-            v-model:value="numberRaw"
-            :max="this.rawY.length"
-            :min="10"
-            :tooltip-visible="true"
-          />
+          <div class="w-full">
+            <h4
+              class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-5"
+            >
+              Polynominal Precision
+            </h4>
+            <a-slider v-model:value="precPoly" :max="300" :min="1" />
+          </div>
         </div>
       </div>
     </div>
-    <span>Predict Accuracy (R2)
-       <a-progress  :percent="(polyR2*100).toFixed(2)" />
-        <!-- <h3> R2: {{polyR2}} </h3> -->
+    <span
+      >Predict Accuracy (R2)
+      <a-progress :percent="(polyR2 * 100).toFixed(2)" />
+      <!-- <h3> R2: {{polyR2}} </h3> -->
     </span>
-    <h3> Polinominal Equation: {{polyString}} </h3>
-   
+    <h3>Polinominal Equation: {{ polyString }}</h3>
+
     <highcharts :options="chartOptions"></highcharts>
 
     <div class="c p-4 mt-4 border-t-slate-400">
-      <h2 class="text-3xl" >Predict in the future</h2>
-      <div class="flexCen space-x-2">
+      <h2 class="text-3xl">Predict in the future</h2>
+      <div class="flexCen space-x-2 mb-4">
         <span>After </span>
-      <!-- <a-slider v-model:value="predictVal" :min="1" :max="100" /> -->
-       <a-input-number v-model:value="predictVal" :min="1" :max="100" style="margin-left: 16px" />
-       <span> days</span>
-       </div>
+        <!-- <a-slider v-model:value="predictVal" :min="1" :max="100" /> -->
+        <a-input-number
+          v-model:value="predictVal"
+          :min="1"
+          :max="100"
+          style="margin-left: 16px"
+        />
+        <span> days</span>
+      </div>
+      <h2 class="text-2xl" v-if="checkRegression.includes('pol')">Polynominal Prediction: {{Math.floor(predictPolyVal)}} cases</h2>
+      <h2 class="text-2xl" v-if="checkRegression.includes('lin')">Linear Prediction: {{Math.floor(predictLinVal)}} cases</h2>
     </div>
 
     <!-- <a-skeleton
@@ -138,12 +137,14 @@ export default {
   },
   data() {
     return {
+      predictPolyVal: '',
+      predictLinVal: '',
       predictVal: 7,
-      numberRaw:30,
+      numberRaw: 50,
       orderPoly: 5,
       precPoly: 10,
-      polyString:null,
-      polyR2:null,
+      polyString: null,
+      polyR2: null,
       show: false,
       clicked: false,
       yType: "linear",
@@ -153,7 +154,7 @@ export default {
         chart: {
           type: "spline",
           zoomBySingleTouch: true,
-          zoomType: "y",
+          zoomType: "xy",
         },
         title: {
           text: "",
@@ -247,7 +248,7 @@ export default {
             },
           ],
         },
-         legend: {
+        legend: {
           enabled: false,
           layout: "horizontal",
           align: "right",
@@ -331,26 +332,29 @@ export default {
       let dataLinear = [],
         dataPolynomial = [];
 
+      this.polyString = resultPolynomial.string;
+      this.polyR2 = resultPolynomial.r2;
+      console.log(
+        " something ",
+        resultPolynomial.predict(resultPolynomial.points.length + 30)
+      );
 
-        this.polyString = resultPolynomial.string
-        this.polyR2=resultPolynomial.r2
-        console.log(" something ",resultPolynomial.predict(resultPolynomial.points.length+30) )
-
-      let k = resultPolynomial.points.length + this.predictVal
+      let k = resultPolynomial.points.length + this.predictVal;
 
       for (let i = 0; i < k; i++) {
-        if(resultPolynomial.points[i]){
-        dataLinear.push(resultLinear.points[i][1]);
+        if (resultPolynomial.points[i]) {
+          dataLinear.push(resultLinear.points[i][1]);
 
-        dataPolynomial.push(resultPolynomial.points[i][1]);}
-        else{
-       dataPolynomial.push(resultPolynomial.predict(i)[1]);
-        dataLinear.push(resultLinear.predict(i)[1])
-          
+          dataPolynomial.push(resultPolynomial.points[i][1]);
+        } else {
+          dataPolynomial.push(resultPolynomial.predict(i)[1]);
+          dataLinear.push(resultLinear.predict(i)[1]);
         }
         // console.log(" c ", resultPolynomial.points[i][1])
       }
       // predictVal
+      this.predictPolyVal = dataPolynomial[dataPolynomial.length-1]
+      this.predictLinVal = dataLinear[dataLinear.length-1]
 
       this.chartOptions.series[2].data = dataLinear;
       this.chartOptions.series[1].data = dataPolynomial;
@@ -360,17 +364,17 @@ export default {
   },
   computed: {},
   watch: {
-      predictVal(){
+    predictVal() {
       this.sample();
     },
-    precPoly(){
+    precPoly() {
       this.sample();
     },
-    numberRaw(){
+    numberRaw() {
       this.sample();
     },
-   
-    orderPoly(){
+
+    orderPoly() {
       this.sample();
     },
     rawY() {
