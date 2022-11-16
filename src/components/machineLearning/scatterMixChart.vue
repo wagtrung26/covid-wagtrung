@@ -75,7 +75,7 @@
           </h4>
           <a-slider
             v-model:value="precPoly"
-            :max="1000"
+            :max="300"
             :min="0"
             :tooltip-visible="true"
           />
@@ -89,7 +89,7 @@
           </h4>
           <a-slider
             v-model:value="numberRaw"
-            :max="1000"
+            :max="this.rawY.length"
             :min="10"
             :tooltip-visible="true"
           />
@@ -126,7 +126,7 @@ export default {
     return {
       numberRaw:30,
       orderPoly: 5,
-      precPoly: 5,
+      precPoly: 10,
       polyString:null,
       polyR2:null,
       show: false,
