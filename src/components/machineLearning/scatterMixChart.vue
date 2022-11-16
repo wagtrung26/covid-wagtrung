@@ -96,9 +96,23 @@
         </div>
       </div>
     </div>
+    <span>Predict Accuracy (R2)
+       <a-progress  :percent="(polyR2*100).toFixed(2)" />
+        <!-- <h3> R2: {{polyR2}} </h3> -->
+    </span>
     <h3> Polinominal Equation: {{polyString}} </h3>
-    <h3> R2: {{polyR2}} </h3>
+   
     <highcharts :options="chartOptions"></highcharts>
+
+    <div class="c p-4 mt-4 border-t-slate-400">
+      <h2 class="text-3xl" >Predict in the future</h2>
+      <div class="flexCen space-x-2">
+        <span>After </span>
+      <!-- <a-slider v-model:value="predictVal" :min="1" :max="100" /> -->
+       <a-input-number v-model:value="predictVal" :min="1" :max="100" style="margin-left: 16px" />
+       <span> days</span>
+       </div>
+    </div>
 
     <!-- <a-skeleton
       v-if="clicked"
@@ -124,6 +138,7 @@ export default {
   },
   data() {
     return {
+      predictVal: 7,
       numberRaw:30,
       orderPoly: 5,
       precPoly: 10,
@@ -254,7 +269,7 @@ export default {
             color: "#0093ff",
             marker: {
               enabled: "true",
-              radius: 2,
+              radius: 4,
               symbol: "circle",
               states: {
                 hover: {
@@ -321,10 +336,21 @@ export default {
         this.polyR2=resultPolynomial.r2
         console.log(" something ",resultPolynomial.predict(resultPolynomial.points.length+30) )
 
-      for (let i = 0; i < resultPolynomial.points.length; i++) {
+      let k = resultPolynomial.points.length + this.predictVal
+
+      for (let i = 0; i < k; i++) {
+        if(resultPolynomial.points[i]){
         dataLinear.push(resultLinear.points[i][1]);
-        dataPolynomial.push(resultPolynomial.points[i][1]);
+
+        dataPolynomial.push(resultPolynomial.points[i][1]);}
+        else{
+       dataPolynomial.push(resultPolynomial.predict(i)[1]);
+        dataLinear.push(resultLinear.predict(i)[1])
+          
+        }
+        // console.log(" c ", resultPolynomial.points[i][1])
       }
+      // predictVal
 
       this.chartOptions.series[2].data = dataLinear;
       this.chartOptions.series[1].data = dataPolynomial;
@@ -334,6 +360,9 @@ export default {
   },
   computed: {},
   watch: {
+      predictVal(){
+      this.sample();
+    },
     precPoly(){
       this.sample();
     },
