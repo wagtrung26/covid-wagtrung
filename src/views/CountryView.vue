@@ -107,7 +107,7 @@
       <!-- 0 Regression -->
       <wrap
         title="Smart Prediction "
-        :subTop="`The trend of cases in ${this.viewCountry.name}`"
+        :subTop="`machine learning Regression applications`"
       >
         <scatterMixChart :rawY="scatterY" @caseType="caseType" />
       </wrap>
