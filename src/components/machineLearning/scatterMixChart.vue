@@ -94,7 +94,7 @@
     </span>
     <h3>Polinominal Equation: {{ polyString }}</h3>
 
-    <highcharts :options="chartOptions"></highcharts>
+    <highcharts :options="chartOptions" ref="hc"></highcharts>
 
     <div class="c p-4 mt-4 border-t-slate-400">
       <h2 class="text-3xl">Predict in the future</h2>
@@ -128,12 +128,14 @@
 <script>
 // import { errorToaster } from "../../shared/service/ErrorHandler.js"
 import regression from "regression";
+// const moment = require("moment");
 export default {
   components: {},
   name: "scatterMix",
   emits: ["caseType"],
   props: {
     rawY: Array,
+    dates: Array
   },
   data() {
     return {
@@ -181,6 +183,7 @@ export default {
 
         xAxis: {
           type: "datetime",
+          // categories:[]
         },
         tooltip: {
           xDateFormat: "%d-%m-%Y",
@@ -214,7 +217,7 @@ export default {
             marker: {
               enabled: true,
             },
-            pointStart: Date.UTC(2020, 0, 23),
+            pointStart: '',
 
             pointInterval: 24 * 3600 * 1000, // one day
           },
@@ -329,6 +332,16 @@ export default {
         this.chartOptions.series[0].name = "Daily Deaths";
       }
 
+      //  this.chartOptions.xAxis.categories = this.dates.slice(
+      //   parseInt(-this.numberRaw)
+      // );
+      // let l = moment(this.dates[this.dates.length - this.numberRaw]).format("YYYY,M,D")
+      
+      let u = this.dates.length - this.numberRaw;
+      let b = this.dates[u]
+      this.chartOptions.plotOptions.series.pointStart = Date.parse(b);
+    
+
       let dataRaw = this.rawY.slice(-this.numberRaw);
       let data = [];
       dataRaw.forEach((i, index) => {
@@ -386,7 +399,7 @@ export default {
       this.sample();
     },
     numberRaw() {
-      this.sample();
+            this.sample();
     },
 
     orderPoly() {

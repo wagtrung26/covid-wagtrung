@@ -10,9 +10,9 @@
     ></div>
 
     <!-- ON LOAD Skelaton -->
-    <div class="m-auto px-20 pt-20 bg-white" v-show="loading">
+    <div class="m-auto px-20 pt-32 bg-white" v-show="loading">
       <div class="">
-        <div class="flex justify-center item-center space-x-4 mb-2">
+        <div class="flex justify-center item-center space-x-4 mb-3">
           <a-skeleton-image size="large" />
           <a-skeleton
             active
@@ -109,7 +109,7 @@
         title="Smart Prediction "
         :subTop="`machine learning Regression applications`"
       >
-        <scatterMixChart :rawY="scatterY" @caseType="caseType" />
+        <scatterMixChart :dates="dates" :rawY="scatterY" @caseType="caseType" />
       </wrap>
       <!--2 DAILY -->
       <wrap
