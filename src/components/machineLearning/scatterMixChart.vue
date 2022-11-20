@@ -1,47 +1,47 @@
 <template>
   <div>
     <!-- <button @click="load">Load</button> -->
-    <div class="flex justify-start mb-6">
+    <div class="flex justify-start sm:space-x-4 space-x-0 space-y-4">
       <div
-        class="sm:flexCen sm:items-start sm:justify-start sm:space-x-8 sm:mt-2 mt-4 flex-wrap w-full"
+        class="sm:flex sm:flex-col items-start sm:space-y-8 flex-wrap w-full sm:w-3/12"
       >
-        <!-- YAXIS -->
-        <div class="">
-          <h4
-            class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-3"
-          >
-            yAxis type
-          </h4>
-          <a-select v-model:value="yType" size="large" class="sm:w-48 w-full">
-            <a-select-option value="logarithmic">Logarithmic</a-select-option>
-            <a-select-option value="linear">Linear</a-select-option>
-          </a-select>
-        </div>
         <!-- CASE TYPE -->
-        <div class="">
+        <div class="w-full">
           <h4
             class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-3"
           >
             Cases type
           </h4>
-          <a-select
-            v-model:value="caseType"
-            size="large"
-            class="sm:w-48 w-full"
-          >
+          <a-select v-model:value="caseType" size="large" class="w-full">
             <a-select-option value="cases">Cases</a-select-option>
             <a-select-option value="deaths">Deaths</a-select-option>
           </a-select>
         </div>
-        <!-- checkbox regression -->
-        <div class="">
+        <!-- YAXIS -->
+        <div class="w-full">
           <h4
-            class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-5"
+            class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-3"
+          >
+            yAxis type
+          </h4>
+          <a-select v-model:value="yType" size="large" class="w-full">
+            <a-select-option value="logarithmic">Logarithmic</a-select-option>
+            <a-select-option value="linear">Linear</a-select-option>
+          </a-select>
+        </div>
+
+        <!-- Polynomial Order -->
+        <!-- :tooltip-visible="true" -->
+
+        <!-- checkbox regression -->
+        <div class="w-full">
+          <h4
+            class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-3"
           >
             Visibility
           </h4>
-          <a-checkbox-group v-model:value="checkRegression">
-            <div class="flex space-x-4">
+          <a-checkbox-group class="w-full" v-model:value="checkRegression">
+            <div class="flex items-start flex-col space-y-4 space-x-0">
               <a-checkbox value="raw">Raw data</a-checkbox>
 
               <a-checkbox value="pol">Polynomial Regression</a-checkbox>
@@ -50,10 +50,19 @@
             </div>
           </a-checkbox-group>
         </div>
+      </div>
 
-        <!-- Polynomial Order -->
-        <!-- :tooltip-visible="true" -->
-        <div class="flex w-full justify-between space-x-8 m-0 mt-8">
+      <div class="sm:w-9/12 w-full">
+        <span
+          >Predict Accuracy (R2)
+          <a-progress :percent="(polyR2 * 100).toFixed(2)" />
+          <!-- <h3> R2: {{polyR2}} </h3> -->
+        </span>
+        <h3>Polinominal Equation: {{ polyString }}</h3>
+
+        <highcharts :options="chartOptions" ref="hc"></highcharts>
+
+        <div class="c p-4 mt-4 border-t-slate-400">
           <div class="w-full">
             <h4
               class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-5"
@@ -64,7 +73,6 @@
               v-model:value="numberRaw"
               :max="this.rawY.length"
               :min="50"
-              
             />
           </div>
           <div class="w-full">
@@ -76,41 +84,27 @@
             <a-slider v-model:value="orderPoly" :max="20" :min="1" />
           </div>
 
-          <!-- <div class="w-full">
-            <h4
-              class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-5"
-            >
-              Polynominal Precision
-            </h4>
-            <a-slider v-model:value="precPoly" :max="300" :min="1" />
-          </div> -->
+          <h2 class="text-3xl">Predict in the future</h2>
+          <div class="flexCen space-x-2 mb-4">
+            <span>After </span>
+            <!-- <a-slider v-model:value="predictVal" :min="1" :max="100" /> -->
+            <a-input-number
+              v-model:value="predictVal"
+              :min="1"
+              :max="100"
+              style="margin-left: 16px"
+            />
+            <span> days</span>
+          </div>
+          <h2 class="text-2xl mb-2" v-if="checkRegression.includes('pol')">
+            Polynominal Prediction: {{ Math.floor(predictPolyVal) }} cases
+          </h2>
+          <h2 class="text-2xl" v-if="checkRegression.includes('lin')">
+            Linear Prediction: {{ Math.floor(predictLinVal) }} cases
+          </h2>
+             <button @click="sample()" v-show="clicked">Apply Filter</button>
         </div>
       </div>
-    </div>
-    <span
-      >Predict Accuracy (R2)
-      <a-progress :percent="(polyR2 * 100).toFixed(2)" />
-      <!-- <h3> R2: {{polyR2}} </h3> -->
-    </span>
-    <h3>Polinominal Equation: {{ polyString }}</h3>
-
-    <highcharts :options="chartOptions" ref="hc"></highcharts>
-
-    <div class="c p-4 mt-4 border-t-slate-400">
-      <h2 class="text-3xl">Predict in the future</h2>
-      <div class="flexCen space-x-2 mb-4">
-        <span>After </span>
-        <!-- <a-slider v-model:value="predictVal" :min="1" :max="100" /> -->
-        <a-input-number
-          v-model:value="predictVal"
-          :min="1"
-          :max="100"
-          style="margin-left: 16px"
-        />
-        <span> days</span>
-      </div>
-      <h2 class="text-2xl" v-if="checkRegression.includes('pol')">Polynominal Prediction: {{Math.floor(predictPolyVal)}} cases</h2>
-      <h2 class="text-2xl" v-if="checkRegression.includes('lin')">Linear Prediction: {{Math.floor(predictLinVal)}} cases</h2>
     </div>
 
     <!-- <a-skeleton
@@ -135,12 +129,12 @@ export default {
   emits: ["caseType"],
   props: {
     rawY: Array,
-    dates: Array
+    dates: Array,
   },
   data() {
     return {
-      predictPolyVal: '',
-      predictLinVal: '',
+      predictPolyVal: "",
+      predictLinVal: "",
       predictVal: 7,
       numberRaw: 50,
       orderPoly: 5,
@@ -161,12 +155,12 @@ export default {
         title: {
           text: "",
         },
-         credits: {
+        credits: {
           enabled: false,
         },
-         exporting:{
-            enabled:false
-          },
+        exporting: {
+          enabled: false,
+        },
 
         subtitle: {
           text: "",
@@ -217,7 +211,7 @@ export default {
             marker: {
               enabled: true,
             },
-            pointStart: '',
+            pointStart: Date.UTC(2020, 0, 23),
 
             pointInterval: 24 * 3600 * 1000, // one day
           },
@@ -323,24 +317,19 @@ export default {
       this.sample();
     },
     sample() {
-       this.$emit("caseType", this.caseType);
-        if (this.caseType == "cases") {
+      this.$emit("caseType", this.caseType);
+      if (this.caseType == "cases") {
         this.chartOptions.series[0].color = "#0093ff";
         this.chartOptions.series[0].name = "Daily Cases";
       } else {
         this.chartOptions.series[0].color = "#d6172d";
         this.chartOptions.series[0].name = "Daily Deaths";
       }
-
+      this.clicked = false;
       //  this.chartOptions.xAxis.categories = this.dates.slice(
       //   parseInt(-this.numberRaw)
       // );
       // let l = moment(this.dates[this.dates.length - this.numberRaw]).format("YYYY,M,D")
-      
-      let u = this.dates.length - this.numberRaw;
-      let b = this.dates[u]
-      this.chartOptions.plotOptions.series.pointStart = Date.parse(b);
-    
 
       let dataRaw = this.rawY.slice(-this.numberRaw);
       let data = [];
@@ -367,12 +356,13 @@ export default {
       //   resultPolynomial.predict(resultPolynomial.points.length + 30)
       // );
 
-      let k = resultPolynomial.points.length + this.predictVal;
-
-      for (let i = 0; i < k; i++) {
+      for (
+        let i = 0;
+        i < resultPolynomial.points.length + this.predictVal;
+        i++
+      ) {
         if (resultPolynomial.points[i]) {
           dataLinear.push(resultLinear.points[i][1]);
-
           dataPolynomial.push(resultPolynomial.points[i][1]);
         } else {
           dataPolynomial.push(resultPolynomial.predict(i)[1]);
@@ -380,9 +370,14 @@ export default {
         }
         // console.log(" c ", resultPolynomial.points[i][1])
       }
+
+      // let u = this.dates.length - this.numberRaw;
+      // let b = this.dates[u];
+      // this.chartOptions.plotOptions.series.pointStart = Date.parse(b);
+
       // predictVal
-      this.predictPolyVal = dataPolynomial[dataPolynomial.length-1]
-      this.predictLinVal = dataLinear[dataLinear.length-1]
+      this.predictPolyVal = dataPolynomial[dataPolynomial.length - 1];
+      this.predictLinVal = dataLinear[dataLinear.length - 1];
 
       this.chartOptions.series[2].data = dataLinear;
       this.chartOptions.series[1].data = dataPolynomial;
@@ -393,17 +388,21 @@ export default {
   computed: {},
   watch: {
     predictVal() {
-      this.sample();
+      // this.sample();
+      this.clicked = true;
     },
     precPoly() {
-      this.sample();
+      // this.sample();
+      this.clicked = true;
     },
     numberRaw() {
-            this.sample();
+      // this.sample();
+      this.clicked = true;
     },
 
     orderPoly() {
-      this.sample();
+      // this.sample();
+      this.clicked = true;
     },
     rawY() {
       this.sample();
