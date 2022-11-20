@@ -73,17 +73,17 @@
             >
               Polynomial Order
             </h4>
-            <a-slider v-model:value="orderPoly" :max="10" :min="2" />
+            <a-slider v-model:value="orderPoly" :max="20" :min="1" />
           </div>
 
-          <div class="w-full">
+          <!-- <div class="w-full">
             <h4
               class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-5"
             >
               Polynominal Precision
             </h4>
             <a-slider v-model:value="precPoly" :max="300" :min="1" />
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -142,7 +142,7 @@ export default {
       predictVal: 7,
       numberRaw: 50,
       orderPoly: 5,
-      precPoly: 10,
+      precPoly: 20,
       polyString: null,
       polyR2: null,
       show: false,
@@ -175,7 +175,7 @@ export default {
             text: null,
           },
           // max: 100,
-          min: 1,
+          // min: 1,
           // type: 'logarithmic',
         },
 
