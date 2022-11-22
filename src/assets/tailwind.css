@@ -7,19 +7,27 @@
 @layer base{
     /* h1{ @apply text-4xl} */
     button{ @apply 
-        py-2 px-2 m-1 
+        p-4 
         /* text-blue-300  */
-        border border-slate-500 
-        bg-white
         rounded-md
     }
-    button:hover{ @apply text-white bg-blue-500}
+    button:disabled{@apply opacity-50 cursor-not-allowed}
 }
 @layer components{
     .blackBtn{ 
         @apply bg-slate-900
         text-white
     }
+    .btn{
+        @apply w-full p-4 rounded-2xl text-slate-800 text-base font-semibold leading-normal bg-transparent border-2 border-slate-200 transition
+    }
+    .btn:hover{
+        @apply  bg-slate-900 text-white border-slate-900 
+    }
+    .btnPri{
+        @apply w-full p-4 rounded-2xl text-white text-base font-semibold leading-normal bg-blue-500 transition
+    }
+    .btnPri:hover{ @apply bg-blue-700 }
     /* h1{ @apply text-4xl} */
     .flexCen{@apply flex justify-center items-center}
 }

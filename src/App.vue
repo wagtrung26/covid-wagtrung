@@ -245,35 +245,8 @@ nav a.router-link-exact-active {
   /* margin: 30px 0px 0; */
   position: relative;
 }
-.btnGroup {
-  position: absolute;
-  top: 20px;
-  left: 180px;
-  z-index: 1;
-}
-.btnGroup2 {
-  position: absolute;
 
-  top: 20px;
-  right: 80px;
-  z-index: 1;
-}
-.btn {
-  padding: 10px;
-  background-color: rgb(229, 229, 229);
-  border: none;
-  margin-right: 5px;
-  transition: all 0.5s;
-  /* box-shadow: 0px 3px 20px rgb(124, 124, 124); */
-}
-.btn:hover {
-  background-color: rgb(198, 198, 198);
-}
-.btn.active {
-  background-color: rgb(15, 19, 47);
-  color: #fff;
-  /* border: 2px solid #333; */
-}
+
 .flex {
   display: flex;
 }

@@ -1,93 +1,40 @@
 <template>
   <div>
     <!-- <button @click="load">Load</button> -->
-    <div class="flex justify-start sm:space-x-4 space-x-0 space-y-4">
+    <div class="flex justify-start sm:space-x-8">
       <div
-        class="sm:flex sm:flex-col items-start sm:space-y-8 flex-wrap w-full sm:w-3/12"
+        class="sm:flex sm:flex-col items-start flex-wrap w-full sm:w-3/12 border-r-2 pr-8 border-neutral-100"
       >
-        <!-- CASE TYPE -->
-        <div class="w-full">
-          <h4
-            class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-3"
+        <div class="w-full mb-10">
+          <p
+            class="text-base leading-normal font-medium text-left text-slate-900 mb-6"
           >
-            Cases type
-          </h4>
-          <a-select v-model:value="caseType" size="large" class="w-full">
-            <a-select-option value="cases">Cases</a-select-option>
-            <a-select-option value="deaths">Deaths</a-select-option>
-          </a-select>
-        </div>
-        <!-- YAXIS -->
-        <div class="w-full">
+            Prediction Filter
+          </p>
           <h4
-            class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-3"
+            class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-3 mt-6"
           >
-            yAxis type
+            Number of raw data
           </h4>
-          <a-select v-model:value="yType" size="large" class="w-full">
-            <a-select-option value="logarithmic">Logarithmic</a-select-option>
-            <a-select-option value="linear">Linear</a-select-option>
-          </a-select>
-        </div>
-
-        <!-- Polynomial Order -->
-        <!-- :tooltip-visible="true" -->
-
-        <!-- checkbox regression -->
-        <div class="w-full">
+          <a-slider
+            v-model:value="numberRaw"
+            :max="this.rawY.length"
+            :min="50"
+          />
           <h4
-            class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-3"
+            class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-3 mt-6"
           >
-            Visibility
+            Polynomial Order
           </h4>
-          <a-checkbox-group class="w-full" v-model:value="checkRegression">
-            <div class="flex items-start flex-col space-y-4 space-x-0">
-              <a-checkbox value="raw">Raw data</a-checkbox>
+          <a-slider v-model:value="orderPoly" :max="20" :min="1" />
 
-              <a-checkbox value="pol">Polynomial Regression</a-checkbox>
-
-              <a-checkbox value="lin">Linear Regression</a-checkbox>
-            </div>
-          </a-checkbox-group>
-        </div>
-      </div>
-
-      <div class="sm:w-9/12 w-full">
-        <span
-          >Predict Accuracy (R2)
-          <a-progress :percent="(polyR2 * 100).toFixed(2)" />
-          <!-- <h3> R2: {{polyR2}} </h3> -->
-        </span>
-        <h3>Polinominal Equation: {{ polyString }}</h3>
-
-        <highcharts :options="chartOptions" ref="hc"></highcharts>
-
-        <div class="c p-4 mt-4 border-t-slate-400">
-          <div class="w-full">
-            <h4
-              class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-5"
-            >
-              Number of raw data
-            </h4>
-            <a-slider
-              v-model:value="numberRaw"
-              :max="this.rawY.length"
-              :min="50"
-            />
-          </div>
-          <div class="w-full">
-            <h4
-              class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-5"
-            >
-              Polynomial Order
-            </h4>
-            <a-slider v-model:value="orderPoly" :max="20" :min="1" />
-          </div>
-
-          <h2 class="text-3xl">Predict in the future</h2>
-          <div class="flexCen space-x-2 mb-4">
+          <h4
+            class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-3 mt-6"
+          >
+            Date Prediction
+          </h4>
+          <div class="flexCen justify-start space-x-2">
             <span>After </span>
-            <!-- <a-slider v-model:value="predictVal" :min="1" :max="100" /> -->
             <a-input-number
               v-model:value="predictVal"
               :min="1"
@@ -96,14 +43,181 @@
             />
             <span> days</span>
           </div>
-          <h2 class="text-2xl mb-2" v-if="checkRegression.includes('pol')">
-            Polynominal Prediction: {{ Math.floor(predictPolyVal) }} cases
-          </h2>
-          <h2 class="text-2xl" v-if="checkRegression.includes('lin')">
-            Linear Prediction: {{ Math.floor(predictLinVal) }} cases
-          </h2>
-             <button @click="sample()" v-show="clicked">Apply Filter</button>
         </div>
+
+        <div class="w-full">
+          <p
+            class="text-base leading-normal font-medium text-left text-slate-900 mb-6"
+          >
+            Chart Filter
+          </p>
+
+          <!-- CASE TYPE -->
+          <div class="">
+            <h4
+              class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-3 mt-6"
+            >
+              Cases type
+            </h4>
+            <a-select v-model:value="caseType" size="large" class="w-full">
+              <a-select-option value="cases">Cases</a-select-option>
+              <a-select-option value="deaths">Deaths</a-select-option>
+            </a-select>
+          </div>
+          <!-- YAXIS -->
+          <div class="">
+            <h4
+              class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-3 mt-6"
+            >
+              yAxis type
+            </h4>
+            <a-select v-model:value="yType" size="large" class="w-full">
+              <a-select-option value="logarithmic">Logarithmic</a-select-option>
+              <a-select-option value="linear">Linear</a-select-option>
+            </a-select>
+          </div>
+          <!-- checkbox regression -->
+          <div class="">
+            <h4
+              class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-3 mt-6"
+            >
+              Visibility
+            </h4>
+            <a-checkbox-group class="w-full" v-model:value="checkRegression">
+              <div class="flex items-start flex-col space-y-4 space-x-0">
+                <a-checkbox value="raw">Raw data</a-checkbox>
+
+                <a-checkbox value="pol">Polynomial Regression</a-checkbox>
+
+                <a-checkbox value="lin">Linear Regression</a-checkbox>
+              </div>
+            </a-checkbox-group>
+          </div>
+        </div>
+      </div>
+
+      <div class="sm:w-9/12 w-full">
+        <div
+          class="flexCen bg-white p-6 shadow-xl shadow-slate-200/50 rounded-2xl mb-10 space-x-2"
+        >
+          <div class="w-full sm:w-3/12">
+            <a-tooltip placement="top">
+              <template #title>Predict Acccuracy(R2)</template>
+              <a-progress
+                type="dashboard"
+                :width="150"
+                :percent="(polyR2 * 100).toFixed(1)"
+              />
+            </a-tooltip>
+          </div>
+
+          <div class="w-full flex flex-col text-left justify-start sm:w-6/12">
+            <h2
+              class="text-2xl leading-normal font-medium text-left text-slate-900 mb-6"
+            >
+              Prediction after
+              <span class="px-3 rounded border">{{ predictVal }} days</span>
+            </h2>
+
+            <div class="flex flex-wrap justify-start space-x-10">
+              <div class="" v-if="checkRegression.includes('pol')">
+                <div
+                  class="text-left inline-flex items-center border-l-6 border-[#ff008f] font-semibold tracking-wider text-slate-500 dark:text-slate-400/80 text-xs uppercase mb-4 truncate"
+                >
+                  <span class="w-2 h-4 bg-[#ff008f] rounded-full mr-2"></span>
+                  Polinominal
+                </div>
+                <h2
+                  class="text-left text-5xl font-semibold tracking-normal text-slate-900 dark:text-white mb-2"
+                >
+                  {{ Math.floor(predictPolyVal) }}
+                </h2>
+                <div
+                  class="inline-flex items-center bg-slate-100 px-2 rounded text-slate-500"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6"
+                    v-if="predictUpDown > 0"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941"
+                    />
+                  </svg>
+
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6"
+                     v-if="predictUpDown <= 0"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M2.25 6L9 12.75l4.286-4.286a11.948 11.948 0 014.306 6.43l.776 2.898m0 0l3.182-5.511m-3.182 5.51l-5.511-3.181"
+                    />
+                  </svg>
+
+                  <p>
+                    {{ predictUpDown }}
+                  </p>
+                </div>
+              </div>
+              <div class="" v-if="checkRegression.includes('lin')">
+                <div
+                  class="text-left inline-flex items-center border-l-6 border-[#ff008f] font-semibold tracking-wider text-slate-500 dark:text-slate-400/80 text-xs uppercase mb-4 truncate"
+                >
+                  <span class="w-2 h-4 bg-[#f56500] rounded-full mr-2"></span>
+                  Linear
+                </div>
+                <h2
+                  class="text-left text-5xl font-semibold tracking-normal text-slate-900 dark:text-white"
+                >
+                  {{ Math.floor(predictLinVal) }}
+                </h2>
+              </div>
+            </div>
+          </div>
+
+          <div class="sm:w-3/12">
+            <button
+              class="btnPri flexCen"
+              :disabled="!clicked"
+              @click="sample()"
+            >
+              Predict Now
+
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 ml-2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <highcharts :options="chartOptions" ref="hc"></highcharts>
+        <h3 class="text-left p-4 bg-slate-50 mt-4 rounded-2xl leading-normal">
+          Polinominal Equation: {{ polyString }}
+        </h3>
       </div>
     </div>
 
@@ -385,7 +499,23 @@ export default {
       this.clicked = false;
     },
   },
-  computed: {},
+  computed: {
+    predictUpDown() {
+      if (this.predictPolyVal > 0) {
+        if (this.rawY[this.rawY.length - 1] > this.predictPolyVal) {
+          return (
+            this.rawY[this.rawY.length - 1] - Math.floor(this.predictPolyVal)
+          );
+        } else {
+          return (
+            Math.floor(this.predictPolyVal) - this.rawY[this.rawY.length - 1]
+          );
+        }
+      } else {
+        return 0 - this.rawY[this.rawY.length - 1];
+      }
+    },
+  },
   watch: {
     predictVal() {
       // this.sample();
