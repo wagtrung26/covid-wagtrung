@@ -658,6 +658,7 @@ export default {
       key: "1",
       loading: null,
       allCountries: [],
+      recommendedData: [],
       userCountry: {},
       viewCountry: {},
       caseArrayValues: [],
@@ -752,6 +753,37 @@ export default {
     },
     async getAllCountries() {
       try {
+        // "updated": 0,
+        // "country": "string",
+        // "countryInfo": {
+        //   "_id": 0,
+        //   "iso2": "string",
+        //   "iso3": "string",
+        //   "lat": 0,
+        //   "long": 0,
+        //   "flag": "string"
+        // },
+        // "cases": 0,
+        // "todayCases": 0,
+        // "deaths": 0,
+        // "todayDeaths": 0,
+        // "recovered": 0,
+        // "todayRecovered": 0,
+        // "active": 0,
+        // "critical": 0,
+        // "casesPerOneMillion": 0,
+        // "deathsPerOneMillion": 0,
+        // "tests": 0,
+        // "testsPerOneMillion": 0,
+        // "population": 0,
+        // "continent": 0,
+        // "oneCasePerPeople": 0,
+        // "oneDeathPerPeople": 0,
+        // "oneTestPerPeople": 0,
+        // "activePerOneMillion": 0,
+        // "recoveredPerOneMillion": 0,
+        // "criticalPerOneMillion": 0
+
         let ArrayCountries = await api.getAllCountries();
         let rawArrayCountries = ArrayCountries.data;
         let filteredArrayCountries = rawArrayCountries.map((countryItem) => {
@@ -762,9 +794,8 @@ export default {
             ...countryItem,
           };
         });
-
+      
         this.allCountries = filteredArrayCountries;
-        // console.log(" 1 this.allCountries ");
       } catch (e) {
         console.log(" allCountries err ", e);
       }
@@ -802,6 +833,7 @@ export default {
         .then(() => {
           this.loading = false;
           this.visible = false;
+          this.recommend();
         });
     },
     heatType(type = "cases") {
@@ -922,6 +954,22 @@ export default {
       });
       this.continentArray = _continentArray;
       this.continentTotal = contiC.data;
+    },
+    recommend() {
+       this.recommendedData = [];
+        this.allCountries.forEach((i) => {
+          this.recommendedData.push([
+            i.todayCases,
+            i.casesPerOneMillion,
+            i.oneCasePerPeople,
+            i.todayDeaths,
+            i.deathsPerOneMillion,
+            i.oneDeathPerPeople,
+          ]);
+        });
+      const skmeans = require("skmeans");
+      var res = skmeans(this.recommendedData, 3);
+      console.log(" res ", res);
     },
     async firstLoad() {
       this.visible = true;

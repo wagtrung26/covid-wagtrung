@@ -1,7 +1,13 @@
 module.exports = {
   root: true,
+  globals: {
+    'process': true
+  },
   env: {
-    node: true
+    'node': true,
+    'commonjs': true,
+    'browser': true,
+    'es6': true
   },
   'extends': [
     'plugin:vue/vue3-essential',
