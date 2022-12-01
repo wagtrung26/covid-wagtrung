@@ -104,6 +104,35 @@
         />
       </div>
 
+      <!-- Recommended countries -->
+      <!-- i.todayCases,
+          i.casesPerOneMillion,
+          i.oneCasePerPeople,
+          i.todayDeaths,
+          i.deathsPerOneMillion,
+          i.oneDeathPerPeople, -->
+          <div class="">
+      <h2 class="text-slate-900 text-2xl font-semibold text-left leading-normal ">Because you view {{viewCountry.name}}</h2>
+      <p  class="text-slate-500 text-sm font-normal text-left mb-6 ">Content-based recommendation - K Means - Cluster: {{cluster}}</p>
+      <div class="flex flex-row w-full flex-wrap space-x-4 space-y-4 m-0">
+        <div v-for="(item, index) in recommendedData" :key="index">
+          <div
+            class="p-6 bg-white cursor-pointer rounded border-2 border-transparent hover:border-blue-500"
+            @click="countryClick(item.code)"
+          >
+            <span class="font-semibold text-slate-900 text-lg mb-2">{{ item.name }}</span>
+         
+          <!-- <p>todayCases: {{item.todayCases}}</p> -->
+          <p>casesPerOneMillion: {{numF(item.casesPerOneMillion)}}</p>
+          <p>oneCasePerPeople: {{item.oneCasePerPeople}}</p>
+          <!-- <p>todayDeaths: {{item.todayDeaths}}</p> -->
+          <p>deathsPerOneMillion: {{numF(item.deathsPerOneMillion)}}</p>
+          <p>oneDeathPerPeople: {{item.oneDeathPerPeople}}</p>
+           </div>
+        </div>
+      </div>
+      </div>
+
       <!-- 0 Regression -->
       <wrap
         title="Smart Prediction "
@@ -626,6 +655,7 @@ import axios from "axios";
 import selectCountry from "@/components/selectCountry.vue";
 import heatChart from "@/components/chart/heatChart.vue";
 import scatterMixChart from "@/components/machineLearning/scatterMixChart.vue";
+// import { relativeTimeRounding } from "moment";
 // import { mapGetters } from "vuex";
 const moment = require("moment");
 
@@ -659,6 +689,8 @@ export default {
       loading: null,
       allCountries: [],
       recommendedData: [],
+      cluster: null,
+
       userCountry: {},
       viewCountry: {},
       caseArrayValues: [],
@@ -794,7 +826,7 @@ export default {
             ...countryItem,
           };
         });
-      
+
         this.allCountries = filteredArrayCountries;
       } catch (e) {
         console.log(" allCountries err ", e);
@@ -956,20 +988,40 @@ export default {
       this.continentTotal = contiC.data;
     },
     recommend() {
-       this.recommendedData = [];
-        this.allCountries.forEach((i) => {
-          this.recommendedData.push([
-            i.todayCases,
-            i.casesPerOneMillion,
-            i.oneCasePerPeople,
-            i.todayDeaths,
-            i.deathsPerOneMillion,
-            i.oneDeathPerPeople,
-          ]);
-        });
+      let rawRecommend = [];
+
+      this.allCountries.forEach((i) => {
+        rawRecommend.push([
+          i.casesPerOneMillion,
+          i.oneCasePerPeople,
+          i.deathsPerOneMillion,
+          i.oneDeathPerPeople,
+        ]);
+      });
       const skmeans = require("skmeans");
-      var res = skmeans(this.recommendedData, 3);
+      var res = skmeans(rawRecommend, 10);
       console.log(" res ", res);
+
+      // res.idxs[this.viewCountryIndex]
+      let arr = [];
+      let KmeansArr = res.idxs;
+      KmeansArr.forEach((i, index) => {
+        if (i == KmeansArr[this.viewCountryIndex]) {
+          arr.push(index);
+        }
+      });
+
+      this.recommendedData = [];
+      arr.forEach((i) => {
+        this.recommendedData.push(this.allCountries[i]);
+      });
+
+      this.cluster = KmeansArr[this.viewCountryIndex];
+
+      // console.log(" viewCountryIndex ", this.viewCountryIndex);
+      // console.log(" viewCountry ", this.allCountries[this.viewCountryIndex]);
+      // console.log(" viewCountry Clusster ", KmeansArr[this.viewCountryIndex]);
+      // console.log(" this.recommendedData  ", this.recommendedData );
     },
     async firstLoad() {
       this.visible = true;
@@ -990,6 +1042,15 @@ export default {
 
   computed: {
     // ...mapGetters(["allCountries", "userCountry"]),
+    viewCountryIndex() {
+      let k = null;
+      this.allCountries.forEach((i, index) => {
+        if (i.code == this.viewCountry.code) {
+          k = index;
+        }
+      });
+      return k;
+    },
   },
 
   created() {
