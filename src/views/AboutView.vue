@@ -24,9 +24,8 @@
     <world-chart :allCountries="filteredCountries" :vVal="vVal" />
 
     <dailyChart
-      :dailyCaseArrayValues="dCases"
-      :dailyRecoverArrayValues="dRecovered"
-      :dailyDeathArrayValues="dDeaths"
+      :y="dailyY"
+      @type="dailyType"
       :dates="dates"
     ></dailyChart>
 
@@ -108,6 +107,7 @@ export default {
   props: {},
   data() {
     return {
+      dailyY: [],
       vVal: "cases",
       world: {},
       worldHistory: {},
@@ -135,6 +135,18 @@ export default {
     };
   },
   methods: {
+      dailyType(type = "cases") {
+     
+      if (type == "cases") {
+        this.dailyY = this.dCases;
+      } else if (type == "deaths") {
+        this.dailyY = this.dDeaths;
+      } else if (type == "recover") {
+        this.dailyY = this.dRecovered;
+      } else {
+        this.dailyY = this.dCases;
+      }
+    },
     //  VueX
     // ...mapMutations(["DAILY_CALCULATE"]),
     // ...mapActions(["handle"]),
@@ -154,7 +166,7 @@ export default {
     CONTINENT_CALCULATE() {
        const _ = require("lodash");
       let k = _.orderBy(this.allCountriesVuex, ["cases"], ["desc"])
-      console.log(" this.allCountriesVuex ",k)
+      // console.log(" this.allCountriesVuex ",k)
       k.forEach((item) => {
         let name = item.country;
         if (item.continent == "Asia") {
@@ -178,7 +190,7 @@ export default {
         }
 
       });
-      console.log(" as ", this.Asia);
+      // console.log(" as ", this.Asia);
     },
 
     changeMap() {
@@ -201,6 +213,7 @@ export default {
       this.dCases = this.DAILY_CALCULATE(this.cases);
       this.dDeaths = this.DAILY_CALCULATE(this.deaths);
       this.dRecovered = this.DAILY_CALCULATE(this.recovered);
+      this.dailyType()
       // continent
       this.CONTINENT_CALCULATE();
       this.Continents.forEach((item) => {
@@ -213,7 +226,7 @@ export default {
       this.continentDrill = _.orderBy(this.continentDrill, ["y"], ["desc"]);
 
 
-      console.log("  this.continentDrill ", this.continentDrill);
+      // console.log("  this.continentDrill ", this.continentDrill);
     },
   },
   computed: {

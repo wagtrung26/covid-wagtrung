@@ -9,27 +9,44 @@
 
     <!-- <p>this is bar chart</p> -->
     <div class="chart " style="margin:0">
-      <div class="btnGroup TL">
-        <button
-          class="btn"
-          @click="clickSliceData('top10')"
-          :class="{ active: this.sliceData === 'top10' }"
+      
+
+  <div class="flex justify-start my-4">
+    <div class="sm:flexCen sm:items-end sm:justify-start sm:space-x-8 sm:mt-2 mt-4 sm:space-y-0 space-y-6 flex-wrap w-full">
+      <div class="">
+        <h4
+          class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-3"
         >
-          Top 10
-        </button>
-        <button
-          class="btn"
-          @click="clickSliceData('all')"
-          :class="{ active: this.sliceData === 'all' }"
-        >
-          All countries in {{ viewCountry.continent }}
-        </button>
+          Top countries
+        </h4>
+        <a-select v-model:value="sliceData" size="large" class="sm:w-48 w-full">
+          <a-select-option value="top10">Top 10</a-select-option>
+          <a-select-option value="all">All countries in {{ viewCountry.continent }}</a-select-option>
+        </a-select>
       </div>
 
-      <div class="btnGroup2 TR">
-        <button class="btn" @click="clickTotalOrNew('total')" :class="{ active: this.totalOrNew === 'total' }">Total cases</button>
-        <button class="btn" @click="clickTotalOrNew('new')" :class="{ active: this.totalOrNew === 'new' }">New cases</button>
+         <div class="">
+        <h4
+          class="text-left font-semibold tracking-wider text-slate-400/70 text-xs uppercase mb-3"
+        >
+          Case Type
+        </h4>
+        <a-select v-model:value="totalOrNew" size="large" class="sm:w-48 w-full">
+          <a-select-option value="total">Total case</a-select-option>
+          <a-select-option value="new">Today case</a-select-option>
+        </a-select>
       </div>
+     
+    </div>
+
+    
+   
+     
+   
+  </div>
+
+
+
       <highcharts :options="chartOptions" ref="chart"></highcharts>
     </div>
 
@@ -205,17 +222,23 @@ export default {
         this.chartOptions.xAxis.categories = xListCountriesName.slice(0, 10);
       }
     },
-    clickSliceData(x) {
-      this.sliceData = x;
-      this.addDataToBarChart();
-    },
-    clickTotalOrNew(x) {
-      this.totalOrNew = x;
-      this.addDataToBarChart();
-    },
+    // clickSliceData(x) {
+    //   this.sliceData = x;
+    //   this.addDataToBarChart();
+    // },
+    // clickTotalOrNew(x) {
+    //   this.totalOrNew = x;
+    //   this.addDataToBarChart();
+    // },
   },
   computed: {},
   watch: {
+     sliceData() {
+      this.sample();
+    },
+    totalOrNew(){
+      this.sample();
+    },
     continentArray() {
       this.sample();
     },

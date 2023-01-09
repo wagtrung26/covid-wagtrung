@@ -243,12 +243,12 @@ export default {
 </script>
 
 <style scoped>
-.btnGroup2 {
+/* .btnGroup2 {
   top: -8px;
   right: 0px;
 }
 .btnGroup {
   top: -8px;
   left: 0px;
-}
+} */
 </style>
