@@ -76,7 +76,7 @@
             <p
               class="text-left text-sm tracking-wider font-semibold text-slate-500 uppercase mb-2"
             >
-              HIghlight
+              Highlight
             </p>
             <h3
               class="text-left text-3xl font-semibold tracking-tight text-slate-900"

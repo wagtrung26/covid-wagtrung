@@ -111,26 +111,50 @@
           i.todayDeaths,
           i.deathsPerOneMillion,
           i.oneDeathPerPeople, -->
-          <div class="">
-      <h2 class="text-slate-900 text-2xl font-semibold text-left leading-normal ">Because you view {{viewCountry.name}}</h2>
-      <p  class="text-slate-500 text-sm font-normal text-left mb-6 ">Content-based recommendation - K Means - Cluster: {{cluster}}</p>
-      <div class="flex flex-row w-full flex-wrap space-x-4 space-y-4 m-0">
-        <div v-for="(item, index) in recommendedData" :key="index">
+      <div class="mt-10">
+        <h2
+          class="text-slate-900 text-3xl font-semibold text-left leading-relaxed"
+        >
+          Because you view {{ viewCountry.name }}
+        </h2>
+        <p class="text-slate-500 text-base font-normal text-left mb-10">
+          <span class="font-semibold">{{recommendedData.length-1}} Countries</span> with similar epidemic status to {{ viewCountry.name }} ( K-Mean Cluster: {{ cluster }} )
+        </p>
+        <div class="flex flex-row w-full flex-wrap">
           <div
-            class="p-6 bg-white cursor-pointer rounded border-2 border-transparent hover:border-blue-500"
-            @click="countryClick(item.code)"
+            class="sm:w-1/4 w-full flex-auto mr-4 mb-4"
+            v-for="(item, index) in recommendedData"
+            :key="index"
           >
-            <span class="font-semibold text-slate-900 text-lg mb-2">{{ item.name }}</span>
-         
-          <!-- <p>todayCases: {{item.todayCases}}</p> -->
-          <p>casesPerOneMillion: {{numF(item.casesPerOneMillion)}}</p>
-          <p>oneCasePerPeople: {{item.oneCasePerPeople}}</p>
-          <!-- <p>todayDeaths: {{item.todayDeaths}}</p> -->
-          <p>deathsPerOneMillion: {{numF(item.deathsPerOneMillion)}}</p>
-          <p>oneDeathPerPeople: {{item.oneDeathPerPeople}}</p>
-           </div>
+            <div
+              class="p-6 bg-white flex divide-x items-start rounded-2xl shadow-xl shadow-slate-200 cursor-pointer border-2 border-transparent hover:border-blue-500"
+              @click="countryClick(item.code)"
+            >
+              <div class="max-w-[80px] mr-6">
+                <img class="h-12" :src="item.flag" />
+                <div class="text-left text-slate-500 mt-4">
+                  <h4
+                    class="text-lg leading-relaxed font-semibold tracking-tight text-slate-900 truncate"
+                  >
+                    {{ item.name }}
+                  </h4>
+                  <p class="text-sm truncate">{{ item.continent }}</p>
+                </div>
+              </div>
+
+              <!-- <p>todayCases: {{item.todayCases}}</p> -->
+              <div
+                class="text-slate-500 text-left leading-relaxed space-y-2 pl-6"
+              >
+                <p>casesPerOneMillion: {{ numF(item.casesPerOneMillion) }}</p>
+                <p>oneCasePerPeople: {{ item.oneCasePerPeople }}</p>
+                <!-- <p>todayDeaths: {{item.todayDeaths}}</p> -->
+                <p>deathsPerOneMillion: {{ numF(item.deathsPerOneMillion) }}</p>
+                <p>oneDeathPerPeople: {{ item.oneDeathPerPeople }}</p>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
       </div>
 
       <!-- 0 Regression -->

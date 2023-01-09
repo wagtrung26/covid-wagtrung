@@ -1,5 +1,16 @@
 <template>
-  <h3>this is VUE</h3>
+  <div class="mt-20 mb-5">
+    <p
+      class="text-center text-base tracking-wider font-semibold text-slate-500 uppercase mb-4"
+    >
+      COUNTRIES COMPARISION
+    </p>
+    <h3
+      class="text-center text-7xl font-semibold tracking-tight text-slate-900"
+    >
+      Continents
+    </h3>
+  </div>
   <highcharts class="hc" :options="chartOptions" ref="chart"></highcharts>
 </template>
 
@@ -32,7 +43,7 @@ export default {
         chart: {
           type: "bar",
           height: 500,
-          backgroundColor: "rgba(0,0,0,0)"
+          backgroundColor: "rgba(0,0,0,0)",
         },
         credits: {
           enabled: false,
@@ -66,7 +77,6 @@ export default {
         },
         plotOptions: {
           bar: {
-            
             groupPadding: 0,
             // pointPadding: 0,
           },

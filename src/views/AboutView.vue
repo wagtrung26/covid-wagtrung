@@ -1,5 +1,5 @@
 <template>
-<div class="pt-20">
+<div class="pt-32">
   <div class="mx-auto bg-white p-8 container rounded-2xl shadow-2xl">
     <!-- START-Template -->
     <!-- <p>{{ allCountriesVuex }}</p> -->
@@ -23,6 +23,19 @@
     </div>
     <world-chart :allCountries="filteredCountries" :vVal="vVal" />
 
+
+<div class="mt-20 mb-5">
+    <p
+      class="text-center text-base tracking-wider font-semibold text-slate-500 uppercase mb-4"
+    >
+      WORLDWIDE TIMELINE TRACKING
+    </p>
+    <h3
+      class="text-center text-7xl font-semibold tracking-tight text-slate-900"
+    >
+      Daily Status
+    </h3>
+  </div>
     <dailyChart
       :y="dailyY"
       @type="dailyType"
@@ -36,6 +49,19 @@
       :dates="dates"
     ></stackChart>
 
+
+<div class="mt-20 mb-5">
+    <p
+      class="text-center text-base tracking-wider font-semibold text-slate-500 uppercase mb-4"
+    >
+      WORLDWIDE TIMELINE TRACKING
+    </p>
+    <h3
+      class="text-center text-7xl font-semibold tracking-tight text-slate-900"
+    >
+      Total Status
+    </h3>
+  </div>
     <lineChart
       :caseArrayValues="cases"
       :recoverArrayValues="recovered"
@@ -61,6 +87,19 @@
       :SouthAmerica="SouthAmerica"
       :Oceania="Oceania"
     />
+
+    <div class="mt-20 mb-5">
+    <p
+      class="text-center text-base tracking-wider font-semibold text-slate-500 uppercase mb-4"
+    >
+      COUNTRIES COMPARISION
+    </p>
+    <h3
+      class="text-center text-7xl font-semibold tracking-tight text-slate-900"
+    >
+      Worldwide Table
+    </h3>
+  </div>
 
     <tableC :continentArray="allCountriesVuex" />
 

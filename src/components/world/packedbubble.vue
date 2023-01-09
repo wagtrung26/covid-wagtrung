@@ -1,5 +1,16 @@
 <template>
-  <h3>this is VUE</h3>
+  <div class="mt-20 mb-5">
+    <p
+      class="text-center text-base tracking-wider font-semibold text-slate-500 uppercase mb-4"
+    >
+      COUNTRIES COMPARISION
+    </p>
+    <h3
+      class="text-center text-7xl font-semibold tracking-tight text-slate-900"
+    >
+      All Countries
+    </h3>
+  </div>
   <highcharts :options="chartOptions" ref="chart"></highcharts>
 </template>
 

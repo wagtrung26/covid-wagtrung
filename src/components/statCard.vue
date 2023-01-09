@@ -36,9 +36,9 @@
   <!-- border-8	border-white	 [clip-path:circle()] -->
 <!-- Stat -->
   <div
-    class="flex justify-center items-center flex-wrap mx-auto bg-white max-w-screen-lg shadow-2xl shadow-slate-400/60 rounded-3xl p-8 space-x-8"
+    class="flex justify-center items-center sm:flex-nowrap flex-wrap mx-auto bg-white max-w-screen-lg shadow-2xl shadow-slate-400/60 rounded-3xl p-8 space-x-8"
   >
-    <div class="px-8 flexCen flex-col">
+    <div class="flex-initial px-8 flexCen flex-col">
       <p
         class="text-sm tracking-wider font-semibold text-slate-400 uppercase mb-4"
       >
@@ -60,7 +60,7 @@
       </p>
       <sparklineChart :typeC="'cases'" :data="dailyCaseArrayValues" />
     </div>
-    <div class="px-8 flexCen flex-col">
+    <div class="flex-initial px-8 flexCen flex-col">
       <p
         class="text-sm tracking-wider font-semibold text-slate-400 uppercase mb-4"
       >
@@ -81,7 +81,7 @@
       </p>
       <sparklineChart :typeC="'recover'" :data="dailyRecoverArrayValues" />
     </div>
-    <div class="px-8 flexCen flex-col">
+    <div class="flex-initial px-8 flexCen flex-col">
       <p
         class="text-sm tracking-wider font-semibold text-slate-400 uppercase mb-4"
       >
