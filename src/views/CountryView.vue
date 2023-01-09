@@ -111,27 +111,35 @@
           i.todayDeaths,
           i.deathsPerOneMillion,
           i.oneDeathPerPeople, -->
-      <div class="mt-10">
-        <h2
-          class="text-slate-900 text-3xl font-semibold text-left leading-relaxed"
+      <div class="mt-32">
+        <p
+          class="text-center text-base tracking-wider font-semibold text-slate-500 uppercase mb-4"
         >
-          Because you view {{ viewCountry.name }}
-        </h2>
-        <p class="text-slate-500 text-base font-normal text-left mb-10">
-          <span class="font-semibold">{{recommendedData.length-1}} Countries</span> with similar epidemic status to {{ viewCountry.name }} ( K-Mean Cluster: {{ cluster }} )
+          RECOMMENDATION
         </p>
+        <h3
+          class="text-center text-7xl font-semibold tracking-tight text-slate-900"
+        >
+          {{ recommendedData.length - 1 }} Countries
+        </h3>
+
+        <div class="text-slate-500 text-lg font-normal text center mt-4 mb-12">
+         
+          With similar epidemic situation to <span class="text-slate-800 font-semibold">{{ viewCountry.name }}</span>
+           <!-- ( K-Mean Cluster: {{ cluster }} ) -->
+        </div>
         <div class="flex flex-row w-full flex-wrap">
           <div
-            class="sm:w-1/4 w-full flex-auto mr-4 mb-4"
+            class="sm:w-1/4 w-full flex-auto mr-6 mb-6"
             v-for="(item, index) in recommendedData"
             :key="index"
           >
             <div
-              class="p-6 bg-white flex divide-x items-start rounded-2xl shadow-xl shadow-slate-200 cursor-pointer border-2 border-transparent hover:border-blue-500"
+              class="p-6 bg-white flex divide-x items-start rounded-2xl shadow-xl shadow-slate-300 cursor-pointer border-2 border-transparent hover:border-blue-500"
               @click="countryClick(item.code)"
             >
               <div class="max-w-[80px] mr-6">
-                <img class="h-12" :src="item.flag" />
+                <img class="h-12 rounded-lg" :src="item.flag" />
                 <div class="text-left text-slate-500 mt-4">
                   <h4
                     class="text-lg leading-relaxed font-semibold tracking-tight text-slate-900 truncate"
@@ -1012,6 +1020,7 @@ export default {
       this.continentTotal = contiC.data;
     },
     recommend() {
+      // K-MEAN
       let rawRecommend = [];
 
       this.allCountries.forEach((i) => {
@@ -1023,8 +1032,8 @@ export default {
         ]);
       });
       const skmeans = require("skmeans");
-      var res = skmeans(rawRecommend, 10);
-      console.log(" res ", res);
+      var res = skmeans(rawRecommend, 20);
+      // console.log(" res ", res);
 
       // res.idxs[this.viewCountryIndex]
       let arr = [];
