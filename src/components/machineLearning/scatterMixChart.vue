@@ -258,7 +258,7 @@ export default {
       show: false,
       clicked: false,
       yType: "linear",
-      checkRegression: ["raw", "pol", "lin"],
+      checkRegression: ["raw","pol","lin"],
       caseType: "cases",
       chartOptions: {
         chart: {
@@ -412,7 +412,7 @@ export default {
           },
           {
             name: "Linear regression",
-            visible: false,
+            // visible: true,
             color: "#ff7600",
             lineWidth: 3,
             data: [],
