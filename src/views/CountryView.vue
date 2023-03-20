@@ -141,7 +141,7 @@
               @click="countryClick(item.code)"
             >
               <div class="max-w-[80px] mr-6">
-                <img class="h-12 rounded-lg" :src="item.flag" />
+                <img v-if="item.flag" class="h-12 rounded-lg" :src="item.flag" />
                 <div class="text-left text-slate-500 mt-4">
                   <h4
                     class="text-lg leading-relaxed font-semibold tracking-tight text-slate-900 truncate"

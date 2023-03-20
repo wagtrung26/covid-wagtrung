@@ -38,6 +38,7 @@
                     >{{ index + 1 }}</span
                   >
                   <img
+                  v-if="country.flag"
                     class="h-9 mr-2 [clip-path:circle()]"
                     :src="country.flag"
                     alt=""

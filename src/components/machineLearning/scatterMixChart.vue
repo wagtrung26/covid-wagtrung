@@ -258,7 +258,7 @@ export default {
       show: false,
       clicked: false,
       yType: "linear",
-      checkRegression: ["raw", "pol"],
+      checkRegression: ["raw", "pol", "lin"],
       caseType: "cases",
       chartOptions: {
         chart: {
