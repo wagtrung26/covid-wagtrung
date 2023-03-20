@@ -32,5 +32,7 @@ app.use(store)
 .use(HighchartsVue)
 .use(VueApexCharts)
 .use(Antd)
+
+
 // .use(VueProgressBar, options)
 .mount('#app')
