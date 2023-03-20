@@ -966,6 +966,7 @@ export default {
     handleGetForCountry(hisC, vacC, contiC) {
       //TOTAL HISTORY ------------
       let listTimeline = hisC.data.timeline;
+      if(listTimeline){
       //xAsis
       let rawDates = Object.keys(listTimeline.deaths);
       let modifyDate = [];
@@ -991,7 +992,9 @@ export default {
       //DAILY CASE HISTORY - total[last] - total[last-1]
       this.dailyType();
       this.caseType();
+      }
 
+      
       // VACCINE -------
       let listTimelineVacC = vacC.data.timeline;
       let newVaccineArrayValues = Object.values(listTimelineVacC);
@@ -1064,6 +1067,8 @@ export default {
       await this.getUserCountry();
 
       let code = this.userCountry.countryCode;
+      console.log(" user country:", code, this.userCountry.countryName, this.userCountry.request)
+
       this.countryClick(code);
     },
   },

@@ -243,6 +243,7 @@ export default {
       this.world = res.data;
       this.worldHistory = his.data;
       this.Continents = con.data;
+      if(this.worldHistory){
       // total
       this.cases = _.values(this.worldHistory.cases);
       this.deaths = Object.values(this.worldHistory.deaths);
@@ -253,6 +254,8 @@ export default {
       this.dDeaths = this.DAILY_CALCULATE(this.deaths);
       this.dRecovered = this.DAILY_CALCULATE(this.recovered);
       this.dailyType()
+      }
+      if(this.Continents){
       // continent
       this.CONTINENT_CALCULATE();
       this.Continents.forEach((item) => {
@@ -263,7 +266,7 @@ export default {
         });
       });
       this.continentDrill = _.orderBy(this.continentDrill, ["y"], ["desc"]);
-
+      }
 
       // console.log("  this.continentDrill ", this.continentDrill);
     },

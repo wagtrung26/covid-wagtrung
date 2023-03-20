@@ -5,7 +5,8 @@
       <div class="case mr">
         <h5>CASES</h5>
         <h1 class="stat-lg">
-          <count-up :end-val="world.cases" :duration="1"></count-up>
+          <!-- <count-up :end-val="world.cases" :duration="1"></count-up> -->
+          {{numF(world.cases)}}
         </h1>
         <p>+ {{ numeralFunc(world.todayCases) }}</p>
         <sparklineChart :typeC="'cases'" :data="cases" />
@@ -14,7 +15,9 @@
       <div class="rec mr">
         <h5>RECOVERED</h5>
         <h1 class="stat-lg">
-          <count-up :end-val="world.recovered" :duration="1"></count-up>
+          <!-- <count-up :end-val="world.recovered" :duration="1"></count-up> -->
+          {{numF(world.recovered)}}
+
         </h1>
         <p>+ {{ numeralFunc(world.todayRecovered) }}</p>
         <sparklineChart :typeC="'recover'" :data="recovered" />
@@ -23,7 +26,9 @@
       <div class="death">
         <h5>DEATHS</h5>
         <h1 class="stat-lg">
-          <count-up :end-val="world.deaths" :duration="1"></count-up>
+          <!-- <count-up :end-val="world.deaths" :duration="1"></count-up> -->
+          {{numF(world.deaths)}}
+
         </h1>
         <p>+ {{ numeralFunc(world.todayDeaths) }}</p>
         <sparklineChart :typeC="'death'" :data="deaths" />
@@ -35,11 +40,11 @@
 <script>
 // import { mapGetters, mapMutations, mapActions } from "vuex";
 import numeral from "numeral";
-import CountUp from "vue-countup-v3";
+// import CountUp from "vue-countup-v3";
 import sparklineChart from "@/components/sparklineChart.vue";
 
 export default {
-  components: { CountUp,sparklineChart },
+  components: { sparklineChart },
   name: "vueX",
   props: {
     world: Object,
@@ -60,6 +65,9 @@ export default {
   methods: {
     numeralFunc(num) {
       return numeral(num).format("0.000 a");
+    },
+    numF(num) {
+      return numeral(num).format("0,0");
     },
     // VUEX-Method
     // ...mapMutations(["increase"]),

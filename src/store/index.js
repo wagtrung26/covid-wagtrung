@@ -31,15 +31,15 @@ export default createStore({
 
         state.allCountries  = filteredArrayCountries;
       
-      console.log("  ALL_COUNTRIES ")
+      // console.log("  ALL_COUNTRIES ")
     },
     USER_COUNTRY(state,x){
       state.userCountry = x
-      console.log(" USER_COUNTRY ")
+      // console.log(" USER_COUNTRY ")
     },
     // for WORLD Map
     F_COUNTRIES(state,type){
-      console.log("types vuex",type)
+      // console.log("types vuex",type)
       state.filterCountries = [];
       state.allCountries.forEach((item) => {
         let cCode = item.countryInfo.iso2;
