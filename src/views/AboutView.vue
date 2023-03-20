@@ -12,7 +12,6 @@
           class="w-96 -mt-3"
         />
       </div> -->
-      <a-spin :tip="'Worldwide Loading...'" size="small"> </a-spin>
       <div class="flex justify-center mb-8 space-x-8">
         <a-skeleton
           active
@@ -34,7 +33,10 @@
           style="width: 300px"
         />
       </div>
+      <a-spin :tip="'Worldwide Loading...'" size="small"> </a-spin>
+
     </div>
+
     <a-skeleton avatar active :paragraph="{ rows: 4 }" />
   </div>
   <div class="pt-32">
