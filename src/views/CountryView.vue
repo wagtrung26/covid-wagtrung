@@ -10,7 +10,7 @@
     ></div>
 
     <!-- ON LOAD Skelaton -->
-    <div class="m-auto px-20 pt-32 bg-white" v-show="loading">
+    <div class="m-auto px-20 pt-32 bg-white min-h-screen" v-show="loading">
       <div class="">
         <div class="flex justify-center item-center space-x-4 mb-3">
           <a-skeleton-image size="large" />
@@ -63,7 +63,7 @@
           ></span>
         </div>
         <div class="flexCen mt-6">
-          <img
+          <img v-if="this.viewCountry.flag"
             style="margin-right: 16px"
             :src="this.viewCountry.flag"
             alt=""
@@ -124,9 +124,11 @@
         </h3>
 
         <div class="text-slate-500 text-lg font-normal text center mt-4 mb-12">
-         
-          With similar epidemic situation to <span class="text-slate-800 font-semibold">{{ viewCountry.name }}</span>
-           <!-- ( K-Mean Cluster: {{ cluster }} ) -->
+          With similar epidemic situation to
+          <span class="text-slate-800 font-semibold">{{
+            viewCountry.name
+          }}</span>
+          <!-- ( K-Mean Cluster: {{ cluster }} ) -->
         </div>
         <div class="flex flex-row w-full flex-wrap">
           <div
@@ -547,6 +549,7 @@
 
       <!--4 TOTAL -->
       <wrap
+        
         title="Total Statistic"
         :subBot="` ${this.viewCountry.name}'s cases from the beginning up to now`"
         subTop="Tracking Timeline, Map"
@@ -894,6 +897,32 @@ export default {
             this.handleGetForCountry(hisC, vacC, contiC);
           })
         )
+        .catch((error) => {
+          alert(`${error.response.status} - ${error.response.data.message}`);
+
+          this.caseArrayValues = [];
+          this.deathArrayValues = [];
+          this.recoverArrayValues = [];
+          this.vaccineArrayValues = [];
+          this.activeArrayValues = [];
+
+          // activeArrayValues= [];
+          this.dailyCaseArrayValues = [];
+          this.dailyRecoverArrayValues = [];
+          this.dailyDeathArrayValues = [];
+          this.dailyVaccineArrayValues = [];
+          this.dailyActiveArrayValues = [];
+
+          this.v = [];
+          this.heatY = [];
+          this.heatX = [];
+          this.dailyY = [];
+          this.scatterY = [];
+
+          this.recommendedData = [];
+          this.cluster = null;
+          this.countryTopemit = "...";
+        })
         .then(() => {
           this.loading = false;
           this.visible = false;
@@ -966,51 +995,51 @@ export default {
     handleGetForCountry(hisC, vacC, contiC) {
       //TOTAL HISTORY ------------
       let listTimeline = hisC.data.timeline;
-      if(listTimeline){
-      //xAsis
-      let rawDates = Object.keys(listTimeline.deaths);
-      let modifyDate = [];
-      rawDates.forEach((i) => {
-        let k = moment(i).format("DD MMM YYYY");
-        modifyDate.push(k);
-      });
-      this.dates = modifyDate;
+      if (listTimeline) {
+        //xAsis
+        let rawDates = Object.keys(listTimeline.deaths);
+        let modifyDate = [];
+        rawDates.forEach((i) => {
+          let k = moment(i).format("DD MMM YYYY");
+          modifyDate.push(k);
+        });
+        this.dates = modifyDate;
 
-      //yAxis
-      this.caseArrayValues = Object.values(listTimeline.cases);
-      this.recoverArrayValues = Object.values(listTimeline.recovered);
-      this.deathArrayValues = Object.values(listTimeline.deaths);
-      this.activeArrayValues = [];
-      let modifyActiveArrayValues = [];
-      this.caseArrayValues.forEach((i, index) => {
-        let active =
-          i - this.deathArrayValues[index] - this.deathArrayValues[index];
-        modifyActiveArrayValues.push(active);
-      });
-      this.activeArrayValues = modifyActiveArrayValues;
+        //yAxis
+        this.caseArrayValues = Object.values(listTimeline.cases);
+        this.recoverArrayValues = Object.values(listTimeline.recovered);
+        this.deathArrayValues = Object.values(listTimeline.deaths);
+        this.activeArrayValues = [];
+        let modifyActiveArrayValues = [];
+        this.caseArrayValues.forEach((i, index) => {
+          let active =
+            i - this.deathArrayValues[index] - this.deathArrayValues[index];
+          modifyActiveArrayValues.push(active);
+        });
+        this.activeArrayValues = modifyActiveArrayValues;
 
-      //DAILY CASE HISTORY - total[last] - total[last-1]
-      this.dailyType();
-      this.caseType();
+        //DAILY CASE HISTORY - total[last] - total[last-1]
+        this.dailyType();
+        this.caseType();
       }
 
-      
       // VACCINE -------
       let listTimelineVacC = vacC.data.timeline;
-      let newVaccineArrayValues = Object.values(listTimelineVacC);
-      let n = this.dates.length - newVaccineArrayValues.length;
-      for (let i = 0; i < n; i++) {
-        newVaccineArrayValues.unshift(0);
+      if (listTimeline) {
+        let newVaccineArrayValues = Object.values(listTimelineVacC);
+        let n = this.dates.length - newVaccineArrayValues.length;
+        for (let i = 0; i < n; i++) {
+          newVaccineArrayValues.unshift(0);
+        }
+        this.vaccineArrayValues = newVaccineArrayValues;
+        this.dailyVaccineArrayValues = this.dailyArrayValues(
+          newVaccineArrayValues
+        );
+        this.vacEffi();
+
+        // heatChart
+        this.heatType();
       }
-      this.vaccineArrayValues = newVaccineArrayValues;
-      this.dailyVaccineArrayValues = this.dailyArrayValues(
-        newVaccineArrayValues
-      );
-      this.vacEffi();
-
-      // heatChart
-      this.heatType();
-
       // CONTINENT ------
       this.continentArray = [];
       let _continentArray = [];
@@ -1067,7 +1096,12 @@ export default {
       await this.getUserCountry();
 
       let code = this.userCountry.countryCode;
-      console.log(" user country:", code, this.userCountry.countryName, this.userCountry.request)
+      // console.log(
+      //   " user country:",
+      //   code,
+      //   this.userCountry.countryName,
+      //   this.userCountry.request
+      // );
 
       this.countryClick(code);
     },

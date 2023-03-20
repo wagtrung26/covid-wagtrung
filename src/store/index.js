@@ -5,40 +5,40 @@ import * as api from "@/api";
 
 export default createStore({
   state: {
-    count:0,
+    count: 0,
     allCountries: [],
-    userCountry:{},
-    filterCountries:[]
+    userCountry: {},
+    filterCountries: []
   },
   getters: {
     allCountries: state => state.allCountries,
     userCountry: state => state.userCountry
   },
   mutations: {
-    increase(state,x){
+    increase(state, x) {
       state.count += x
     },
-    ALL_COUNTRIES(state,x){
+    ALL_COUNTRIES(state, x) {
       let rawArrayCountries = x;
       let filteredArrayCountries = rawArrayCountries.map((countryItem) => {
-          return {
-            name: countryItem.country,
-            code: countryItem.countryInfo.iso2,
-            flag: countryItem.countryInfo.flag,
-            ...countryItem,
-          };
-        });
+        return {
+          name: countryItem.country,
+          code: countryItem.countryInfo.iso2,
+          flag: countryItem.countryInfo.flag,
+          ...countryItem,
+        };
+      });
 
-        state.allCountries  = filteredArrayCountries;
-      
+      state.allCountries = filteredArrayCountries;
+
       // console.log("  ALL_COUNTRIES ")
     },
-    USER_COUNTRY(state,x){
+    USER_COUNTRY(state, x) {
       state.userCountry = x
       // console.log(" USER_COUNTRY ")
     },
     // for WORLD Map
-    F_COUNTRIES(state,type){
+    F_COUNTRIES(state, type) {
       // console.log("types vuex",type)
       state.filterCountries = [];
       state.allCountries.forEach((item) => {
@@ -52,32 +52,36 @@ export default createStore({
         state.filterCountries.push(x);
       });
     },
-   
+
 
 
   },
   actions: {
-    handle({commit}){
+    handle({ commit }) {
       // {commit, state, getters, mutations }
       commit('increase', 8)
     },
 
-    getAllCountries({commit}, type){
+    getAllCountries({ commit }, type) {
       api.getAllCountries()
-      .then(res => {
-        commit('ALL_COUNTRIES', res.data)
-      })
-      .then(() => {
-        if(type){
-        commit('F_COUNTRIES', type)}
-      })
+        .then(res => {
+          commit('ALL_COUNTRIES', res.data)
+        })
+        .then(() => {
+          if (type) {
+            commit('F_COUNTRIES', type)
+          }
+        })
+        .catch((error) => {
+          alert(`${error.response.status} - ${error.response.data.message}`)
+        })
     },
 
-    getUserCountry({commit}){
+    getUserCountry({ commit }) {
       api.yourCountry()
-      .then(res => {
-        commit('USER_COUNTRY', res)
-      })
+        .then(res => {
+          commit('USER_COUNTRY', res)
+        })
     }
   },
   modules: {

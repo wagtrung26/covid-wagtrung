@@ -76,6 +76,7 @@ export default {
                 color: "#BADA55",
               },
             },
+            animation: false,
             dataLabels: {
               enabled: true,
               format: "{point.name}",
