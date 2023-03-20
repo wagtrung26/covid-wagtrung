@@ -8,7 +8,7 @@ export const yourCountry = () => {
 
 export const getAllCountries = () => {
 
-   let url = 'http://localhost:8080/v3/covid-19/countries'
+   let url = 'https://disease.sh/v3/covid-19/countries'
    return axios({
       method: 'get',
       url: url,
@@ -19,7 +19,7 @@ export const getAllCountries = () => {
 }
 
 export const getHistoricalCountry = (countryCode) => {
-   let url = `http://localhost:8080/v3/covid-19/historical/${countryCode}?lastdays=all`
+   let url = `https://disease.sh/v3/covid-19/historical/${countryCode}?lastdays=all`
    return axios({
       method: 'get',
       url: url,
@@ -29,7 +29,7 @@ export const getHistoricalCountry = (countryCode) => {
 }
 
 export const getTotalContinent = (continentName) => {
-   let url = `http://localhost:8080/v3/covid-19/continents/${continentName}?strict=true`
+   let url = `https://disease.sh/v3/covid-19/continents/${continentName}?strict=true`
    return axios({
       method: 'get',
       url: url,
@@ -40,7 +40,7 @@ export const getTotalContinent = (continentName) => {
 //vaccine
 export const getHistoricalCountryVaccine = (countryCode) => {
 
-   let url = `http://localhost:8080/v3/covid-19/vaccine/coverage/countries/${countryCode}?lastdays=all&fullData=false`
+   let url = `https://disease.sh/v3/covid-19/vaccine/coverage/countries/${countryCode}?lastdays=all&fullData=false`
    return axios({
       method: 'get',
       url: url,
@@ -60,7 +60,7 @@ export const getForCountry = (countryCode,continentName)=>{
 // WORLD VIEW
 export const getTotalWorld = () => {
 
-   let url = 'http://localhost:8080/v3/covid-19/all'
+   let url = 'https://disease.sh/v3/covid-19/all'
    return axios({
       method: 'get',
       url: url,
@@ -72,7 +72,7 @@ export const getTotalWorld = () => {
 
 export const getHistoricalWorld = () => {
 
-   let url = 'http://localhost:8080/v3/covid-19/historical/all?lastdays=all'
+   let url = 'https://disease.sh/v3/covid-19/historical/all?lastdays=all'
    return axios({
       method: 'get',
       url: url,
@@ -84,7 +84,7 @@ export const getHistoricalWorld = () => {
 
 export const getTotalContinents = () => {
 
-   let url = 'http://localhost:8080/v3/covid-19/continents'
+   let url = 'https://disease.sh/v3/covid-19/continents'
    return axios({
       method: 'get',
       url: url,
